@@ -1,9 +1,5 @@
 <h1 align="left">Anwar'S Blog</h1>
-<p align="left">
-    <a href="https://github.com/anwareset/blog/blob/master/LICENSE">
-        <img src="https://img.shields.io/github/license/anwareset/blog" alt="LICENSE">
-    </a>
-</p>
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 <h5 align="left">Personal Technical Notes, built with Hugo.</h5>
 
 ---
