@@ -101,9 +101,7 @@ In Markdown, you can create a `<hr>` with any of the following:
 
 The rendered output looks like this:
 
-___
 ---
-***
 
 ## 4 Body Copy
 
