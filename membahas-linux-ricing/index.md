@@ -1,7 +1,7 @@
 # Membahas Linux Ricing
 
 
-Istilah rice/ricing pasti tidak asing lagi bagi orang yang suka mengkustomisasi desktop sistem operasi [unix-like](https://en.wikipedia.org/wiki/Unix-like) khususnya pada linux yang aktivitasnya biasa disebut "**Ricing / Linux Rice**". Mereka gemar nimbrung di [komunitas reddit](https://www.reddit.com/r/unixporn/) dan [Linuxer Desktop Art](https://web.facebook.com/groups/linuxart/) untuk sharing atau hanya sekedar melihat-lihat indahnya sistem operasi unix-like.
+Istilah rice/ricing pasti tidak asing lagi bagi orang yang suka mengkustomisasi desktop sistem operasi [Unix-like](https://en.wikipedia.org/wiki/Unix-like), khususnya pada GNU/Linux yang aktivitasnya biasa disebut "**Ricing / Linux Rice**". Mereka gemar berdiskusi di [komunitas reddit](https://www.reddit.com/r/unixporn/) dan [Linuxer Desktop Art](https://web.facebook.com/groups/linuxart/) untuk sharing atau hanya sekedar melihat-lihat indahnya sistem operasi unix-like.
 
 <!--more-->
 
