@@ -206,3 +206,14 @@ Setelah berhasil dihapus, maka _service_ akan berhenti seketika dan tidak akan d
 
 * **Untuk pemakaian di komputer pribadi, tentu saja saya lebih _prefer_ menggunakan _Runit_**. Bukan tanpa alasan, _runit_ mengkonsumsi resouce (seperti RAM dan CPU) yang relatif lebih sedikit daripada systemd. _Dependency_ yang digunakan oleh _runit_ juga tidak sebanyak _systemd_, berarti _runit_ juga lebih ramah dalam urusan penggunaan storage. Untuk kecepatan, saya berani mengadu kecepatan antara _runit_ melawan _systemd_, karena telah memiliki pengalaman pribadi bahwa _runit_ menang telak! _Runit_ membuat sistem operasi saya booting lebih cepat daripada _systemd_. Terlepas dari semua itu, saya juga belum membutuhkan _systemd_ dengan segala ~~_bloated features_~~ nya untuk urusan pribadi (itu terlalu berlebihan, saya bahkan tidak pernah menggunakan itu semua secara keseluruhan), yang saya perlukan pada komputer pribadi adalah program dapat berjalan sesuai dengan yang saya kehendaki. Sehingga saya menyimpulkan bahwa _runit_ layak dijadikan sebagai alternatif.
 
+---
+
+## Referensi
+- [smarden.org/runit](http://smarden.org/runit/)
+- [devnull.web.id/debian/pengenalan-systemd.html](https://devnull.web.id/debian/pengenalan-systemd.html)
+- [kchard.github.io/runit-quickstart](https://kchard.github.io/runit-quickstart/)
+- [ihatesystemd.com](https://ihatesystemd.com/)
+- [wiki.gentoo.org/wiki/Comparison_of_init_systems](https://wiki.gentoo.org/wiki/Comparison_of_init_systems)
+- [wiki.archlinux.org/index.php/init](https://wiki.archlinux.org/index.php/init)
+
+
