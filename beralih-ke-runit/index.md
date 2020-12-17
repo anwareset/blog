@@ -11,20 +11,40 @@ Ketika artikel ini diterbitkan, **systemd** nyaris menguasai semua distro sistem
 ![Systemd and GNU/Linux](systemd-and-linux.png "Systemd and GNU/Linux")
 
 ### Kontroversi systemd
-**systemd** memang menjadi kontroversi karena beberapa hal. Pertama, sebagian orang menganggap bahwa systemd tidak menghormati filosofi Unix. Saya ingat ketika awal sekali mengenal GNU/Linux, bahwa GNU/Linux adalah sistem operasi yang **_Unix-like_** dan **_Unix_** memiliki filosofi sebagai berikut :
+**systemd** memang menjadi kontroversi karena beberapa hal. Sebagian orang menganggap bahwa systemd tidak menghormati filosofi Unix. Saya ingat ketika awal sekali mengenal GNU/Linux, bahwa GNU/Linux adalah sistem operasi yang **_Unix-like_** dan **_Unix_** memiliki filosofi sebagai berikut :
 * Tugas sebuah program adalah melakukan satu hal, dan melakukannya dengan baik.
 * Sistem yang besar dan kompleks merupakan gabungan dari program-program kecil yang bekerja sama.
 * Teks adalah antarmuka yang universal.
 * Segala hal di Unix adalah file.
 
-_systemd_ dianggap tidak _conform_ dengan filosofi Unix diatas sehingga banyak yang menolaknya. _systemd_ awalnya dikembangkan oleh **Lennart Pottering**, seorang developer yang saat artikel ini diterbitkan tengah bekerja untuk **Red Hat**. Dia sebelumnya juga membuat sebuah program yang tak kalah kontroversial yaitu _Avahi_ dan _PulseAudio_. Silahkan baca tentang Lennart Pottering di [Wikipedia](https://en.wikipedia.org/wiki/Lennart_Poettering)
+_systemd_ dianggap tidak _conform_ dengan filosofi Unix diatas sehingga banyak yang menolaknya. _systemd_ awalnya dikembangkan oleh **Lennart Pottering**, seorang developer yang saat artikel ini diterbitkan tengah bekerja untuk **Red Hat**. Dia sebelumnya juga membuat sebuah program yang tak kalah kontroversial yaitu _Avahi_ dan _PulseAudio_. Silahkan baca tentang Lennart Pottering di [Wikipedia](https://en.wikipedia.org/wiki/Lennart_Poettering).
 
-Beberapa kritik terhadap _systemd_ misalnya karena _systemd_ tidak hanya menjadi _init system_ tapi **juga mengambil ali banyak fungsi**. Misalnya _systemd_ berusaha mengatur _network_, _cron_, _fstab_, _syslog_/_rsyslog_, _ntp_, dan banyak lainnya. Artinya _systemd_ bukanlah sebuah program yang melakukan satu hal saja, tapi banyak hal. Kemudian, _systemd_ dikritik karena _logging file_-nya tidak berbasis teks seperti _Unix_ dan _GNU/Linux_ pada umumnya, melainkan _binary log file_.
+Beberapa kritik lain terhadap _systemd_ misalnya karena _systemd_ tidak hanya menjadi _init system_ tapi **juga mengambil ali banyak fungsi**. Misalnya _systemd_ berusaha mengatur `network`, `cron`, `fstab`, `syslog` atau `rsyslog`, `ntp`, dan banyak lainnya. Artinya _systemd_ bukanlah sebuah program yang melakukan satu hal saja, tapi banyak hal. Kemudian, _systemd_ dikritik karena _logging file_-nya tidak berbasis teks seperti _Unix_ dan _GNU/Linux_ pada umumnya, melainkan _binary log file_.
 
 ### Runit Sebagai Alternatif
-Berbagai penolakan tentu saja terjadi, tidak sedikit yang kemudian melakukan _fork_ lalu mengembangkan distro GNU/Linux yang bebas dari _systemd_. Misalnya [**Artix Linux**](http://artixlinux.org), yang merupakan _fork_ dari project [**Arch Linux**](http://archlinux.org) dengan maksud membebaskan pengguna _Arch_ dari cengkeraman _systemd_. Artix menawarkan beberapa alternatif sebagai pengganti _systemd_, misalnya [**OpenRC**](https://wiki.archlinux.org/index.php/OpenRC), [**S6**](https://wiki.gentoo.org/wiki/S6), dan tentu saja [**Runit**](http://smarden.org/runit/).
+Berbagai penolakan tentu saja terjadi, tidak sedikit developer yang kemudian melakukan _fork_ lalu mengembangkan distro GNU/Linux yang bebas dari _systemd_. Misalnya [**Artix Linux**](http://artixlinux.org), yang merupakan _fork_ dari project [**Arch Linux**](http://archlinux.org) dengan maksud membebaskan pengguna _Arch_ dari cengkeraman _systemd_. Artix menawarkan beberapa alternatif sebagai pengganti _systemd_, misalnya [**OpenRC**](https://wiki.archlinux.org/index.php/OpenRC), [**S6**](https://wiki.gentoo.org/wiki/S6), dan tentu saja [**Runit**](http://smarden.org/runit/).
 
-![runit sv](runit-sv.png "runit sv")
+```cfg
+/etc/runit/sv/foo
+├── log
+│   ├── run
+│   └── supervise
+│       ├── control
+│       ├── lock
+│       ├── ok
+│       ├── pid
+│       ├── stat
+│       └── status
+├── run
+└── supervise
+    ├── control
+    ├── lock
+    ├── ok
+    ├── pid
+    ├── stat
+    └── status
+```
+Pada distro _Artix_, biasanya direktori sebuah _service_ akan terlihat seperti di atas. Anggaplah `/etc/runit/sv` adalah _templatedir_, dan `/etc/runit/sv/foo` adalah direktori konfigurasi _service_. Maka kelak _service_ yang berjalan akan bernama sebagai `foo` juga. Dalam direktori `foo` biasanya kita hanya diwajibkan untuk membuat sebuah file _executable_ bernama `run`, berisikan baris perintah untuk mengeksekusi program yang akan dijadikan sebagai sebuah _service_. Namun jika kita membutuhkan _logging_, kita dapat memanfaatkan `svlogd` dengan membuat sebuah direktori bernama `log` di dalam `/etc/runit/sv/foo`, kemudian buat lagi sebuah file bernama `run` di dalam direktori `log` tersebut. Isi dari file-file `run` tersebut akan kita bahas dibawah.
 
 ---
 
@@ -33,6 +53,8 @@ Dalam dokumentasi ini kita akan belajar tentang :
 1. Membuat sebuah _runit template_ untuk untuk konfigurasi _monitored service_.
 2. Konfigurasi _monitored service_ untuk pertamakali.
 3. Mengelola _monitored service_ secara manual.
+
+![runit sv](runit-sv.png "runit sv")
 
 ### 0. Prerequisites
 Pastikan paket dari `runit` sudo terpasang pada sistem. Sebagian besar distro GNU/Linux biasanya memiliki paket tersebut pada _repository_ mereka. Misalnya, jika kita menggunakan sebuah distro _Arch-based_ maka kita dapat memasang paket dengan perintah berikut.
@@ -54,53 +76,53 @@ Di sini `runsvdir` merupakan hal paling pertama dari beberapa lainnya yang akan 
 ### 1. Membuat sebuah _Template_
 Hal pertama yang perlu kita lakukan adalah memperhatikan lebih dalam apa yang sebenarnya terjadi pada output `runsvdir -P /run/runit/service log:.....`. Pada dasarnya, dalam output tersebut terdapat sebuah perintah yang mengawasi direktori `/run/runit/service`, karena di dalamnya terdapat file konfigurasi dari _monitored service_. Sebuah _monitored service_ dikonfigurasi dengan menambahkan sebuah subdirektori ke dalam `/run/runit/service` berisikan sebuah berkas script `run` di dalamnya. Ketika `runsvdir` menemukan sebuah konfigurasi baru, maka ia akan menjalankan _process_ `runsv`baru untuk mengelola _service_. Ingat, bahwa salah satu _Filosofi Unix_ berbunyi **tugas sebuah program adalah melakukan satu hal, dan melakukannya dengan baik.**
 
-Pastikan bahwa direktori `/etc/runit/sv/` ada. Di dalamnya kita akan membuat direktori baru bernama `foo`
+Pastikan bahwa direktori `/etc/runit/sv/` ada. Di dalamnya kita akan membuat direktori baru bernama `foo`.
 ```bash
 $ sudo mkdir -p /etc/runit/sv/foo
 ```
-Lalu di dalam direktori tersebut kita buat sebuah file _template_ bernama `run` untuk ilustrasi
+Lalu di dalam direktori tersebut kita buat sebuah file _template_ bernama `run` untuk ilustrasi.
 ```cfg
 #!/bin/sh
 exec 2>&1
 exec chpst -u foo /opt/example/foo-service.sh
 ```
-Jangan lupa file `run` harus menjadi _executable_ dengan cara berikut
+Jangan lupa file `run` harus menjadi _executable_ dengan cara berikut.
 ```bash
 $ sudo chmod +x /etc/runit/sv/foo/run
 ```
 Script `run` di atas akan mengeksekusi script `foo-service.sh` yang nantinya akan kita buat di dalam direktori `/opt/example`. Terdapat juga `chpst` yang berfungsi agar nantinya eksekusi akan dijalankan oleh user bernama `foo`, kita akan buat juga usernya nanti.
 
-Runit menawarkan `svlogd` untuk mengelola _logfile_ dari sebuah _service_, kita akan mencoba membuatnya juga. Mari buat direktori baru bernama `log`
+Runit menawarkan `svlogd` untuk mengelola _logfile_ dari sebuah _service_, kita akan mencoba membuatnya juga. Mari buat direktori baru bernama `log`.
 ```bash
 $ sudo mkdir /etc/runit/sv/foo/log
 ```
-Di dalam direktori tersebut, kita akan membuat file baru lagi bernama `run` berisikan script berikut
+Di dalam direktori tersebut, kita akan membuat file baru lagi bernama `run` berisikan script berikut.
 ```cfg
 #!/bin/sh
-exec chpst -u foo svlogd -tt /var/log/example
+exec chpst -u foo svlogd -tt /var/log/foo
 ```
-Pada script diatas `svlogd` akan menghasilkan output dari _template_ yang sebelumnya kita buat. Output yang muncul akan ditampung pada direktori `/var/log/example` yang kita buat nanti.
+Pada script diatas `svlogd` akan menghasilkan output dari _template_ yang sebelumnya kita buat. Output yang muncul akan ditampung pada direktori `/var/log/foo` yang kita buat nanti.
 
 ### 2. Menyiapkan Logging Directory
 Buat sebuah direktori untuk menampung log dari service.
 ```bash
-$ sudo mkdir -p /var/log/example
+$ sudo mkdir -p /var/log/foo
 ```
-Lalu kita membutuhkan user baru bernama `foo` sebagai ilustrasi
+Lalu kita membutuhkan user baru bernama `foo` sebagai ilustrasi.
 ```bash
 $ sudo useradd foo
 ```
-Direktori log akan menjadi milik user `foo`, sehingga kita perlu merubah kepemilikannya dengan perintah berikut
+Direktori log seharusnya menjadi milik user `foo` supaya user tersebut mampu menulis di dalamnya, sehingga kita perlu merubah kepemilikannya dengan perintah berikut.
 ```bash
-$ sudo chown foo:foo /var/log/example
+$ sudo chown foo:foo /var/log/foo
 ```
 
 ### 3. Membuat Program Ilustrasi
-Buat sebuah direktori baru untuk meletakkan file program ilustrasi
+Buat sebuah direktori baru untuk meletakkan file program ilustrasi.
 ```bash
 $ sudo mkdir -p /opt/example
 ```
-Dari sini akan melanjutkan dengan membuat program sebagai ilustrasi bernama `foo-service.sh` yang terletak pada direktori `/opt/example`
+Dari sini kita akan melanjutkan dengan membuat program sebagai ilustrasi bernama `foo-service.sh` yang terletak pada direktori `/opt/example`.
 ```cfg
 #!/bin/bash
 echo "Menjalankan service..."
@@ -112,52 +134,52 @@ done
 echo "Oh tidak, program crash!" >&2
 exit 1
 ```
-Jangan lupa untuk menjadikan file tersebut _executable_ seperti berikut
+Jangan lupa untuk menjadikan file tersebut _executable_ seperti berikut.
 ```bash
 $ sudo chmod +x /opt/example/foo-script.sh
 ```
-Kemudian jadikan direktori serta file di dalamnya menjadi milik user `foo`
+Kemudian jadikan direktori serta file di dalamnya menjadi milik user `foo`.
 ```bash
 $ sudo chown -R foo:foo /opt/example
 ```
-Program `foo-script.sh` akan mensimulasikan program yang dieksekusi menggunakan _runit_ sesuai dengan _template_ yang sebelumnya telah kita buat. `foo-script.sh` akan _crash_ setiap 30 detik, dan setiap output nya akan dicatat ke dalam log. 
+Program `foo-script.sh` akan mensimulasikan sebuah _process_ yang dieksekusi menggunakan _runit_ sesuai dengan _template_ yang sebelumnya telah kita buat. `foo-script.sh` akan _crash_ setiap 30 detik, dan setiap output nya akan dicatat ke dalam log. 
 
 ### 4. Mengelola _Service_
-Akhirnya kita tiba pada tahap menggunakan _sv_ untuk melakukan pengelolaan _service_ dari ilustrasi yang telah kita buat sebelumnya. Untuk menjalankan _service_ kita perlu melakukan _symlink_ direktori _template_ ke dalam direktori _runsvdir_.
+Kita tiba pada tahap menggunakan _sv_ untuk pengelolaan _service_ dari ilustrasi yang telah kita buat sebelumnya. Untuk menjalankan _service_ kita perlu melakukan _symlink_ direktori _template_ ke dalam direktori _runsvdir_.
 
 #### Enable service
 ```bash
 $ sudo ln -s /etc/runit/sv/foo /run/runit/service
 ```
-Ketika melakukan perintah `ln -s` diatas, direktori _template_ dari _service_ kita akan dijadikan sebagai titik _link_ yang ditambahkan ke dalam direktori milik `runsvdir` pada `/run/runit/service`. Lalu `runsvdir` terus melakukan pengawasan pada _service_ yang baru saja kita tambahkan. Sehingga pada saat program terinterupsi (misalnya oleh _reboot_) maka program dari _service_ tersebut akan kembali dinyalakan. **Itulah yang dimaksud dengan _supervision_ di dalam sebuah sistem _init_**
+Ketika melakukan perintah `ln -s` diatas, direktori _template_ dari _service_ tersebut (`/etc/runit/sv/foo`) akan dijadikan sebagai titik _link_ yang ditambahkan ke dalam direktori `runsvdir` pada `/run/runit/service`. Lalu `runsvdir` terus melakukan pengawasan pada _service_ yang baru saja kita tambahkan. Sehingga pada saat _process_ terinterupsi (misalnya oleh _reboot_ atau _kill_) maka _service_ tersebut akan kembali dinyalakan secara otomatis. **Itulah yang dimaksud dengan _supervision_ di dalam sebuah sistem _init_**.
 
 #### Memeriksa status service
 Kemudian lakukan pemeriksaan, apakah service berhasil dijalankan.
 ```bash
 $ sudo sv status /run/runit/service/foo
 ```
-Jika berhasil, seharusnya akan keluar output seperti berikut
+Jika berhasil, seharusnya akan keluar output seperti berikut.
 ```cfg
 run: foo: (pid 16998) 3s; run: log: (pid 16997) 3s
 ```
 
 #### Menghentikan service
-Coba hentikan _service_ dengan perintah berikut
+Coba hentikan _service_ dengan perintah berikut.
 ```bash
 $ sudo sv down /run/runit/service/foo
 ```
-Jika berhasil dihentikan, maka akan keluar output seperti berikut
+Jika berhasil dihentikan, maka akan keluar output seperti berikut.
 ```cfg
 ok: down: example: 1s, normally up
 ```
 
 #### Menyalakan service
-Nyalakan lagi kemudian periksa lagi statusnya dengan perintah seperti berikut ini
+Nyalakan lagi kemudian periksa lagi statusnya dengan perintah seperti berikut ini.
 ```bash
 $ sudo sv up /run/runit/service/foo
 $ sudo sv status /run/runit/service/foo
 ```
-Jika berhasil berjalan, maka akan muncul output sebagai berikut
+Jika berhasil berjalan, maka akan muncul output sebagai berikut.
 ```cfg
 run: foo: (pid 18146) 16s; run: log: (pid 16997) 250s
 ```
@@ -165,11 +187,10 @@ run: foo: (pid 18146) 16s; run: log: (pid 16997) 250s
 #### Melihat logfile
 Sekarang kita akan coba melihat apakah _logging_ berhasil dilakukan.
 ```bash
-$ sudo tail -f /var/log/example
+$ sudo tail -f /var/log/foo/current
 ```
-Apabila berhasil, seharusnya akan muncul output seperti berikut
+`svlogd` akan membuat sebuah file baru bernama `current` dalam direktori log yang sudah kita siapkan. Nantinya file tersebut akan menampung tiap output dari _service_ yang sedang berjalan. Apabila berhasil, seharusnya akan muncul output seperti berikut.
 ```cfg
-2020-12-16_17:38:43.31304 Menjalankan service...
 2020-12-16_17:38:43.31313 Melakukan sesuatu...
 2020-12-16_17:38:44.31422 Melakukan sesuatu...
 2020-12-16_17:38:45.31513 Melakukan sesuatu...
@@ -179,14 +200,14 @@ Apabila berhasil, seharusnya akan muncul output seperti berikut
 2020-12-16_17:39:14.34453 Melakukan sesuatu...
 2020-12-16_17:39:15.34541 Melakukan sesuatu...
 ```
-Terlihat seperti diatas, bahwa program `foo-script.sh` berhasil dijalankan, berhenti setiap 30 detik, kemudian _runit_ akan berusaha menyalakannya lagi.
+Terlihat seperti diatas, bahwa program `foo-script.sh` berhasil dijalankan, berhenti setiap 30 detik, kemudian _runit_ akan berusaha menyalakannya lagi. Tidak terbatas seperti `tail -f` saja, namun `svlogd` mampu melakukan _log rotation_ otomatis layaknya `logrotate`, bahkan `svlogd` mampu melakukannya tanpa perlu mematikan _service_ terlebih dahulu.
 
 #### Disable service
 Untuk menghilangkan sebuah _service_ dari `runsvdir` kita perlu menghapus symlink yang sebelumnya kita buat.
 ```bash
 $ sudo unlink /run/runit/service/example
 ```
-Setelah berhasil dihapus, maka _service_ akan berhenti seketika dan tidak akan dimuat ketika sistem operasi booting.
+Setelah dihapus, maka _service_ akan berhenti seketika dan tidak akan dimuat ketika sistem operasi booting.
 
 ---
 
