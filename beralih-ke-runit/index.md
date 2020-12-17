@@ -62,6 +62,10 @@ Pastikan paket dari `runit` sudo terpasang pada sistem. Sebagian besar distro GN
 $ sudo pacman -Sy runit
 ```
 
+{{< admonition danger "Perhatian" >}}
+Pada distro [**Artix**](https://artixlinux.org) biasanya kita tidak perlu melakukan pemasangan paket _Runit_. Kita diperkenankan memilih _init system_ apa yang akan digunakan pada waktu mengunduh berkas ISO installer.
+{{< /admonition >}}
+
 Periksa apakah _runit_ telah terpasang pada sistem, dengan mencari sebuah _process_ bernama `runsvdir` dengan perintah.
 ```bash
 $ sudo ps -ef | grep runsvdir
