@@ -14,8 +14,9 @@ Ketika artikel ini diterbitkan, **systemd** nyaris menguasai semua distro sistem
 **systemd** memang menjadi kontroversi karena beberapa hal. Pertama, sebagian orang menganggap bahwa systemd tidak menghormati filosofi Unix. Saya ingat ketika awal sekali mengenal GNU/Linux, bahwa GNU/Linux adalah sistem operasi yang **_Unix-like_** dan **_Unix_** memiliki filosofi sebagai berikut :
 * Tugas sebuah program adalah melakukan satu hal, dan melakukannya dengan baik.
 * Sistem yang besar dan kompleks merupakan gabungan dari program-program kecil yang bekerja sama.
-* Text adalah antarmuka yang universal.
+* Teks adalah antarmuka yang universal.
 * Segala hal di Unix adalah file.
+
 _systemd_ dianggap tidak _conform_ dengan filosofi Unix diatas sehingga banyak yang menolaknya. _systemd_ awalnya dikembangkan oleh **Lennart Pottering**, seorang developer yang saat artikel ini diterbitkan tengah bekerja untuk **Red Hat**. Dia sebelumnya juga membuat sebuah program yang tak kalah kontroversial yaitu _Avahi_ dan _PulseAudio_. Silahkan baca tentang Lennart Pottering di [Wikipedia](https://en.wikipedia.org/wiki/Lennart_Poettering)
 
 Beberapa kritik terhadap _systemd_ misalnya karena _systemd_ tidak hanya menjadi _init system_ tapi **juga mengambil ali banyak fungsi**. Misalnya _systemd_ berusaha mengatur _network_, _cron_, _fstab_, _syslog_/_rsyslog_, _ntp_, dan banyak lainnya. Artinya _systemd_ bukanlah sebuah program yang melakukan satu hal saja, tapi banyak hal. Kemudian, _systemd_ dikritik karena _logging file_-nya tidak berbasis teks seperti _Unix_ dan _GNU/Linux_ pada umumnya, melainkan _binary log file_.
