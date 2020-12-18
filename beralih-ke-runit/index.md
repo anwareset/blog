@@ -62,7 +62,7 @@ Pastikan paket dari `runit` sudo terpasang pada sistem. Sebagian besar distro GN
 $ sudo pacman -Sy runit
 ```
 
-{{< admonition danger "Perhatian" >}}
+{{< admonition warning "Perhatian" >}}
 Pada distro [**Artix**](https://artixlinux.org) biasanya kita tidak perlu melakukan pemasangan paket _Runit_. Kita diperkenankan memilih _init system_ apa yang akan digunakan pada waktu mengunduh berkas ISO installer.
 {{< /admonition >}}
 
@@ -228,7 +228,7 @@ Setelah dihapus, maka _service_ akan berhenti seketika dan tidak akan dimuat ket
 ---
 
 ## Manakah yang lebih baik?
-* **Dalam pekerjaan, _systemd_ tetap digunakan pada server-server _customer_ yang saya kelola**. Tidak ada masalah bagi saya, karena itulah prosedur yang diterapkan di perusahaan-perusaahan tersebut. Tentu sebuah server yang berada dalam skala _production_ membutuhkan stabilitas tinggi, nyaris semua yang saya kelola menggunakan berbagai platform dari Red Hat. Dan RHEL (Red Hat Enterprise Linux) sendiri adalah salah satu distro GNU/Linux yang paling bergantung pada _systemd_. Saya mengakui bahwa _systemd_ adalah sistem yang modern. Yang menurut saya kurang adalah sistem _logging_ dengan `journald`, file log yang dihasilkan bukanlah _textfile_. Sebelumnya, dengan `rsyslog` kita bebas memakai beragam tool seperti `cat`, `grep`, `tail`, atau `head`. Tetapi dengan `journald` kita dibatasi hanya bisa menggunakan satu tool yaitu `journalctl`.
+* **Dalam pekerjaan, _systemd_ tetap digunakan pada server-server _customer_ yang saya jumpai**. Tidak ada masalah bagi saya, karena itulah prosedur yang diterapkan di perusahaan-perusaahan tersebut. Tentu sebuah server yang berada dalam skala _production_ membutuhkan stabilitas tinggi, nyaris semua yang saya kelola menggunakan berbagai platform dari Red Hat. Dan RHEL (Red Hat Enterprise Linux) sendiri adalah salah satu distro GNU/Linux yang paling bergantung pada _systemd_. Saya mengakui bahwa _systemd_ adalah sistem yang modern. Yang menurut saya kurang adalah sistem _logging_ dengan `journald`, file log yang dihasilkan bukanlah _textfile_. Sebelumnya, dengan `rsyslog` kita bebas memakai beragam tool seperti `cat`, `grep`, `tail`, atau `head`. Tetapi dengan `journald` kita dibatasi hanya bisa menggunakan satu tool yaitu `journalctl`.
 
 * **Untuk pemakaian di komputer pribadi, tentu saja saya lebih _prefer_ menggunakan _Runit_**. Bukan tanpa alasan, _runit_ mengkonsumsi resouce (seperti RAM dan CPU) yang relatif lebih sedikit daripada systemd. _Dependency_ yang digunakan oleh _runit_ juga tidak sebanyak _systemd_, berarti _runit_ juga lebih ramah dalam urusan penggunaan storage. Untuk kecepatan, saya berani mengadu kecepatan antara _runit_ melawan _systemd_, karena telah memiliki pengalaman pribadi bahwa _runit_ menang telak! _Runit_ membuat sistem operasi saya booting lebih cepat daripada _systemd_. Terlepas dari semua itu, saya juga belum membutuhkan _systemd_ dengan segala ~~_bloated features_~~ nya untuk urusan pribadi (itu terlalu berlebihan, saya bahkan tidak pernah menggunakan itu semua secara keseluruhan), yang saya perlukan pada komputer pribadi adalah program dapat berjalan sesuai dengan yang saya kehendaki. Sehingga saya menyimpulkan bahwa _runit_ layak dijadikan sebagai alternatif.
 
