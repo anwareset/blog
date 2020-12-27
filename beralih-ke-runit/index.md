@@ -17,7 +17,7 @@ Ketika artikel ini diterbitkan, **systemd** nyaris menguasai semua distro sistem
 * Teks adalah antarmuka yang universal.
 * Segala hal di Unix adalah file.
 
-_systemd_ dianggap tidak _conform_ dengan filosofi Unix diatas sehingga banyak yang menolaknya. _systemd_ awalnya dikembangkan oleh **Lennart Pottering**, seorang developer yang saat artikel ini diterbitkan tengah bekerja untuk **Red Hat**. Dia sebelumnya juga membuat sebuah program yang tak kalah kontroversial yaitu _Avahi_ dan _PulseAudio_. Silahkan baca tentang Lennart Pottering di [Wikipedia](https://en.wikipedia.org/wiki/Lennart_Poettering).
+_systemd_ dianggap tidak _conform_ dengan filosofi Unix diatas sehingga banyak yang menolaknya. _systemd_ awalnya dikembangkan oleh **Lennart Pottering**, seorang developer yang saat artikel ini diterbitkan tengah bekerja untuk **Red Hat**. Dia sebelumnya juga membuat program yang tak kalah kontroversial yaitu _Avahi_ dan _PulseAudio_. Silahkan baca tentang Lennart Pottering di [Wikipedia](https://en.wikipedia.org/wiki/Lennart_Poettering).
 
 Beberapa kritik lain terhadap _systemd_ misalnya karena _systemd_ tidak hanya menjadi _init system_ tapi **juga mengambil ali banyak fungsi**. Misalnya _systemd_ berusaha mengatur _network_, `cron`, `fstab`, `syslog` atau `rsyslog`, `ntp`, dan banyak lainnya. Artinya _systemd_ bukanlah sebuah program yang melakukan satu hal saja, tapi banyak hal. Kemudian, _systemd_ dikritik karena _logging file_-nya tidak berbasis teks seperti _Unix_ dan _GNU/Linux_ pada umumnya, melainkan _binary log file_.
 
@@ -57,7 +57,7 @@ Dalam dokumentasi ini kita akan belajar tentang :
 ![runit sv](runit-sv.png "runit sv")
 
 ### 0. Prerequisites
-Pastikan paket dari `runit` sudo terpasang pada sistem. Sebagian besar distro GNU/Linux biasanya memiliki paket tersebut pada _repository_ mereka. Misalnya, jika kita menggunakan sebuah distro _Arch-based_ maka kita dapat memasang paket dengan perintah berikut.
+Pastikan paket dari `runit` sudah terpasang pada sistem. Sebagian besar distro GNU/Linux biasanya memiliki paket tersebut pada _repository_ mereka. Misalnya, jika kita menggunakan sebuah distro _Arch-based_ maka kita dapat memasang paket dengan perintah berikut.
 ```bash
 $ sudo pacman -Sy runit
 ```

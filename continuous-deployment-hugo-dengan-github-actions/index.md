@@ -1,7 +1,7 @@
 # Continuous Deployment Hugo dengan Github Actions
 
 
-Hugo adalah static site generator untuk membangun situs web statis yang _database-free_. Karena Hugo berjalan tanpa koneksi basis data, maka dapat digunakanlah Github Pages sebagai hosting. Dalam meningkatkan efisiensi operasionalnya, Github Actions akan menjadi solusi continuous deployment.
+Hugo adalah static site generator untuk membangun situs web statis yang database-free. Karena Hugo berjalan tanpa koneksi basis data, maka dapat digunakanlah Github Pages sebagai hosting. Dalam meningkatkan efisiensi operasionalnya, Github Actions akan menjadi solusi continuous deployment.
 
 <!--more-->
 
