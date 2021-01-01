@@ -74,7 +74,7 @@ Sekarang kita menuju pada situs provider tempat kita menyewa domain (atau disebu
 
 ![DNS Management](dns-management.png "DNS Management")
 
-### Pengujian
+### Pengujian DNS Record
 Untuk melakukan pengujian, kita dapat menggunakan _tools_ bernama `dig`. Jalankan perintah berikut pada terminal.
 
 ```bash
@@ -108,9 +108,7 @@ Masuk ke [Github Settings](#repository-settings) lalu centang **_Enforce HTTPS_*
 Untuk mengaktifkan _Enforce HTTPS_ biasanya kita perlu menunggu beberapa waktu, karena Github Pages sedang melakukan tahap verifikasi dan _generate_ sertifikat SSL.
 {{< /admonition >}}
 
----
-
-## Pengujian
+### Pengujian Enforce HTTPS
 Buka domain yang sudah kita _pointing_ menggunakan _web browser_. Jika berhasil, maka akan muncul tampilan seperti berikut.
 ![Cek HTTPS](cek-https.png "Cek HTTPS")
 
