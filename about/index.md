@@ -1,6 +1,6 @@
 # About
 
-**Bonjour!** Saya Anwar seorang biasa pegiat GNU/Linux, serta jaringan komputer. Gemar belajar konfigurasi infrastruktur yang berkaitan dengan sistem komputasi, mendengarkan musik, dan membaca.
+**Bonjour!** Saya Anwar seorang biasa pegiat GNU/Linux, serta jaringan komputer. Gemar belajar konfigurasi infrastruktur yang berkaitan dengan sistem komputasi, mendengarkan musik, menonton film, dan membaca.
 
 Seringkali hal yang jarang dilakukan akan mudah terlupakan, maka dibangunlah situs web ini untuk membantu merawat ingatan, bukan berbagi. Jika ternyata mampu membantu orang lain, itu cuma bonus saat belajar.
 
