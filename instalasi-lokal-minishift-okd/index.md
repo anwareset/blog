@@ -6,7 +6,7 @@ Minishift menjalankan OKD (OpenShift) di komputer lokal dengan membangun klaster
 <!--more-->
 
 ## OpenShift dan OKD
-**OpenShift** adalah distribusi dari **Kubernetes** yang memiliki fungsi serupa, namun memiliki beberapa fitur tambahan. Seiring Dengan berjalannya ide teknologi _cloud_, berbagai evolusi komputasi telah terjadi. Salah satunya adalah metode-metode dalam mengembangkan dan _delivery_ aplikasi untuk sampai ke hadapan user. Kini seringkali aplikasi/_product_ digital akan dikemas dalam bentuk _container_ untuk alasan kemudahan, keamanan, dan kecepatan pengembangan. Kubernetes awalnya diinisialisasi oleh Google dan kini dikembangkan oleh [CNCF](https://www.cncf.io/), sedangkan OpenShift dinaungi oleh [Red Hat](https://www.openshift.com/) menawarkan kemampuan manajemen _workloads_ aplikasi serta otomatisasi secara deklaratif. OpenShift merupakan _paid-product_, namun kita juga dapat menggunakan versi _free of charge_ bernama **OKD** sebagai alternatif. Sebelumnya OKD pernah bernama **OpenShift Origin** sebelum mengalami pergantian nama. Ketika artikel ini diterbitkan, OpenShift telah berkembang menjadi beberapa macam, yaitu **OpenShift Container Platform**, **OpenShift Dedicated**, hingga **OpenShift Dedicated**.
+**OpenShift** adalah distribusi dari **Kubernetes** yang memiliki fungsi serupa, namun memiliki beberapa fitur tambahan. Seiring Dengan berjalannya ide teknologi _cloud_, berbagai evolusi komputasi telah terjadi. Salah satunya adalah metode-metode dalam mengembangkan dan _delivery_ aplikasi untuk sampai ke hadapan user. Kini seringkali aplikasi/_product_ digital akan dikemas dalam bentuk _container_ untuk alasan kemudahan, keamanan, dan kecepatan pengembangan. Kubernetes awalnya diinisialisasi oleh Google dan kini dikembangkan oleh [CNCF](https://www.cncf.io/), sedangkan OpenShift dinaungi oleh [Red Hat](https://www.openshift.com/) menawarkan kemampuan manajemen _workloads_ aplikasi serta otomatisasi secara deklaratif. OpenShift merupakan _paid-product_, namun kita juga dapat menggunakan versi _free of charge_ bernama **OKD** sebagai alternatif. OKD pernah bernama **OpenShift Origin** sebelum mengalami pergantian nama. Ketika artikel ini diterbitkan, OpenShift telah berkembang menjadi beberapa macam, yaitu **OpenShift Container Platform**, **OpenShift Dedicated**, hingga **OpenShift Dedicated**.
 
 ![OpenShift by Red Hat](red-hat-openshift.png "OpenShift by Rad Hat")
 
@@ -179,7 +179,7 @@ $ minishift delete --force
 
 ## Pengujian
 ### Web Console
-Seperti yang telah kita lihat [sebelumnya](#menjalankan-okd-dengan-minishift). Bahwa _web console_ telah dijalankan pada alamat [https://192.168.42.192:8443/console](https://192.168.42.192:8443/console). Sekarang buka alamat tersebut menggunakan web browser untuk memeriksa apakah _web console_ benar-benar berjalan.
+Seperti yang telah kita lihat [sebelumnya](#ssh-remote-acess). Bahwa _web console_ telah dijalankan pada alamat [https://192.168.42.192:8443/console](https://192.168.42.192:8443/console). Sekarang buka alamat tersebut menggunakan web browser untuk memeriksa apakah _web console_ benar-benar berjalan.
 ![Web Console OKD](web-console-okd.png "Web Console OKD")
 
 ### Command Line
