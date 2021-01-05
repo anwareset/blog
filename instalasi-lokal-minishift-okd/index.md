@@ -8,7 +8,7 @@ Minishift menjalankan OKD (OpenShift) di komputer lokal dengan membangun klaster
 ## OpenShift dan OKD
 **OpenShift** adalah distribusi dari **Kubernetes** yang memiliki fungsi serupa, namun memiliki beberapa fitur tambahan. Seiring dengan populernya ide _cloud computing_, berbagai evolusi komputasi telah terjadi. Misalnya adalah metode dalam mengembangkan dan _delivery_ aplikasi untuk sampai ke hadapan _user_. Seringkali aplikasi/_product_ digital akan dikemas dalam bentuk _container_ untuk alasan kompabilitas, skalabilitas, keamanan, hingga kecepatan pengembangan. Kubernetes awalnya diinisialisasi oleh Google dan kini dikembangkan oleh [CNCF](https://www.cncf.io/), sedangkan OpenShift dinaungi oleh [Red Hat](https://www.openshift.com/) menawarkan kemampuan manajemen _workloads_ aplikasi serta otomatisasi secara deklaratif. OpenShift merupakan _paid-product_, namun kita juga dapat menggunakan versi _free of charge_ bernama **OKD** sebagai alternatif. OKD pernah bernama **OpenShift Origin** sebelum mengalami pergantian julukan. Saat artikel ini diterbitkan, OKD telah berkembang menjadi beberapa macam produk, beberapa diantaranya yaitu **Self-Managed** (seperti **OpenShift Container Platform**), hingga **Managed** (seperti **Openshift Online** dan **Openshift Dedicated**).
 
-![OpenShift by Red Hat](red-hat-openshift.png "OpenShift by Rad Hat")
+![OpenShift by Red Hat](red-hat-openshift.png "OpenShift by Red Hat")
 
 ### Katalog OKD
 OKD 3 _by-default_ telah menyediakan dukungan bagi aplikasi dengan beberapa bahasa pemrograman. OKD 3 memiliki _kickstart template_ seperti berikut :
