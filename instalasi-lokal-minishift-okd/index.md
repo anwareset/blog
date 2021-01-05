@@ -1,7 +1,7 @@
 # Instalasi Lokal Minishift OKD
 
 
-Minishift menjalankan OKD (OpenShift) di komputer lokal dengan membangun klaster _single-node_ OKD pada VM (Virtual Machine) yang berdiri di atas Hypervisor.
+Minishift menjalankan OKD (OpenShift) di komputer lokal dengan membangun klaster _single-node_ OKD pada VM (Virtual Machine) yang berdiri di atas Hypervisor. Dengan Minishift kita dapat mempelajari OKD dalam komputer sendiri sebelum menggunakan teknologi Openshift di lingkungan _production_ sebenarnya.
 
 <!--more-->
 
