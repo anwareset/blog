@@ -27,7 +27,7 @@ Sedangkan untuk basis data, OKD 3 juga telah menyediakan beberapa diantaranya :
 Tidak hanya itu saja, OKD 3 juga telah menawarkan fitur _CI/CD Pipeline_ yang siap di-integrasikan dengan **Jenkins**, sebuah Middleware **Apache**, hingga _Reverse-proxy_ **NGINX**.
 
 ### Minishift
-**Minishift** adalah sebuah _tool_ yang membantu kita untuk menjalankan OpenShift di komputer lokal. Jika bermain dengan Kubernetes, biasanya kita akan menjumpai _tool_ serupa bernama **Minikube**. Minishift akan membuat dan menjalankan sebuah VM di atas **Hypervisor** yang tersedia di komputer kita. Saat artikel ini diterbitkan, Minishift hanya mendukung OKD versi 3.11 atau OpenShift 3.
+**Minishift** adalah sebuah _tool_ yang membantu kita untuk menjalankan OpenShift di komputer lokal. Jika bermain dengan Kubernetes, biasanya kita akan menjumpai _tool_ serupa bernama **Minikube**. Minishift akan membuat dan menjalankan sebuah VM di atas **Hypervisor** yang tersedia di komputer kita. Saat artikel ini diterbitkan, Minishift hanya mendukung hingga OKD versi 3.11 atau OpenShift 3.
 
 ![Arsitektur Minishift](arsitektur-minishift.png "Arsitektur Minishift")
 
@@ -57,12 +57,14 @@ Minishift mendukung beberapa **Hypervisor** untuk membuat dan menjalankan VM. Be
 Karena saya menggunakan GNU/Linux, maka dalam artikel ini kita akan menggunakan KVM sebagai _environment_ virtualiasi Minishift. Atau lebih tepatnya, saya menggunakan distro GNU/Linux Arch-based.
 
 ### Konfigurasi libvirt
-1. Pasang paket-paket yang dibutuhkan untuk virtualisasi 
+<h4>1. Pasang paket-paket yang dibutuhkan untuk virtualisasi</h5>
+
 ```bash
 $ sudo pacman -Sy virt-manager kvm libvirt-runit qemu qemu-guest-agent-runit ebtables bridge-utils
 ```
 
-2. Tambahkan user ke dalam grup `kvm` dan `libvirt`
+<h4>2. Tambahkan user ke dalam grup `kvm` dan `libvirt`</h4>
+
 ```bash
 $ sudo usermod -aG kvm,libvirt $(whoami)
 $ newgrp libvirt
@@ -72,13 +74,15 @@ $ id
 Jika sudah benar, seharusnya akan keluar output seperti berikut
 ![Group](group.png "Group")
 
-3. Merubah konfigurasi qemu
+<h4>3. Merubah konfigurasi qemu</h4>
+
 Ganti konfigurasi `/etc/libvirt/qemu.conf` agar menggunakan group `kvm`.
 ```bash
 $ sudo sed -ri 's/.?group\s?=\s?".+"/group = "kvm"/1' /etc/libvirt/qemu.conf
 ```
 
-4. Menjalankan service libvirt
+<h4>4. Menjalankan service libvirt</h4>
+
 ```bash
 $ sudo ln -s /etc/runit/sv/libvirtd /run/runit/service
 $ sudo ln -s /etc/runit/sv/virtlockd /run/runit/service
@@ -88,7 +92,8 @@ $ sudo ln -s /etc/runit/sv/virtlogd /run/runit/service
 Saya menggunakan `runit` sebagai sistem init di komputer lokal. Jika memakai `systemd` maka silahkan menggunakan perintah `systemctl` untuk mengelola service.
 {{</ admonition >}}
 
-5. Menjalankan jaringan libvirt
+<h4>5. Menjalankan jaringan libvirt</h4>
+
 Periksa status jaringan yang tersedia saat ini.
 ```bash
 $ sudo virsh net-list --all
@@ -102,6 +107,7 @@ default              inactive     no           yes
 ```
 
 Artinya kita memiliki sebuah jaringan bernama **default**. Maka aktifkan dan buat supaya jaringan tersebut berjalan secara otomatis dengan perintah seperti berikut.
+
 ```bash
 $ sudo virsh net-start default
 $ sudo virsh net-autostart default
