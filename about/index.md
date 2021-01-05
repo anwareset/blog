@@ -16,7 +16,6 @@ Seluruh konten yang tersedia pada situs web ini akan sepenuhnya gratis dan bebas
 
 * :(fab fa-telegram fa-fw): **[Telegram](https://t.me/mtrianwar)**
 * :(fab fa-twitter-square fa-fw): **[Twitter](https://twitter.com/mtrianwar)**
-* :(fab fa-facebook-square fa-fw): **[Facebook](https://fb.com/mtrianwar)**
 * :(fas fa-envelope fa-fw): **[Email](mailto:trianwar@protonmail.com)**
 
 
