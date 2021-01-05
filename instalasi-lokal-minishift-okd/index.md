@@ -170,7 +170,7 @@ Untuk menghentikan Minishift kita dapat menjalankan perintah berikut.
 $ minishift stop
 ```
 
-### Menghapus Minishift
+### Menghapus Resource Minishift
 Jika ingin menghapus seluruh _resource_ termasuk VM yang telah dibuat, kita dapat menjalankan perintah berikut.
 ```bash
 $ minishift delete --force
