@@ -162,7 +162,7 @@ Untuk mencoba mengakses VM Minishift melalui SSH kita dapat menjalankan perintah
 ```bash
 $ minishift ssh
 ```
-![Remote Acess Minishift](minishift-remote-access.png "Remote Access Minishift")
+![Remote Access Minishift](minishift-remote-access.png "Remote Access Minishift")
 
 ### Menghentikan Minishift
 Untuk menghentikan Minishift kita dapat menjalankan perintah berikut.
@@ -179,7 +179,7 @@ $ minishift delete --force
 
 ## Pengujian
 ### Web Console
-Seperti yang telah kita lihat [sebelumnya](#ssh-remote-acess). Bahwa _web console_ telah dijalankan pada alamat [https://192.168.42.192:8443/console](https://192.168.42.192:8443/console). Sekarang buka alamat tersebut menggunakan web browser untuk memeriksa apakah _web console_ benar-benar berjalan.
+Seperti yang telah kita lihat [sebelumnya](#ssh-remote-access). Bahwa _web console_ telah dijalankan pada alamat [https://192.168.42.192:8443/console](https://192.168.42.192:8443/console). Sekarang buka alamat tersebut menggunakan web browser untuk memeriksa apakah _web console_ benar-benar berjalan.
 ![Web Console OKD](web-console-okd.png "Web Console OKD")
 
 ### Command Line
