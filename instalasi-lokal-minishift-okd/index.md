@@ -1,7 +1,7 @@
 # Instalasi Lokal Minishift OKD
 
 
-Minishift menjalankan OKD (OpenShift) di komputer lokal dengan membangun klaster _single-node_ OKD pada VM (Virtual Machine) yang berdiri di atas Hypervisor. Dengan Minishift kita dapat mempelajari OKD dalam komputer sendiri sebelum menggunakan teknologi Openshift di lingkungan _production_ sebenarnya.
+Minishift membangun klaster _single-node_ OKD (Openshift) pada VM (Virtual Machine) yang berdiri di atas Hypervisor milik komputer lokal. Dengan Minishift kita dapat mempelajari OKD dalam komputer sendiri sebelum menggunakan teknologi Openshift di lingkungan _production_ sebenarnya.
 
 <!--more-->
 
@@ -63,7 +63,7 @@ Karena saya menggunakan GNU/Linux, maka dalam artikel ini kita akan menggunakan 
 $ sudo pacman -Sy virt-manager kvm libvirt-runit qemu qemu-guest-agent-runit ebtables bridge-utils
 ```
 
-<h4>2. Tambahkan user ke dalam grup `kvm` dan `libvirt`</h4>
+<h4>2. Tambahkan user ke dalam grup <b>kvm</b> dan <b>libvirt</b></h4>
 
 ```bash
 $ sudo usermod -aG kvm,libvirt $(whoami)
