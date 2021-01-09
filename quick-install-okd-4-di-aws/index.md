@@ -11,36 +11,36 @@ OKD 4 memiliki _installer_ yang menawarkan fleksibilitas dan kemudahan bagi peng
 ### Jenis Instalasi
 Pada umumnya terdapat 2 macam instalasi OKD 4 seperti berikut.
 1. **IPI (Installer-Provisioned Infrastructure)**. 
-Dengan metode IPI, installer akan bertindak sepenuhnya dalam proses instalasi cluster. Setiap nodes harus mampu mengakses internet untuk memberikan menarik _images_ dari internet yang diperlukan untuk inisiasi ketika _deployment_ cluster. IPI merupakan cara paling cepat untuk membangun cluster OKD yang dapat kita implementasikan pada [AWS (Amazon Web Service)](https://aws.amazon.com/id/), [GCP (Google Cloud Platform)](https://cloud.google.com/), [Azure](https://azure.microsoft.com/en-us/), hingga _baremetal_. Dalam artikel ini saya akan menggunakan IPI sebagai metode instalasi.
+Dengan metode IPI, installer akan bertindak sepenuhnya dalam proses instalasi cluster. Setiap _machine_ harus mampu mengakses internet untuk menarik _images_ yang diperlukan untuk inisialisasi ketika _deployment_ cluster. IPI merupakan cara paling cepat untuk membangun cluster OKD yang dapat kita implementasikan pada [AWS (Amazon Web Service)](https://aws.amazon.com/id/), [GCP (Google Cloud Platform)](https://cloud.google.com/), [Azure](https://azure.microsoft.com/en-us/), hingga _baremetal_. Dalam artikel ini saya akan menggunakan IPI sebagai metode instalasi.
 
 2. **UPI (User-Provisioned Infrastructure)**. 
-Kita dapat menggunakan metode UPI jika benar-benar _concern_ pada keamanan. Biasanya cluster akan membutuhkan sebuah _proxy_ dan akses ke internet akan lebih dibatasi. Karena akses ke internet yang lebih ketat, maka cluster juga memerlukan _mirror registry_ yang lebih spesifik. UPI cenderung lebih rumit, namun memiliki pilihan konfigurasi yang lebih beragam dibandingkan metode IPI seperti mengganti sistem operasi _machine_ dengan RHCOS (Red Hat Enterprise Linux CoreOS).
+Mirip dengan IPI, namun lebih _advanced_, di mana kita dapat menggunakan metode UPI jika benar-benar _concern_ terhadap keamanan. Biasanya cluster akan membutuhkan sebuah _proxy_ dan akses ke internet akan lebih dibatasi. Karena akses ke internet yang lebih ketat, maka cluster juga memerlukan _mirror registry_ yang lebih spesifik. UPI cenderung lebih rumit, namun memiliki pilihan konfigurasi yang sangat beragam dibandingkan metode IPI, misalnya seperti mengganti sistem operasi _machine_ dengan RHCOS (Red Hat Enterprise Linux CoreOS).
 
 
 ---
 
 
 ## Installation Workflow
-OKD menggunakan sebuah _bootstrap machine_ temporer pada saat inisialisasi konfigurasi untuk menyediakan informasi yang diperlukan bagi _control plane_. _Bootstrap Machine_ dihidupkan dengan sebuah konfigurasi bernama _Ignition_ yang mendeskripsikan bagaimana proses pembangunan cluster akan dilakukan. _Bootstrap Machine_ akan membuat sebuah _master machine_ yang digunakan untuk _control plane_. Dan _control plane_ kemudian akan membuat _compute machine_ atau yang biasa disebut sebagai _worker machine_.
+OKD menggunakan sebuah _bootstrap machine_ temporer pada saat inisialisasi konfigurasi guna menyediakan informasi yang diperlukan bagi _control plane_. _Bootstrap machine_ dihidupkan dengan sebuah file konfigurasi bernama _Ignition_ yang mendeskripsikan bagaimana proses pembangunan cluster akan dilakukan. _Bootstrap machine_ akan membuat sebuah _master machine_ yang digunakan sebagai _control plane_. Dan _control plane_ kemudian akan membuat _compute machine_ atau yang biasa disebut sebagai _worker machine_.
 
 ![Proses Bootstraping](proses-bootstraping.png "Proses Bootstraping")
 
-Setelah semua _machine_ pada cluster di-inisialisasi, maka _bootstrap machine_ akan di-_destroy_. Jika menggunakan metode UPI, kita melalukan beberapa proses diatas secara manual.
+Setelah semua _machine_ pada cluster di-inisialisasi, maka _bootstrap machine_ akan di-_destroy_. Jika menggunakan metode UPI, kita perlu melakukan beberapa proses di atas secara manual.
 
 
 ---
 
 
 ## Minimum Requirements
-OKD versi 4.6 memiliki syarat spesifikasi sistem minum yang cenderung mirip dengan OKD 3.
+OKD 4 memiliki syarat minimum spesifikasi sistem yang cenderung mirip dengan OKD 3. Berikut ini adalah spesifikasi singkat sebagai gambarannya.
 
 | Host | Specs|
 |:-----:|:----:|
-| Masters   | 4 vCPUs, 16 GB RAM    |
-| Nodes     | 1 vCPUs, 8 GB RAM     |
+| Masters   | 4 vCPUs dan 16 GB RAM    |
+| Nodes     | 1 vCPUs dan 8 GB RAM     |
 
 Jika menggunakan AWS sebagai _host_, maka _by-default_ OKD installer akan membuat instance dengan tipe `m5.xlarge` sebagai master dan tipe `m5.large` sebagai worker.
-Untuk lebih lengkapnya silahkan lihat di spesifikasi minimum di [dokumentas resmi OKD](https://docs.okd.io/3.11/install/prerequisites.html#hardware) dan jenis-jenis dari [instance AWS EC2](https://aws.amazon.com/id/ec2/instance-types/).
+Untuk lebih lengkapnya silahkan baca spesifikasi minimum di [dokumentas resmi OKD](https://docs.okd.io/3.11/install/prerequisites.html#hardware) dan jenis-jenis dari [instance AWS EC2](https://aws.amazon.com/id/ec2/instance-types/).
 
 
 ---
@@ -57,17 +57,17 @@ $ sudo pacman -Sy aws-cli
 ```
 
 {{< admonition warning "Perhatian" >}}
-Dalam artikel ini saya akan menggunakan _AWS Programmatic Access_ sebagai _credentials_ untuk mengelola AWS menggunakan **aws-cli**. Untuk informasi lebih lanjut silahkan lihat [dokumentasi AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).
+Dalam artikel ini saya akan menggunakan **AWS Programmatic Access** sebagai _credentials_ untuk mengelola AWS menggunakan `aws-cli`. Untuk informasi lebih lanjut silahkan baca [dokumentasi AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html).
 {{</ admonition >}}
 
-Saya memiliki _AWS Programmatic Access_ yang terdiri dari `aws_access_key_id` dan `aws_secret_access_key`. Masukkan kedua _key_ tersebut ke dalam konfigurasi _aws cli_.
+Saya memiliki AWS Programmatic Access  yang terdiri dari `aws_access_key_id` dan `aws_secret_access_key`. Masukkan kedua key tersebut ke dalam konfigurasi _aws cli_.
 
 ```bash
 $ mkdir -p ~/.aws
 $ vim ~/.aws/credentials
 ```
 
-Isi file `credentials` dengan kedua _key_ yang kita meliki, sehingga kurang lebih akan manjadi seperti berikut.
+Isi file `credentials` dengan kedua key yang kita meliki, sehingga kurang lebih akan manjadi seperti berikut.
 ```cfg
 [default]
 aws_access_key_id=AKIA3ANXUSNAUAXXXXXX
@@ -75,7 +75,7 @@ aws_secret_access_key=+JDR1HWw4vrcFrLqbf+ewv/nJL/L6TlVAhXXXXXX
 ```
 
 ### SSH Private Key
-Kita perlu menambahkan _private key_ dari SSH ke _agent_ dan installer untuk menampilkan _debugging_ ketika instalasi berjalan, atau untuk melakukan pengelolaan lebih lanjut terhadap cluster menggunakan installer. Di sini saya sudah memiliki SSH  key tersebut seperti berikut.
+Kita perlu menambahkan SSH key ke _agent_ dan installer untuk menampilkan informasi ketika proses instalasi berjalan, atau untuk melakukan pengelolaan lebih lanjut terhadap cluster menggunakan installer. Di sini saya sudah memiliki SSH key seperti berikut.
 
 ```cfg
 /home/pwn3r/.ssh
@@ -96,7 +96,7 @@ Kemudian jalankan `ssh-agent` di _background_.
 $ eval "$(ssh-agent -s)"
 ```
 
-Lalu tambahkan _private key_ SSH ke `ssh-agent`.
+Lalu tambahkan SSH key ke `ssh-agent`.
 
 ```bash
 $ ssh-add ~/.ssh/id_rsa
