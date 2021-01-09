@@ -147,7 +147,7 @@ Selanjutnya installer akan meminta beberapa informasi yang dibutuhkan, silahkan 
 ![Pull Secret](pull-secret.png "Pull Secret")
 
 ### Hasil
-Proses langsung akan berlangsung sedemikian rupa secara otomatis. Pada umumnya intalasi cluster OKD dengan konfigurasi _default_ akan berlangsung sekitar 40 menit. Jika berhasil kurang lebih akan muncul tampilan seperti berikut.
+Proses akan berlangsung sedemikian rupa secara otomatis. Pada umumnya intalasi cluster OKD dengan konfigurasi _default_ akan berlangsung sekitar 40 menit. Jika berhasil kurang lebih akan muncul tampilan seperti berikut.
 
 ![Proses Instalasi](proses-instalasi.png "Proses Instalasi")
 
