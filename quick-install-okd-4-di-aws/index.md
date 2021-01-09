@@ -231,7 +231,7 @@ Artinya _machineset_ `itglab-f2l75-worker-us-west-1a` memiliki replika sebanyak 
 $ oc scale --replicas=2 machinesets itglab-f2l75-worker-us-west-1b -n openshift-machine-api
 ```
 
-Biasanya kita perlu menunggu beberapa saat supaya _machine_ berjalan dan kemudian bergabung pada _machineset_ `itglab-f2l75-worker-us-west-1b`. Lama durasi tergantung pada spesifikasi sistem yang kita gunakan di AWS. Periksa apakah _scaling_ berhasil dilakukan dengan kembali menjalankan perintah berikut.
+Biasanya kita perlu menunggu beberapa saat supaya _machine_ berjalan dan kemudian bergabung pada _machineset_ `itglab-f2l75-worker-us-west-1b`. Lama durasi tergantung pada spesifikasi sistem yang kita gunakan di AWS. Periksa apakah _scaling_ berhasil dilakukan dengan menjalankan kembali perintah berikut.
 
 ```bash
 $ oc get machineset -n openshift-machine-api
