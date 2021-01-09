@@ -185,10 +185,6 @@ Harusnya akan muncuk tampilan seperti berikut.
 system:admin
 ```
 
-Sekarang coba akses OKD Console melalui web browser dengan alamat dan kata sandi seperti yang terlihat [sebelumnya](#hasil) menggunakan username `kubeadmin`.
-
-![OKD Web Console](okd-web-console.png "OKD Web Console")
-
 ### Periksa Nodes
 Coba periksa apakah semua node sudah dalam keadaan berjalan dengan `oc`.
 
@@ -244,6 +240,11 @@ NAME                             DESIRED   CURRENT   READY   AVAILABLE   AGE
 itglab-f2l75-worker-us-west-1a   2         2         2       2           5h58m
 itglab-f2l75-worker-us-west-1b   2         2         2       2           5h58m
 ```
+
+### Web Console OKD
+Sekarang coba akses OKD Console melalui web browser dengan alamat dan kata sandi seperti yang terlihat [sebelumnya](#hasil) menggunakan username `kubeadmin`.
+
+![OKD Web Console](okd-web-console.png "OKD Web Console")
 
 ### Destroy Cluster
 Installer OKD 4 juga memiliki fitur untuk menghapus semua resource yang telah dibuat sehingga saya tidak perlu repot-repot membersihkan satu region di AWS Console. _Destroy cluster_ dapat dijalankan dengan perintah seperti berikut.
