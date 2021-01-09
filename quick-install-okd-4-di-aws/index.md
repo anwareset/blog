@@ -245,6 +245,13 @@ itglab-f2l75-worker-us-west-1a   2         2         2       2           5h58m
 itglab-f2l75-worker-us-west-1b   2         2         2       2           5h58m
 ```
 
+### Destroy Cluster
+Installer OKD 4 juga memiliki fitur untuk menghapus semua resource yang telah dibuat sehingga saya tidak perlu repot-repot membersihkan satu region di AWS Console. _Destroy cluster_ dapat dijalankan dengan perintah seperti berikut.
+
+```bash
+$ ./openshift-install destroy cluster --log-level=info
+```
+
 
 ---
 
