@@ -1,7 +1,7 @@
 # Integrasi Sysdig Monitor di OpenShift
 
 
-Sysdig mampu menyediakan _Cloud Monitoring_ yang memungkinkan kita untuk memaksimalkan performa dan ketersediaan dari infrastruktur, layanan, dan aplikasi berbasis _cloud_. Sysdig terkenal memiliki kompabilitas penuh dengan _Prometheus_. Kita akan mencoba mengintegrasikan layanan Sysdig Monitor dengan klaster OpenShift.
+Sysdig mampu menyediakan _Cloud Monitoring_ yang memungkinkan kita untuk memaksimalkan performa dan ketersediaan dari infrastruktur, layanan, dan aplikasi berbasis _cloud_. Pada artikel ini saya akan mencoba mengintegrasikan layanan Sysdig Monitor dengan klaster OpenShift Cloud Platform.
 
 <!--more-->
 
