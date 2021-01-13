@@ -6,7 +6,7 @@ Sysdig mampu menyediakan _Cloud Monitoring_ yang memungkinkan kita untuk memaksi
 <!--more-->
 
 ## Sysdig
-**Sysdig** adalah sebuah _Software as a Service (SaaS)_ yang bertugas untuk mengambil _timeseries data_ atau biasa disebut _metric_ dari klaster atau _cloud native environment_ kemudian mengolah lalu menampilkannya secara _real time_ untuk berbagai kebutuhan, misalnya akselerasi _troubleshooting_, _scaling_ Prometheus, menyederhanakan visibilitas _metric_, membangun _dashboard_ monitoring yang fleksibel, hingga memberikan _alert_ dengan respon cepat. Sysdig membagi produknya menjadi beberapa jenis, yaitu **Sysdig Monitor**, **Sysdig Secure**, dan gabungan dari keduanya yang disebut dengan **Sysdig Platform** atau **Sysdig Secure DevOps Platform**. Semua produk tersebut sebenarnya adalah komersil, namun kita dapat mencobanya dengan _free-trial_ selama satu bulan. Pada artikel ini saya hanya akan mencoba mengintegrasikan Sysdig Monitor saja.
+**Sysdig** adalah sebuah _Software as a Service (SaaS)_ yang bertugas untuk mengambil _timeseries data_ atau biasa disebut _metric_ dari klaster atau _cloud native environment_ kemudian mengolah lalu menampilkannya secara _real time_ untuk berbagai kebutuhan, misalnya akselerasi _troubleshooting_, monitoring _at scale_, menyederhanakan visibilitas _metric_, membangun _dashboard_ monitoring yang fleksibel, hingga memberikan _alert_ dengan respon cepat. Sysdig membagi produknya menjadi beberapa jenis, yaitu **Sysdig Monitor**, **Sysdig Secure**, dan gabungan dari keduanya yang disebut dengan **Sysdig Platform** atau **Sysdig Secure DevOps Platform**. Semua produk tersebut sebenarnya adalah komersil, namun kita dapat mencobanya dengan _free-trial_ selama satu bulan. Pada artikel ini saya hanya akan mencoba mengintegrasikan Sysdig Monitor saja.
 
 ![Sysdig](sysdig.png "Sysdig")
 
@@ -15,7 +15,7 @@ Sysdig mampu menyediakan _Cloud Monitoring_ yang memungkinkan kita untuk memaksi
 1. **Default metrics**, yaitu _metric_ yang berhubungan dengan sistem atau _host_, _container_, _orchestrator_, _HTTP_, dan infrastruktur jaringan.
 2. **Custom metrics**, berhubungan dengan _metric_ yang didapat dari aplikasi pihak ketiga seperti _JMX_, _StatsD_, _Prometheus_ dan beberapa _metric_ dari aplikasi lain yang terintegrasi.
 
-Sysdig secara otomatis mengambil _metric_ dari berbagai tipe, dan melabelinya secara otomatis. _Custom Metric_ juga dapat dilabeli sesuai kebutuhan pengguna.
+Sysdig secara otomatis mengambil _metric_ dari berbagai tipe, dan melabelinya secara otomatis. _Custom Metric_ juga dapat dilabeli sesuai kebutuhan pengguna. Biasanya _metric_ akan berguna untuk membuat Dashboard hingga Alerts.
 
 ![Metric](metric.png "Metric")
 
@@ -224,4 +224,5 @@ Jika kita ingin melakukan inspeksi lebih lanjut terhadap container yang ada pada
 * [docs.sysdig.com/en/saas-regions-and-ip-ranges.html](https://docs.sysdig.com/en/saas-regions-and-ip-ranges.html)
 * [docs.openshift.com/container-platform/4.6/cli_reference/helm_cli/getting-started-with-helm-on-openshift-container-platform.html](https://docs.openshift.com/container-platform/4.6/cli_reference/helm_cli/getting-started-with-helm-on-openshift-container-platform.html)
 * [www.openshift.com/blog/monitoring-openshift-three-tools](https://www.openshift.com/blog/monitoring-openshift-three-tools)
+* [kubernetes.io/docs/concepts/cluster-administration/system-metrics/](https://kubernetes.io/docs/concepts/cluster-administration/system-metrics/)
 
