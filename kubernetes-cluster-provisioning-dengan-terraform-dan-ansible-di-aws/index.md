@@ -1,7 +1,7 @@
 # Kubernetes Cluster Provisioning dengan Terraform dan Ansible di AWS
 
 
-Kubernetes Vanilla atau versi Kubernetes orisinil merupakan aplikasi opensource untuk _Container Orchestration_ dengan berbagai fleksibilitas yang dapat dikembangkan lebih lanjut dengan komponen atau tools dari pihak ketiga. Berbeda dengan distribusi Kubernetes yang menawarkan kemudahan dalam instalasi, dalam membangun klaster Kubernetes (atau sering disebut k8s) seringkali membutuhkan _effort_ yang lebih besar jika dilakukan secara manual tanpa layanan dari vendor atau _cloud provider_ (seperti AWS EKS). Namun sebenarnya kita mampu melakukannya dengan lebih _effortless_ dengan menggunakan tools untuk _provisioning_ infrastruktur maupun konfigurasi, seperti Terraform dan Ansible.
+Kubernetes Vanilla atau versi Kubernetes orisinil merupakan aplikasi opensource untuk _Container Orchestration_ dengan berbagai fleksibilitas yang dapat dikembangkan lebih lanjut dengan komponen atau tools dari pihak ketiga. Berbeda dengan distribusi Kubernetes yang menawarkan kemudahan dalam instalasi, dalam membangun klaster Kubernetes (atau sering disebut k8s) seringkali membutuhkan _effort_ yang lebih besar jika dilakukan secara manual tanpa layanan dari vendor atau _cloud provider_ (seperti AWS EKS). Namun sebenarnya kita mampu melakukannya dengan lebih _effortless_ menggunakan tools untuk _provisioning_ infrastruktur maupun konfigurasi, seperti Terraform dan Ansible.
 
 <!--more-->
 
