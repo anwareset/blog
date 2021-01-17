@@ -78,12 +78,7 @@ Saya menggunakan sistem operasi GNU/Linux dengan distro Arch-based yang memiliki
 {{</ admonition >}}
 
 ### Script Terraform
-Selanjutnya silahkan buat file baru untuk menulis script terraform. Misalnya saya membuat file `infra.tf`.
-```bash
-# touch infra.tf
-```
-
-File `infra.tf` akan berisi script terraform seperti berikut ini.
+Selanjutnya silahkan buat file baru untuk menulis script terraform. Misalnya saya membuat file `infra.tf` yang akan berisi script Terraform seperti berikut ini.
 
 ```terraform
 ## AWS Provider
