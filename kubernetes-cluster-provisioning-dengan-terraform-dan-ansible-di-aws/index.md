@@ -415,7 +415,7 @@ PLAY RECAP *********************************************************************
 54.198.25.43               : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ```
 
-### Kubernetes
+### Bootstraping Kubernetes
 Sekarang buat file baru bernama `k8s.yml` yang berisi script untuk melakukan _setup_ Kubernetes.
 ```yaml
 - hosts: all
@@ -545,6 +545,7 @@ Kemudian terapkan script tersebut dengan Ansible Playbook seperti berikut.
 $ ansible k8s.yml
 ```
 
+### Joining Cluster
 Di tengah proses, kita akan diberikan sebuah token yang harus dimasukkan secara manual. Token tersebut digunakan oleh Worker Node untuk bergabung ke dalam klaster.
 ![Join Token](join-token.png "Join Token")
 
@@ -633,11 +634,33 @@ $ kubectl get nodes
 
 Jika berhasil hasilnya akan menjadi seperti berikut.
 
-```bash
+```cfg
 NAME               STATUS   ROLES                  AGE     VERSION
 ip-172-31-16-20    Ready    control-plane,master   8m50s   v1.20.2
 ip-172-31-25-81    Ready    worker                 7m41s   v1.20.2
 ip-172-31-29-192   Ready    worker                 7m40s   v1.20.2
+```
+
+Periksa pod yang berjalan pada semua namespace.
+```bash
+$ kubectl get pods --all-namespaces
+```
+
+Hasilnya kurang lebih akan seperti berikut.
+```cfg
+NAMESPACE     NAME                                      READY   STATUS    RESTARTS   AGE
+kube-system   coredns-74ff55c5b-kfzvr                   1/1     Running   0          4h56m
+kube-system   coredns-74ff55c5b-qrz2j                   1/1     Running   0          4h56m
+kube-system   etcd-ip-172-31-16-20                      1/1     Running   0          4h56m
+kube-system   kube-apiserver-ip-172-31-16-20            1/1     Running   0          4h56m
+kube-system   kube-controller-manager-ip-172-31-16-20   1/1     Running   0          4h56m
+kube-system   kube-flannel-ds-hltkg                     1/1     Running   0          4h55m
+kube-system   kube-flannel-ds-jvvbv                     1/1     Running   0          4h56m
+kube-system   kube-flannel-ds-xfdq8                     1/1     Running   0          4h55m
+kube-system   kube-proxy-67kgp                          1/1     Running   0          4h55m
+kube-system   kube-proxy-bd7cj                          1/1     Running   0          4h56m
+kube-system   kube-proxy-gjkr6                          1/1     Running   0          4h55m
+kube-system   kube-scheduler-ip-172-31-16-20            1/1     Running   0          4h56m
 ```
 
 ---
@@ -654,6 +677,7 @@ Dengan menggunakan Terraform dan Ansible, kita dapat membangun klaster Kubernete
 * [registry.terraform.io/providers/hashicorp/aws/latest/docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 * [https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html](https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html#playbook-keywords)
 * [kubernetes.io/docs/setup/production-environment/container-runtimes/#docker](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker)
+* [kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
 * [docs.aws.amazon.com/cli/latest/reference/ec2/](https://docs.aws.amazon.com/cli/latest/reference/ec2/)
 * [docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html](https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html)
 * [docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-instances.html](https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-instances.html)
