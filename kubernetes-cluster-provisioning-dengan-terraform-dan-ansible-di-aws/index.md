@@ -73,7 +73,7 @@ Pasang paket `terraform` pada komputer lokal seperti berikut.
 ```bash
 $ sudo pacman -Sy terraform
 ```
-{{< admonition "warning" "Perhatian" >}}
+{{< admonition "info" "Info" >}}
 Saya menggunakan sistem operasi GNU/Linux dengan distro Arch-based yang memiliki package manager `pacman`. Silahkan sesuaikan dengan perintah package manager pada distro masing-masing.
 {{</ admonition >}}
 
