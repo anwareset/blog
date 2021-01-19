@@ -303,6 +303,23 @@ Pasang `ansible` pada komputer lokal menggunakan perintah berikut.
 $ sudo pacman -Sy ansible
 ```
 
+### Konfigurasi Ansible
+Kita perlu membuat sebuah file bernama `ansible.cfg` yang berisi konfigurasi seperti berikut.
+
+```config
+[defaults]
+inventory = inventory
+Private_key_file = infra-k8s.pem
+remote_user = ubuntu
+ansible_python_interpreter = /usr/bin/python3
+host_key_checking = false
+remote_tmp = /tmp/.ansible-${USER}/tmp
+```
+
+{{< admonition "warning" "Perhatian" >}}
+Variabel `remote_user` adalah user pada instance EC2 yang akan dipakai untuk penerapan provisioning, _by-default_ pada AWS untuk AMI **Ubuntu 18** menggunakan user `ubuntu`. Jika menggunakan AMI lain maka kita perlu menyesuaikannya.
+{{</ admonition >}}
+
 ### Inventory Ansible Playbook
 Jalankan perintah berikut untuk mendapatkan IP Publik dari Master Node.
 ```bash
