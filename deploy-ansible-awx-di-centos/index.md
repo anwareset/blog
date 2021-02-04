@@ -77,7 +77,7 @@ pip3 install docker-compose
 ```
 
 {{< admonition warning "Perhatian" >}}
-Jika menggunakan tidak menggunakan user `root` maka tambahkan user tersebut ke dalam group `docker` kemudian logout dan login kembali. Menambahkan user ke dalam suatu grup dapat dilakukan dengan perintah `sudo usermod -aG docker user`
+Jika tidak menggunakan user `root` maka tambahkan user tersebut ke dalam group `docker` kemudian logout dan login kembali. Menambahkan user ke dalam suatu grup dapat dilakukan dengan perintah `sudo usermod -aG docker user`
 {{</ admonition >}}
 
 ---
