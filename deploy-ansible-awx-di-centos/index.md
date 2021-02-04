@@ -89,7 +89,7 @@ Periksa terlebih dahulu release yang tersedia dari remote repository AWX pada ha
 git clone -b x.y.z https://github.com/ansible/awx.git
 ```
 {{< admonition warning "Perhatian" >}}
-Untuk `x.y.z` adalah versi yang akan digunakan. Misalnya pada halaman **release** terdapat versi **17.0.1** maka jalankan dengan `git clone -b 17.0.1 https://github.com/ansible/awx.git`. Melakukan clone tanpa definisi versi branch akan diarahkan langsung menuju branch `HEAD` yang berisi versi development, hal tersebut tidak disarankan karena sangat tidak stabil.
+Untuk `x.y.z` adalah versi yang akan digunakan, misalnya pada halaman **release** terdapat versi `17.0.1`. Melakukan clone tanpa definisi versi branch akan diarahkan langsung menuju branch `HEAD` yang berisi versi development, hal tersebut tidak disarankan karena sangat tidak stabil.
 {{</ admonition >}}
 
 ### Generate Secret Key
