@@ -143,12 +143,19 @@ PLAY RECAP *********************************************************************
 localhost   : ok=21   changed=8    unreachable=0    failed=0    skipped=73   rescued=0    ignored=1   
 ```
 
+### Post-Deployment
+Jangan lupa untuk mengembalikan kondisi SELinux menjadi `enforcing` dari yang tadinya telah kita manipulasi menjadi `permissive`.
+```bash
+sed -i 's/^SELINUX=.*/SELINUX=enforcing/g' /etc/selinux/config
+setenforce enforcing
+```
+
 ---
 
 ## Pengujian
 Periksa apakah ada container yang berjalan.
 ```bash
-docker ps
+
 ```
 Jika berhasil maka akan ada 4 container yang dalam status `Up`.
 ```cfg
