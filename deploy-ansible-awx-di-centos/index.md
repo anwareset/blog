@@ -23,7 +23,7 @@ Untuk mendapatkan performa yang baik saat pertama kali melakukan deployment, set
 - 2 Core CPU
 - 20 GB Storage
 
-Dalam artikel ini saya akan menggunakan VM Guest CentOS 8 sebagai Control Node. Namun jika ingin menggunakan CentOS 7 setidaknya gunakan CentOS 7.7 atau versi lebih baru.
+Saya akan menggunakan VM Guest CentOS 8 sebagai Control Node. Namun jika ingin menggunakan CentOS 7 setidaknya gunakan CentOS 7.7 atau versi lebih baru.
 {{< admonition warning "Perhatian" >}}
 Dalam artikel ini saya akan mengeksekusi seluruh perintah dengan menggunakan user `root`.
 {{</ admonition >}}
@@ -75,6 +75,10 @@ Lalu pasang `docker-compose` menggunakan `pip3`.
 ```bash
 pip3 install docker-compose
 ```
+
+{{< admonition warning "Perhatian" >}}
+Jika menggunakan tidak menggunakan user `root` maka tambahkan user tersebut ke dalam group `docker` kemudian logout dan login kembali. Menambahkan user ke dalam suatu grup dapat dilakukan dengan perintah `sudo usermod -aG docker user`
+{{</ admonition >}}
 
 ---
 
