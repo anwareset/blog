@@ -155,14 +155,14 @@ setenforce enforcing
 ## Pengujian
 Periksa apakah ada container yang berjalan.
 ```bash
-
+docker ps
 ```
 Jika berhasil maka akan ada 4 container yang dalam status `Up`.
 ```cfg
-003389b920b6   ansible/awx:17.0.1   "/usr/bin/tini -- /u…"   7 minutes ago   Up 7 minutes   8052/tcp               awx_task
-42d2ff79f8e1   ansible/awx:17.0.1   "/usr/bin/tini -- /b…"   7 minutes ago   Up 7 minutes   0.0.0.0:80->8052/tcp   awx_web
-3e73bd538074   postgres:12          "docker-entrypoint.s…"   7 minutes ago   Up 7 minutes   5432/tcp               awx_postgres
-94ee8bb7949b   redis                "docker-entrypoint.s…"   7 minutes ago   Up 7 minutes   6379/tcp               awx_redis
+003389b920b6   ansible/awx:17.0.1   "/usr/bin/tini -- /u..."   7 minutes ago   Up 7 minutes   8052/tcp               awx_task
+42d2ff79f8e1   ansible/awx:17.0.1   "/usr/bin/tini -- /b..."   7 minutes ago   Up 7 minutes   0.0.0.0:80->8052/tcp   awx_web
+3e73bd538074   postgres:12          "docker-entrypoint.s..."   7 minutes ago   Up 7 minutes   5432/tcp               awx_postgres
+94ee8bb7949b   redis                "docker-entrypoint.s..."   7 minutes ago   Up 7 minutes   6379/tcp               awx_redis
 ```
 Sekarang coba buka user interface AWX di Web Browser menggunakan alamat IP milik VM. Jika berhasil kita dapat melakukan login memakai username dan password yang sebelumnya telah kita isi pada file `inventory`.
 ![Login AWX](login-awx.png "Login AWX")
