@@ -167,6 +167,7 @@ Jika berhasil maka akan ada 4 container yang dalam status `Up`.
 Sekarang coba buka user interface AWX di Web Browser menggunakan alamat IP milik VM. Jika berhasil kita dapat melakukan login memakai username dan password yang sebelumnya telah kita isi pada file `inventory`.
 ![Login AWX](login-awx.png "Login AWX")
 ![Dashboard AWX](dashboard-awx.png "Dashboard AWX")
+![AWX About](awx-about.png "AWX About")
 
 ---
 
