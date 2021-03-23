@@ -38,9 +38,9 @@ Jadi bagaimana pendapat saya tentang user sistem operasi lain? Ini sedikit menge
 
 Fakta-fakta ini membuat saya ragu, bahwa apakah semua orang di luar pengguna sistem operasi Linux itu bodoh atau mempunyai IQ rendah. Jadi apa yang menyebabkan mereka tidak elit? **Apatis**, apatisme menjadi sangat biasa dan dinormalisir jika dibandingkan pada masa lalu, ini disebabkan oleh semua kemudahan yang bisa diakses oleh orang-orang sampai mereka tidak peduli tentang apapun, mereka tidak mau berusaha, mereka lebih memilih mencari dopamine, seperti film porno, sosial media, menggemari idola, video game, hingga sumber-sumber dopamine lainnya untuk menjadi santapan otak sehari-hari. Otak mereka sudah terlalu penuh untuk melakukan hal lainnya yang sedikit lebih sulit.
 
-### It's Just Werks
+### It Just Werks
 
-![It's Just Werks](its-just-werks.jpg "It's Just Werks")
+![It Just Werks](it-just-werks.jpg "It Just Werks")
 
 Saya menolak semua pernyataan "_yang penting bisa digunakan_"  dan menganggapnya sebagai kata-kata yang bodoh, yang diberikan seseorang ketika tidak mau repot-repot menggerakkan tubuh dan akal sehatnya. Bukan karena suka dengan sesuatu yang rumit, tetapi saya menginginkan agar sesuatu bekerja seperti apa yang saya harapkan. Sejujurnya, saya juga tidak ingin mereka menggunakan objek **Y** karena dipaksakan. Berusaha sekuat tenaga sebagai orang-orang yang hidup di realitas alternatif dari apa yang disebut [_software piracy_](https://id.wikipedia.org/wiki/Pembajakan_perangkat_lunak), dan berusaha tidak peduli terhadap apapun selama itu disebut "_yang penting bisa dipakai_".
 
