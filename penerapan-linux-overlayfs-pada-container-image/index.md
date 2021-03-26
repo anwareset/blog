@@ -134,7 +134,7 @@ Pada pandangan _high level_, inilah yang akan terjadi dari Dockerfile tersebut.
 4. Ketika baris perintah terakhir telah dijalankan, container runtime akan membuat _upper layer_. Ini adalah lapisan baru dari image yang kita bangun.
 5. Jika Dockerfile mengandung perintah lainnya, maka proses pada langkah kedua akan diulangi sebagai _lower layer_ dan berikutnya hingga selesai.
 
-Tentu anggapan ini cenderung terlalu menyederhanakan workflow dimana saya tidak menyinggung perintah lain seperti `ENV` hingga `ENTRYPOINT`. Perintah tersebut akan disimpan di dalam metadata dan kemudian dikemas bersama dengan layer.
+Tentu anggapan ini cenderung terlalu menyederhanakan workflow dimana saya tidak menyinggung perintah lain seperti `ENV` hingga `ENTRYPOINT`. Perintah tersebut akan disimpan di dalam metadata dan kemudian dikemas bersama ke dalam layer.
 
 ---
 
