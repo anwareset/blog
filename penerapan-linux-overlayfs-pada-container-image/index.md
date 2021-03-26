@@ -78,7 +78,7 @@ File baru di dalam folder `3-upper-layer` ternyata adalah sebuah _character file
 ### Menarik Kesimpulan
 Sebagaimana yang saya bicarakan pada awal tadi, overlay filesystem memungkinkan kita untuk membuat sebauh _union_ atau kesatuan beberapa direktori. Dalam kasus kita saat ini _union_ dibuat pada folder `mount` dan di dalamnya akan berisi konten kolaborasi dari direktori _layer_ yaitu folder `1-lower-layer` dan `2-lower-layer` sebagai lapisan direktori _lower_, serta folder `3-upper-layer` sebagai lapisan direktori _upper_.
 
-Setiap perubahan yang kita lakukan pada _union_ (membuat, menghapus, atau mengedit konten) akan dicatat pada _upper layer_. Ini adalah alasan kenapa lapisan _upper_ sering juda disebut sebagai lapisan _diff_. Fakta lainnya adalah, berkas-berkas dari _upper layer_ akan merupakan bayangan dari _lower layer_, contohnya ketika kita membuat file atau folder pada _upper layer_ dengan nama yang sama dengan yang ada di _lower layer_ maka berkas tersebutlah yang akan ditampilkan pada _union_.
+Setiap perubahan yang kita lakukan pada _union_ (membuat, menghapus, atau mengedit konten) akan dicatat pada _upper layer_. Ini adalah alasan kenapa lapisan _upper_ sering juda disebut sebagai lapisan _diff_. Fakta lainnya adalah, berkas-berkas dari union merupakan bayangan dari _lower layer_ namun _upper layer_ memiliki tingkatan lebih tinggi untuk ditampilkan ke panggung, contohnya ketika kita membuat file atau folder pada `3-upper-layer` dengan nama yang sama dengan yang ada di `1-lower-layer` maka justru berkas dari `3-upper-layer` yang akan ditampilkan pada _union_ atau dalam kasus ini yaitu folder `mount`.
 ![Upper Layer override](upper-layer-override.png "Upper Layer override")
 
 ---
