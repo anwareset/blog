@@ -145,6 +145,7 @@ Gagasan untuk merangkum keseluruhan root filesystem menjadi sebuah tarfile dan m
 
 ## Referensi
 - [git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/filesystems/overlayfs.rst](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/filesystems/overlayfs.rst)
+- [linux.die.net/man/8/mount](https://linux.die.net/man/8/mount)
 - [openwrt.org/docs/guide-user/additional-software/extroot_configuration](https://openwrt.org/docs/guide-user/additional-software/extroot_configuration)
 - [docs.docker.com/develop/develop-images/dockerfile_best-practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
 - [opencontainers.org/faq](https://opencontainers.org/faq/)
