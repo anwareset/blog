@@ -1,10 +1,12 @@
 # About
 
-**Bonjour!** Saya Anwar seorang biasa pegiat GNU/Linux, serta jaringan komputer. Gemar belajar konfigurasi infrastruktur yang berkaitan dengan sistem komputasi, mendengarkan musik, menonton film, dan membaca.
+<img alt="About" src="banner.png"/>
+
+**Bonjour!** Saya Anwar, seorang biasa pegiat GNU/Linux, serta jaringan komputer. Gemar mempelajari konfigurasi infrastruktur dan arsitektur yang berkaitan dengan komputasi, mendengar musik, menonton film, dan membaca.
 
 ---
 
-Seringkali hal yang jarang dilakukan akan mudah terlupakan, maka dibangunlah situs web ini untuk membantu merawat ingatan, bukan berbagi. Jika ternyata mampu membantu orang lain, itu cuma bonus saat belajar.
+Seringkali hal yang jarang dilakukan akan mudah terlupakan, maka dibangunlah situs web ini untuk membantu merawat ingatan, bukan berbagi. Jika ternyata mampu menolong orang lain, anggap itu sebagai sebuah bonus.
 
 {{< admonition danger "Perhatian" >}}
 Situs web yang sedang terbuka ini hanyalah _arsip pribadi_ yang berusaha ditulis sedemikian rupa supaya terlihat lebih teknis. Perlu diketahui, bahwa penulis tidak berharap setiap orang dapat memahaminya.
