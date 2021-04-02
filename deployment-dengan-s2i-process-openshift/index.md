@@ -102,7 +102,7 @@ Setelah bahasa pemrograman terdeteksi, OpenShift akan mencari tag image stream y
 Untuk membuat sebuah file definisi resource (jika dibutuhkan) kita dapat menggunakan parameter `-o` kemudian diikuti dengan format yang diinginkan, misalnya `yaml` atau `json`.
 
 ```shell
-oc -o yaml new-app --as-deployment-config \
+oc -o json new-app --as-deployment-config \
  php~http://services.lab.example.com/app \
  --name=myapp > s2i.json
 ```
