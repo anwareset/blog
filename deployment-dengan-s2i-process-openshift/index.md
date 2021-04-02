@@ -1,4 +1,4 @@
-# Deploy Aplikasi dengan S2I OpenShift
+# Deployment dengan S2I Process OpenShift
 
 
 S2I atau Source to Image adalah sebuah tool untuk mempermudah membangun container images dari source code. Tool ini mengambil source code aplikasi dari repositori Git, melakukan injeksi source code ke dalam _base container_ berdasarkan bahasa pemrograman dan framework tertentu, kemudian memproduksi sebuah container image baru, lalu container image tersebut akan dipakai untuk menjalankan aplikasi yang telah dirakit.
