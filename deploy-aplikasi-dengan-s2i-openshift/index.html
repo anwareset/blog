@@ -1,0 +1,496 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Deploy Aplikasi dengan S2I OpenShift - Anwar's Blog</title><meta name=Description content="Deploy sebuah aplikasi menggunakan fasilitas Source to Image dari OpenShift Container Platform"><meta property="og:title" content="Deploy Aplikasi dengan S2I OpenShift"><meta property="og:description" content="Deploy sebuah aplikasi menggunakan fasilitas Source to Image dari OpenShift Container Platform"><meta property="og:type" content="article"><meta property="og:url" content="https://init.web.id/deploy-aplikasi-dengan-s2i-openshift/"><meta property="og:image" content="https://init.web.id/deploy-aplikasi-dengan-s2i-openshift/cover.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-04-02T11:57:03+07:00"><meta property="article:modified_time" content="2021-04-02T14:50:03+07:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://init.web.id/deploy-aplikasi-dengan-s2i-openshift/cover.png"><meta name=twitter:title content="Deploy Aplikasi dengan S2I OpenShift"><meta name=twitter:description content="Deploy sebuah aplikasi menggunakan fasilitas Source to Image dari OpenShift Container Platform"><meta name=application-name content="Anwar's Blog"><meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/deploy-aplikasi-dengan-s2i-openshift/><link rel=prev href=https://init.web.id/penerapan-linux-overlayfs-pada-container-image/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Deploy Aplikasi dengan S2I OpenShift","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/deploy-aplikasi-dengan-s2i-openshift\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/deploy-aplikasi-dengan-s2i-openshift\/cover.png","width":1e3,"height":420}],"genre":"posts","keywords":"OpenShift, PaaS, S2I, Container, Deployment","wordcount":1559,"url":"https:\/\/init.web.id\/deploy-aplikasi-dengan-s2i-openshift\/","datePublished":"2021-04-02T11:57:03+07:00","dateModified":"2021-04-02T14:50:03+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Deploy sebuah aplikasi menggunakan fasilitas Source to Image dari OpenShift Container Platform"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'white'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'white'==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/about/>About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder="Search titles or contents..." id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">Deploy Aplikasi dengan S2I OpenShift</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/platform/><i class="far fa-folder fa-fw"></i>Platform</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-04-02>2021-04-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1559 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;8 minutes&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/deploy-aplikasi-dengan-s2i-openshift/cover.png data-srcset="/deploy-aplikasi-dengan-s2i-openshift/cover.png, /deploy-aplikasi-dengan-s2i-openshift/cover.png 1.5x, /deploy-aplikasi-dengan-s2i-openshift/cover.png 2x" data-sizes=auto alt=/deploy-aplikasi-dengan-s2i-openshift/cover.png title="Deploy sebuah aplikasi menggunakan fasilitas Source to Image dari OpenShift Container Platform"></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#image-stream>Image Stream</a></li><li><a href=#build-s2i>Build S2I</a><ul><li><a href=#via-cli>Via CLI</a></li><li><a href=#repositori-lokal>Repositori Lokal</a></li><li><a href=#subdirektori>Subdirektori</a></li><li><a href=#branch>Branch</a></li></ul></li><li><a href=#deteksi-otomatis>Deteksi Otomatis</a></li><li><a href=#generate-resource-definition-file>Generate Resource Definition File</a><ul><li><a href=#image-stream-definition>Image Stream Definition</a></li><li><a href=#build-configuration-definition>Build Configuration Definition</a></li><li><a href=#deployment-configuration-definition>Deployment Configuration Definition</a></li><li><a href=#service-definition>Service Definition</a></li></ul></li><li><a href=#memeriksa-deployment>Memeriksa Deployment</a></li><li><a href=#trigger-build>Trigger Build</a><ul><li><a href=#melihat-buildconfig>Melihat BuildConfig</a></li><li><a href=#menjalankan-build>Menjalankan Build</a></li></ul></li><li><a href=#kesimpulan>Kesimpulan</a></li><li><a href=#referensi>Referensi</a></li></ul></nav></div></div><div class=content id=content><p>S2I atau Source to Image adalah sebuah tool untuk mempermudah membangun container images dari source code. Tool ini mengambil source code aplikasi dari repositori Git, melakukan injeksi source code ke dalam <em>base container</em> berdasarkan bahasa pemrograman dan framework tertentu, kemudian memproduksi sebuah container image baru, lalu container image tersebut akan dipakai untuk menjalankan aplikasi yang telah dirakit.</p><p><figure><a class=lightgallery href=/deploy-aplikasi-dengan-s2i-openshift/openshift-dc-and-bc.png title="S2I pada OpenShift" data-thumbnail=/deploy-aplikasi-dengan-s2i-openshift/openshift-dc-and-bc.png data-sub-html="<h2>S2I pada OpenShift</h2><p>S2I pada OpenShift</p>"><img class=lazyload src=/svg/loading.min.svg data-src=openshift-dc-and-bc.png data-srcset="/deploy-aplikasi-dengan-s2i-openshift/openshift-dc-and-bc.png, openshift-dc-and-bc.png 1.5x, /deploy-aplikasi-dengan-s2i-openshift/openshift-dc-and-bc.png 2x" data-sizes=auto alt=/deploy-aplikasi-dengan-s2i-openshift/openshift-dc-and-bc.png></a><figcaption class=image-caption>S2I pada OpenShift</figcaption></figure></p><h2 id=image-stream>Image Stream</h2><p>OpenShift mendeploy aplikasi versi baru ke dalam pod secara cepat. <em>Base Image</em> (S2I buider image) dibutuhkan untuk membuat aplikasi dengan update terbaru, jika ada perubahan pada source code. Ketika komponen source code aplikasi mengalami perubahan, OpenShift akan menciptakan container image baru. Pod yang telah dibuat dengan container image lama akan digantikan dengan pod yang menggunakan image baru.</p><p>Resource <strong>Image Stream</strong> merupakan konfigurasi yang menamai container image secara spesifik yang berkaitan dengan tag <em>image stream</em>. OpenShift membangun aplikasi berdasarkan image stream. OpenShift installer telah menyediakan beberapa image stream secara default sejak awal. Untuk menemukan image stream yang tersedia, gunakan perintah <code>oc get</code> seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>$ oc get is -n openshift
+
+NAME           IMAGE REPOSITORY                      TAGS
+dotnet         ...svc:5000/openshift/dotnet          2.0,2.1,latest
+nodejs         ...svc:5000/openshift/nodejs          0.10,10,11,4,6,8,latest
+perl           ...svc:5000/openshift/perl            5.16,5.20,5.24,5.26,latest
+php            ...svc:5000/openshift/php             5.5,5.6,7.0,7.1,latest
+python         ...svc:5000/openshift/python          2.7,3.3,3.4,3.5,3.6,latest
+ruby           ...svc:5000/openshift/ruby            2.0,2.2,2.3,2.4,2.5,latest
+</code></pre></td></tr></table></div></div><p>OpenShift juga mendeteksi jika image stream berubah dan akan melakukan reaksi berdasarkan perubahan tersebut. Jika sebuah <em>security issue</em> muncul, misalnya (CVE) pada image bernama <code>nodejs-010-rhel7</code>, maka OpenShift akan melakukan update secara otomatis.</p><hr><h2 id=build-s2i>Build S2I</h2><p>Membangun sebuah aplikasi menggunakan S2I dapat dilakukan melalui OpenShift CLI maupun OpenShift Web Console. Dalam artikel ini, saya ingin melakukannya melalui CLI.</p><p><figure><a class=lightgallery href=/deploy-aplikasi-dengan-s2i-openshift/s2i-process.png title="S2I Process" data-thumbnail=/deploy-aplikasi-dengan-s2i-openshift/s2i-process.png data-sub-html="<h2>S2I Process</h2><p>S2I Process</p>"><img class=lazyload src=/svg/loading.min.svg data-src=s2i-process.png data-srcset="/deploy-aplikasi-dengan-s2i-openshift/s2i-process.png, s2i-process.png 1.5x, /deploy-aplikasi-dengan-s2i-openshift/s2i-process.png 2x" data-sizes=auto alt=/deploy-aplikasi-dengan-s2i-openshift/s2i-process.png></a><figcaption class=image-caption>S2I Process</figcaption></figure></p><h3 id=via-cli>Via CLI</h3><p>Untuk membuat application di dalam project memakai proses S2I kita memakai perintah <code>oc new-app</code> sseperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>oc new-app --as-deployment-config php~http://my.git.server.com/my-app --name<span class=o>=</span>myapp
+</code></pre></td></tr></table></div></div><p>Argumen <code>php</code> di atas dipakai untuk mendefinisikan image stream mana yang akan digunakan, diikuti oleh karakter <code>~</code>. Lalu diteruskan dengan lokasi repositori Git <code>my.git.server.com/my-app</code>. Selain menggunakan karakter <code>~</code> kita dapat menuliskannya menggunakan opsi <code>-i</code> seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>oc new-app --as-deployment-config -i php http://services.lab.example.com/app --name<span class=o>=</span>myapp
+</code></pre></td></tr></table></div></div><h3 id=repositori-lokal>Repositori Lokal</h3><p>Jika kita tidak mendefinisikan image stream, maka OpenShift akan mencoba untuk melakukan identifikasi otomatis terhadap source code guna menemukan image stream yang tepat. Command <code>oc new-app</code> juga dapat dilakukan ketika kita menggunakan repositori Git lokal. Misalnya jika kita sudah berapa di direktori repositori Git lokal, maka dapat kita jalankan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>oc new-app --as-deployment-config .
+</code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Jika menggunakan repositori Git lokal, maka repositori tersebut harus memiliki konfigurasi <em>remote origin</em> yang mengarah ke sebuah URL. Dan URL tersebut harus dapat diakses dari klaster OpenShift.</div></div></div><h3 id=subdirektori>Subdirektori</h3><p>Kita juga dapat menjalankan aplikasi menggunakan subdirektori pada repositori Git seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>oc new-app --as-deployment-config <span class=se>\
+</span><span class=se></span>  https://github.com/openshift/sti-ruby.git <span class=se>\
+</span><span class=se></span>  --context-dir<span class=o>=</span>2.0/test/puma-test-app
+</code></pre></td></tr></table></div></div><h3 id=branch>Branch</h3><p>Dan tentu saja S2I dapat kita lakukan pada branch atau cabang tertentu dari repositori Git, seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>oc new-app --as-deployment-config <span class=se>\
+</span><span class=se></span>  https://github.com/openshift/ruby-hello-world.git#beta4
+</code></pre></td></tr></table></div></div><hr><h2 id=deteksi-otomatis>Deteksi Otomatis</h2><p>Seperti yang sebelumnya saya tulis di atas, jika kita tidak mendefinisikan image stream maka OpenShift akan secara otomatis melakukan deteksi secara otomatis. Deteksi tersebut dilakukan berdasarkan beberapa file yang terdapat dalam repositori.</p><table><thead><tr><th style=text-align:center><strong>Bahasa Pemrograman</strong></th><th style=text-align:center><strong>File</strong></th></tr></thead><tbody><tr><td style=text-align:center>Ruby</td><td style=text-align:center>Rakefile Gemfile, config.ru</td></tr><tr><td style=text-align:center>Java EE</td><td style=text-align:center>pom.xml</td></tr><tr><td style=text-align:center>Node.js</td><td style=text-align:center>app.json package.json</td></tr><tr><td style=text-align:center>PHP</td><td style=text-align:center>index.php composer.json</td></tr><tr><td style=text-align:center>Python</td><td style=text-align:center>requirements.txt config.py</td></tr><tr><td style=text-align:center>Perl</td><td style=text-align:center>index.pl cpanfile</td></tr></tbody></table><p>Setelah bahasa pemrograman terdeteksi, OpenShift akan mencari tag image stream yang mendukung, atau yang sesuai dengan nama dari bahasa pemrograman tersebut.</p><hr><h2 id=generate-resource-definition-file>Generate Resource Definition File</h2><p>Untuk membuat sebuah file definisi resource (jika dibutuhkan) kita dapat menggunakan parameter <code>-o</code> kemudian diikuti dengan format yang diinginkan, misalnya <code>yaml</code> atau <code>json</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>oc -o yaml new-app --as-deployment-config <span class=se>\
+</span><span class=se></span> php~http://services.lab.example.com/app <span class=se>\
+</span><span class=se></span> --name<span class=o>=</span>myapp &gt; s2i.json
+</code></pre></td></tr></table></div></div><p>Dan kita akan mendapatkan file bernama <code>s2i.json</code> berisi seperti berikut.</p><h3 id=image-stream-definition>Image Stream Definition</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-json data-lang=json><span class=err>...</span>
+<span class=p>{</span>
+    <span class=nt>&#34;kind&#34;</span><span class=p>:</span> <span class=s2>&#34;ImageStream&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;apiVersion&#34;</span><span class=p>:</span> <span class=s2>&#34;image.openshift.io/v1&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;metadata&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span><span class=p>,</span>
+        <span class=nt>&#34;creationTimestamp&#34;</span><span class=p>:</span> <span class=kc>null</span>
+        <span class=s2>&#34;labels&#34;</span><span class=p>:</span> <span class=p>{</span>
+                    <span class=nt>&#34;app&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span>
+                <span class=p>},</span>
+                <span class=nt>&#34;annotations&#34;</span><span class=p>:</span> <span class=p>{</span>
+                    <span class=nt>&#34;openshift.io/generated-by&#34;</span><span class=p>:</span> <span class=s2>&#34;OpenShiftNewApp&#34;</span>
+                <span class=p>}</span>
+    <span class=p>},</span>
+    <span class=nt>&#34;spec&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;lookupPolicy&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;local&#34;</span><span class=p>:</span> <span class=kc>false</span>
+        <span class=p>}</span>
+    <span class=p>},</span>
+    <span class=nt>&#34;status&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;dockerImageRepository&#34;</span><span class=p>:</span> <span class=s2>&#34;&#34;</span>
+    <span class=p>}</span>
+<span class=p>}</span><span class=err>,</span>
+<span class=err>...</span>
+</code></pre></td></tr></table></div></div><p>Dapat kita lihat bahwa terdapat pendefinisian resource <code>"kind": "ImageStream"</code> dan resource tersebut akan memakai nama yang sama dengan parameter <code>--name</code>.</p><h3 id=build-configuration-definition>Build Configuration Definition</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-json data-lang=json><span class=err>...</span>
+<span class=p>{</span>
+    <span class=nt>&#34;kind&#34;</span><span class=p>:</span> <span class=s2>&#34;BuildConfig&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;apiVersion&#34;</span><span class=p>:</span> <span class=s2>&#34;build.openshift.io/v1&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;metadata&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span><span class=p>,</span>
+        <span class=nt>&#34;creationTimestamp&#34;</span><span class=p>:</span> <span class=kc>null</span><span class=p>,</span>
+        <span class=nt>&#34;labels&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;app&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span>
+        <span class=p>},</span>
+        <span class=nt>&#34;annotations&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;openshift.io/generated-by&#34;</span><span class=p>:</span> <span class=s2>&#34;OpenShiftNewApp&#34;</span>
+        <span class=p>}</span>
+    <span class=p>},</span>
+    <span class=nt>&#34;spec&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;triggers&#34;</span><span class=p>:</span> <span class=p>[</span>
+            <span class=p>{</span>
+                <span class=nt>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;GitHub&#34;</span><span class=p>,</span>
+                <span class=nt>&#34;github&#34;</span><span class=p>:</span> <span class=p>{</span>
+                    <span class=nt>&#34;secret&#34;</span><span class=p>:</span> <span class=s2>&#34;S5_4BZpPabM6KrIuPBvI&#34;</span>
+                <span class=p>}</span>
+            <span class=p>},</span>
+            <span class=p>{</span>
+                <span class=nt>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;Generic&#34;</span><span class=p>,</span>
+                <span class=nt>&#34;generic&#34;</span><span class=p>:</span> <span class=p>{</span>
+                    <span class=nt>&#34;secret&#34;</span><span class=p>:</span> <span class=s2>&#34;3q8K8JNDoRzhjoz1KgMz&#34;</span>
+                <span class=p>}</span>
+            <span class=p>},</span>
+            <span class=p>{</span>
+                <span class=nt>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;ConfigChange&#34;</span>
+            <span class=p>},</span>
+            <span class=p>{</span>
+                <span class=nt>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;ImageChange&#34;</span><span class=p>,</span>
+                <span class=nt>&#34;imageChange&#34;</span><span class=p>:</span> <span class=p>{}</span>
+            <span class=p>}</span>
+        <span class=p>],</span>
+        <span class=nt>&#34;source&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;Git&#34;</span><span class=p>,</span>
+            <span class=nt>&#34;git&#34;</span><span class=p>:</span> <span class=p>{</span>
+                <span class=nt>&#34;uri&#34;</span><span class=p>:</span> <span class=s2>&#34;http://services.lab.example.com/app&#34;</span>
+            <span class=p>}</span>
+        <span class=p>},</span>
+        <span class=nt>&#34;strategy&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;Source&#34;</span><span class=p>,</span>
+            <span class=nt>&#34;sourceStrategy&#34;</span><span class=p>:</span> <span class=p>{</span>
+                <span class=nt>&#34;from&#34;</span><span class=p>:</span> <span class=p>{</span>
+                    <span class=nt>&#34;kind&#34;</span><span class=p>:</span> <span class=s2>&#34;ImageStreamTag&#34;</span><span class=p>,</span>
+                    <span class=nt>&#34;namespace&#34;</span><span class=p>:</span> <span class=s2>&#34;openshift&#34;</span><span class=p>,</span>
+                    <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;php:7.3&#34;</span>
+                <span class=p>}</span>
+            <span class=p>}</span>
+        <span class=p>},</span>
+        <span class=nt>&#34;output&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;to&#34;</span><span class=p>:</span> <span class=p>{</span>
+                <span class=nt>&#34;kind&#34;</span><span class=p>:</span> <span class=s2>&#34;ImageStreamTag&#34;</span><span class=p>,</span>
+                <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp:latest&#34;</span>
+            <span class=p>}</span>
+        <span class=p>},</span>
+        <span class=nt>&#34;resources&#34;</span><span class=p>:</span> <span class=p>{},</span>
+        <span class=nt>&#34;postCommit&#34;</span><span class=p>:</span> <span class=p>{},</span>
+        <span class=nt>&#34;nodeSelector&#34;</span><span class=p>:</span> <span class=kc>null</span>
+    <span class=p>},</span>
+    <span class=nt>&#34;status&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;lastVersion&#34;</span><span class=p>:</span> <span class=mi>0</span>
+    <span class=p>}</span>
+<span class=p>}</span><span class=err>,</span>
+<span class=err>...</span>
+</code></pre></td></tr></table></div></div><p>Di dalam file tersebut kita juga akan mendapati resource <code>"kind": "BuildConfig"</code>. Build config atau <code>bc</code> bertanggung jawab untuk mendefinisikan parameter input dan <em>trigger</em> yang akan dieksekusi untuk merubah source code menjadi container image.</p><h3 id=deployment-configuration-definition>Deployment Configuration Definition</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-json data-lang=json><span class=err>...</span>
+<span class=p>{</span>
+    <span class=nt>&#34;kind&#34;</span><span class=p>:</span> <span class=s2>&#34;DeploymentConfig&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;apiVersion&#34;</span><span class=p>:</span> <span class=s2>&#34;apps.openshift.io/v1&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;metadata&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span><span class=p>,</span>
+        <span class=nt>&#34;creationTimestamp&#34;</span><span class=p>:</span> <span class=kc>null</span><span class=p>,</span>
+        <span class=nt>&#34;labels&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;app&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span>
+        <span class=p>},</span>
+        <span class=nt>&#34;annotations&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;openshift.io/generated-by&#34;</span><span class=p>:</span> <span class=s2>&#34;OpenShiftNewApp&#34;</span>
+        <span class=p>}</span>
+    <span class=p>},</span>
+    <span class=nt>&#34;spec&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;strategy&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;resources&#34;</span><span class=p>:</span> <span class=p>{}</span>
+        <span class=p>},</span>
+        <span class=nt>&#34;triggers&#34;</span><span class=p>:</span> <span class=p>[</span>
+            <span class=p>{</span>
+                <span class=nt>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;ConfigChange&#34;</span>
+            <span class=p>},</span>
+            <span class=p>{</span>
+                <span class=nt>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;ImageChange&#34;</span><span class=p>,</span>
+                <span class=nt>&#34;imageChangeParams&#34;</span><span class=p>:</span> <span class=p>{</span>
+                    <span class=nt>&#34;automatic&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+                    <span class=nt>&#34;containerNames&#34;</span><span class=p>:</span> <span class=p>[</span>
+                        <span class=s2>&#34;myapp&#34;</span>
+                    <span class=p>],</span>
+                    <span class=nt>&#34;from&#34;</span><span class=p>:</span> <span class=p>{</span>
+                        <span class=nt>&#34;kind&#34;</span><span class=p>:</span> <span class=s2>&#34;ImageStreamTag&#34;</span><span class=p>,</span>
+                        <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp:latest&#34;</span>
+                    <span class=p>}</span>
+                <span class=p>}</span>
+            <span class=p>}</span>
+        <span class=p>],</span>
+        <span class=nt>&#34;replicas&#34;</span><span class=p>:</span> <span class=mi>1</span><span class=p>,</span>
+        <span class=nt>&#34;test&#34;</span><span class=p>:</span> <span class=kc>false</span><span class=p>,</span>
+        <span class=nt>&#34;selector&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;app&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span><span class=p>,</span>
+            <span class=nt>&#34;deploymentconfig&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span>
+        <span class=p>},</span>
+        <span class=nt>&#34;template&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;metadata&#34;</span><span class=p>:</span> <span class=p>{</span>
+                <span class=nt>&#34;creationTimestamp&#34;</span><span class=p>:</span> <span class=kc>null</span><span class=p>,</span>
+                <span class=nt>&#34;labels&#34;</span><span class=p>:</span> <span class=p>{</span>
+                    <span class=nt>&#34;app&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span><span class=p>,</span>
+                    <span class=nt>&#34;deploymentconfig&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span>
+                <span class=p>},</span>
+                <span class=nt>&#34;annotations&#34;</span><span class=p>:</span> <span class=p>{</span>
+                    <span class=nt>&#34;openshift.io/generated-by&#34;</span><span class=p>:</span> <span class=s2>&#34;OpenShiftNewApp&#34;</span>
+                <span class=p>}</span>
+            <span class=p>},</span>
+            <span class=nt>&#34;spec&#34;</span><span class=p>:</span> <span class=p>{</span>
+                <span class=nt>&#34;containers&#34;</span><span class=p>:</span> <span class=p>[</span>
+                    <span class=p>{</span>
+                        <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span><span class=p>,</span>
+                        <span class=nt>&#34;image&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp:latest&#34;</span><span class=p>,</span>
+                        <span class=nt>&#34;ports&#34;</span><span class=p>:</span> <span class=p>[</span>
+                            <span class=p>{</span>
+                                <span class=nt>&#34;containerPort&#34;</span><span class=p>:</span> <span class=mi>8080</span><span class=p>,</span>
+                                <span class=nt>&#34;protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span>
+                            <span class=p>},</span>
+                            <span class=p>{</span>
+                                <span class=nt>&#34;containerPort&#34;</span><span class=p>:</span> <span class=mi>8443</span><span class=p>,</span>
+                                <span class=nt>&#34;protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span>
+                            <span class=p>}</span>
+                        <span class=p>],</span>
+                        <span class=nt>&#34;resources&#34;</span><span class=p>:</span> <span class=p>{}</span>
+                    <span class=p>}</span>
+                <span class=p>]</span>
+            <span class=p>}</span>
+        <span class=p>}</span>
+    <span class=p>},</span>
+    <span class=nt>&#34;status&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;latestVersion&#34;</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+        <span class=nt>&#34;observedGeneration&#34;</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+        <span class=nt>&#34;replicas&#34;</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+        <span class=nt>&#34;updatedReplicas&#34;</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+        <span class=nt>&#34;availableReplicas&#34;</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+        <span class=nt>&#34;unavailableReplicas&#34;</span><span class=p>:</span> <span class=mi>0</span>
+    <span class=p>}</span>
+<span class=p>}</span><span class=err>,</span>
+<span class=err>...</span>
+</code></pre></td></tr></table></div></div><p>Resource selanjutnya adalah Deployment Configuration atau <code>dc</code> yang bertanggung jawab untuk melakukan preferensi proses deployment di OpenShift. Di dalamnya dapat berisi parameter dan <em>trigger</em> yang diperlukan untuk membuat container, dan diterjemahkan menjadi <em>replication controller</em>. Beberapa manfaat yang disediakan oleh objek <code>DeploymentConfig</code> adalah sebagai berikut.</p><ul><li>Dapat dilakukannya kustomisasi strategi terhadap deployment.</li><li>Dapat digunakan untuk Rollback ke deployment sebelumnya.</li><li>Dapat dipakai untuk <em>scaling</em> replikasi secara manual.</li></ul><h3 id=service-definition>Service Definition</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-json data-lang=json><span class=err>...</span>
+<span class=p>{</span>
+    <span class=nt>&#34;kind&#34;</span><span class=p>:</span> <span class=s2>&#34;Service&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;apiVersion&#34;</span><span class=p>:</span> <span class=s2>&#34;v1&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;metadata&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span><span class=p>,</span>
+        <span class=nt>&#34;creationTimestamp&#34;</span><span class=p>:</span> <span class=kc>null</span><span class=p>,</span>
+        <span class=nt>&#34;labels&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;app&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span>
+        <span class=p>},</span>
+        <span class=nt>&#34;annotations&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;openshift.io/generated-by&#34;</span><span class=p>:</span> <span class=s2>&#34;OpenShiftNewApp&#34;</span>
+        <span class=p>}</span>
+    <span class=p>},</span>
+    <span class=nt>&#34;spec&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;ports&#34;</span><span class=p>:</span> <span class=p>[</span>
+            <span class=p>{</span>
+                <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;8080-tcp&#34;</span><span class=p>,</span>
+                <span class=nt>&#34;protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
+                <span class=nt>&#34;port&#34;</span><span class=p>:</span> <span class=mi>8080</span><span class=p>,</span>
+                <span class=nt>&#34;targetPort&#34;</span><span class=p>:</span> <span class=mi>8080</span>
+            <span class=p>},</span>
+            <span class=p>{</span>
+                <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;8443-tcp&#34;</span><span class=p>,</span>
+                <span class=nt>&#34;protocol&#34;</span><span class=p>:</span> <span class=s2>&#34;TCP&#34;</span><span class=p>,</span>
+                <span class=nt>&#34;port&#34;</span><span class=p>:</span> <span class=mi>8443</span><span class=p>,</span>
+                <span class=nt>&#34;targetPort&#34;</span><span class=p>:</span> <span class=mi>8443</span>
+            <span class=p>}</span>
+        <span class=p>],</span>
+        <span class=nt>&#34;selector&#34;</span><span class=p>:</span> <span class=p>{</span>
+            <span class=nt>&#34;app&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span><span class=p>,</span>
+            <span class=nt>&#34;deploymentconfig&#34;</span><span class=p>:</span> <span class=s2>&#34;myapp&#34;</span>
+        <span class=p>}</span>
+    <span class=p>},</span>
+    <span class=nt>&#34;status&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;loadBalancer&#34;</span><span class=p>:</span> <span class=p>{}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></td></tr></table></div></div><p>Terakhir kita akan mendapati resource <em>Service</em> atau <code>svc</code> yang berfungsi untuk menghubungkan setiap container yang ada di dalam klaster.</p><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Command <code>oc new-app</code> secara default tidak akan membuat resource <code>route</code>. Route berfungsi untuk melakukan <em>ingress</em> traffic dari luar klaster supaya dapat mengakses aplikasi. Jika kita menggunakan OpenShift Web Console, maka <code>route</code> akan dibuat secara otomatis menggunakan template yang telah tersedia.</div></div></div><hr><h2 id=memeriksa-deployment>Memeriksa Deployment</h2><p>Setelah membuat application seperti di atas, proses build akan dijalankan. Gunakan command <code>oc get builds</code> untuk melihat daftar build aplikasi.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>$ oc get builds
+NAME               TYPE     FROM          STATUS    STARTED          DURATION
+php-helloworld-1   Source   Git@9e17db8   Running   13 seconds ago
+</code></pre></td></tr></table></div></div><p>Kita dapat melihat log dari build menggunakan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>oc logs build/myapp-1
+</code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Jika status build belum menampilkan <code>Running</code>, atau OpenShift belum mendeploy pod <code>s2i-build</code> maka output berupa error akan muncul dari log.</div></div></div><hr><h2 id=trigger-build>Trigger Build</h2><p>Kita dapat me-trigger build baru berdasarkan <code>bc</code> (Build Config) yang tersedia dengan perintah berikut.</p><h3 id=melihat-buildconfig>Melihat BuildConfig</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>$ oc get buildconfig
+NAME           TYPE      FROM      LATEST
+myapp          Source    Git       1
+</code></pre></td></tr></table></div></div><h3 id=menjalankan-build>Menjalankan Build</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>$ oc start-build myapp
+build &#34;myapp-2&#34; started
+</code></pre></td></tr></table></div></div><hr><h2 id=kesimpulan>Kesimpulan</h2><p>Pod <code>BuildConfig</code> dipakai untuk membuat image dalam OpenShift dan melakukan <em>push</em> ke container registry internal. Setiap konten atau source code yang mengalami perubahan biasanya membutuhkan build baru untuk menjamin supaya image terupdate. Pod <code>DeploymentConfig</code> digunakan untuk mendeploy pod dalam OpenShift. Hasilnya adalah deployment pod dengan image dari container registry internal. Setiap pod yang sebelumnya telah ada akan di-destroy, tergantung dari bagaimana resource <code>DeploymentConfig</code> dibuat. <code>BuildConfig</code> dan <code>DeploymentConfig</code> tidak berinteraksi secara langsung. <code>BuildConfig</code> membuat atau mengupdate container image, sedangkan <code>DeploymentConfig</code> akan bereaksi kepada image baru tersebut dan kemudian membuat pod baru darinya.</p><hr><h2 id=referensi>Referensi</h2><ul><li><a href=https://access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html-single/builds/build-strategies#build-strategy-s2i_build-strategies target=_blank rel="noopener noreffer">access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html-single/builds/build-strategies#build-strategy-s2i_build-strategies</a></li><li><a href=https://github.com/openshift/source-to-image target=_blank rel="noopener noreffer">github.com/openshift/source-to-image</a></li><li><a href="https://www.youtube.com/watch?v=flI6zx9wH6M" target=_blank rel="noopener noreffer">www.youtube.com/watch?v=flI6zx9wH6M</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2021-04-02</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/openshift/>OpenShift</a>,&nbsp;<a href=/tags/paas/>PaaS</a>,&nbsp;<a href=/tags/s2i/>S2I</a>,&nbsp;<a href=/tags/container/>Container</a>,&nbsp;<a href=/tags/deployment/>Deployment</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/penerapan-linux-overlayfs-pada-container-image/ class=prev rel=prev title="Penerapan Linux OverlayFS pada Container Image"><i class="fas fa-angle-left fa-fw"></i>Penerapan Linux OverlayFS pada Container Image</a></div></div><div id=comments><div id=disqus_thread class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2021</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
