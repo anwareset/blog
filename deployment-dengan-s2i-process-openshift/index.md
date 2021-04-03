@@ -35,7 +35,7 @@ Membangun sebuah aplikasi menggunakan S2I dapat dilakukan melalui OpenShift CLI 
 
 ### Via CLI
 
-Untuk membuat application di dalam project memakai proses S2I kita memakai perintah `oc new-app` sseperti berikut.
+Untuk membuat application di dalam project dengan proses S2I kita memakai perintah `oc new-app` sseperti berikut.
 
 ```shell
 oc new-app --as-deployment-config php~http://my.git.server.com/my-app --name=myapp
