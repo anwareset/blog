@@ -404,6 +404,8 @@ build "myapp-2" started
 
 ## Kesimpulan
 
+![Alur S2I](summary.png "Alur S2I")
+
 Pod `BuildConfig` dipakai untuk membuat image dalam OpenShift dan melakukan _push_ ke container registry internal. Setiap konten atau source code yang mengalami perubahan biasanya membutuhkan build baru untuk menjamin supaya image terupdate. Pod `DeploymentConfig` digunakan untuk mendeploy pod dalam OpenShift. Hasilnya adalah deployment pod dengan image dari container registry internal. Setiap pod yang sebelumnya telah ada akan di-destroy, tergantung dari bagaimana resource `DeploymentConfig` dibuat. `BuildConfig` dan `DeploymentConfig` tidak berinteraksi secara langsung. `BuildConfig` membuat atau mengupdate container image, sedangkan `DeploymentConfig` akan bereaksi kepada image baru tersebut dan kemudian membuat pod baru darinya.
 
 ---
