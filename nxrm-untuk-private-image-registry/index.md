@@ -74,7 +74,7 @@ Sedangkan `/opt/nexus*/bin/nexus.vmoptions` akan digunakan untuk konfigurasi yan
 ### SELinux Label dan File Permission
 Ubah user dan group owner pada direktori nexus.
 ```shell
-sudo hown -R nexus:nexus /opt/nexus*
+sudo chown -R nexus:nexus /opt/nexus*
 sudo chown -R nexus:nexus /opt/sonatype-work
 ```
 

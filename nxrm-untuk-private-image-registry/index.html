@@ -24,7 +24,7 @@ sudo tar xvf latest-unix.tar.gz -C /opt/
 </span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>run_as_user=&#34;nexus&#34;
 </code></pre></td></tr></table></div></div><p>Sedangkan <code>/opt/nexus*/bin/nexus.vmoptions</code> akan digunakan untuk konfigurasi yang berkaitan dengan Runtime Environment.</p><h3 id=selinux-label-dan-file-permission>SELinux Label dan File Permission</h3><p>Ubah user dan group owner pada direktori nexus.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>sudo hown -R nexus:nexus /opt/nexus*
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-shell data-lang=shell>sudo chown -R nexus:nexus /opt/nexus*
 sudo chown -R nexus:nexus /opt/sonatype-work
 </code></pre></td></tr></table></div></div><p>Tambahkan SELinux label yang sesuai pada direktori nexus tersebut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
