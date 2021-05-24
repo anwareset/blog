@@ -171,6 +171,11 @@ Karena kita tidak mengaktifkan SSL yang sah pada repository Image Registry maka 
 	"insecure-registries": [ "192.168.122.3:5000" ]
 }
 ```
+
+{{< admonition warning "Perhatian" >}}
+`192.168.122.3` merupakan IP dari VM yang saya jalankan untuk memasang NXRM, sesuaikan dengan environment kalian masing-masing.
+{{</ admonition >}}
+
 Lalu restart Docker Service jika menggunakan Systemd.
 ```shell
 sudo systemctl restart docker.service
