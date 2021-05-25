@@ -109,6 +109,11 @@ TimeoutSec=600
 [Install]
 WantedBy=multi-user.target
 ```
+
+{{< admonition warning "Perhatian" >}}
+`3.30.1-01` merupakan versi dari Nexus Repository Manager yang saya gunakan saat artikel ini dibuat,sesuaikan dengan versi yang akan kalian gunakan.
+{{</ admonition >}}
+
 Dengan menjadikan NXRM sebagai Service, maka NXRM dapat berjalan secara otomatis apabila OS mengalami reboot. Pastikan juga file systemd service tersebut mempunyai permission yang benar.
 ```shell
 sudo chmod 644 /etc/systemd/system/nexus.service
