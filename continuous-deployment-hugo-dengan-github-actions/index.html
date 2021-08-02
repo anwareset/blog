@@ -1,14 +1,126 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Continuous Deployment Hugo dengan Github Actions - Anwar's Blog</title><meta name=Description content="Implementasi CI-CD Static Site Hugo dengan Github Actions."><meta property="og:title" content="Continuous Deployment Hugo dengan Github Actions"><meta property="og:description" content="Implementasi CI-CD Static Site Hugo dengan Github Actions."><meta property="og:type" content="article"><meta property="og:url" content="https://init.web.id/continuous-deployment-hugo-dengan-github-actions/"><meta property="og:image" content="https://init.web.id/continuous-deployment-hugo-dengan-github-actions/cover.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-12-19T14:30:39+07:00"><meta property="article:modified_time" content="2020-12-20T01:00:00+07:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://init.web.id/continuous-deployment-hugo-dengan-github-actions/cover.png"><meta name=twitter:title content="Continuous Deployment Hugo dengan Github Actions"><meta name=twitter:description content="Implementasi CI-CD Static Site Hugo dengan Github Actions."><meta name=application-name content="Anwar's Blog"><meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/continuous-deployment-hugo-dengan-github-actions/><link rel=prev href=https://init.web.id/beralih-ke-runit/><link rel=next href=https://init.web.id/custom-apex-domain-untuk-github-pages/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Continuous Deployment Hugo dengan Github Actions","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/continuous-deployment-hugo-dengan-github-actions\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/continuous-deployment-hugo-dengan-github-actions\/cover.png","width":1e3,"height":420}],"genre":"posts","keywords":"Hugo, Github, CI-CD, Automation, Review","wordcount":965,"url":"https:\/\/init.web.id\/continuous-deployment-hugo-dengan-github-actions\/","datePublished":"2020-12-19T14:30:39+07:00","dateModified":"2020-12-20T01:00:00+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Implementasi CI-CD Static Site Hugo dengan Github Actions."}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'white'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'white'==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/about/>About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder="Search titles or contents..." id=search-input-desktop>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw"></i></a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
-<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
-</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw"></i></a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
-<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">Continuous Deployment Hugo dengan Github Actions</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/blog/><i class="far fa-folder fa-fw"></i>Blog</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2020-12-19>2020-12-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;965 words&nbsp;
-<i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/continuous-deployment-hugo-dengan-github-actions/cover.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/cover.png, /continuous-deployment-hugo-dengan-github-actions/cover.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/cover.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/cover.png title="Implementasi CI-CD Static Site Hugo dengan Github Actions."></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
-<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#remote-repository>Remote Repository</a></li><li><a href=#github-pages>Github Pages</a></li><li><a href=#workflows>Workflows</a><ul><li><a href=#generate-ssh-keys>Generate SSH Keys</a></li><li><a href=#deploy-keys>Deploy Keys</a></li><li><a href=#secrets>Secrets</a></li></ul></li><li><a href=#pengujian>Pengujian</a><ul><li><a href=#tambahkan-perubahan-ke-_staging_>Tambahkan perubahan ke <em>staging</em></a></li><li><a href=#_commit_><em>Commit</em></a></li><li><a href=#push-ke-_remote_-repository>Push ke <em>remote</em> repository</a></li></ul></li><li><a href=#hasil>Hasil</a></li><li><a href=#kesimpulan>Kesimpulan</a></li><li><a href=#referensi>Referensi</a></li></ul></nav></div></div><div class=content id=content><p>Hugo adalah static site generator untuk membangun situs web statis yang database-free. Karena Hugo berjalan tanpa koneksi basis data, maka dapat digunakanlah Github Pages sebagai hosting. Dalam meningkatkan efisiensi operasionalnya, Github Actions akan menjadi solusi continuous deployment.</p><h2 id=remote-repository>Remote Repository</h2><p>Anggap kita sudah memiliki sebuah project situs website Hugo bernama <strong>example</strong> dengan struktur direktori seperti di bawah. Lalu kita anggap bahwa project kita telah terintegrasi dengan remote repository di Github.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="noodp">
+<meta http-equiv=x-ua-compatible content="IE=edge, chrome=1">
+<title>Continuous Deployment Hugo dengan Github Actions - Anwar's Blog</title><meta name=Description content="Implementasi CI-CD Static Site Hugo dengan Github Actions."><meta property="og:title" content="Continuous Deployment Hugo dengan Github Actions">
+<meta property="og:description" content="Implementasi CI-CD Static Site Hugo dengan Github Actions.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://init.web.id/continuous-deployment-hugo-dengan-github-actions/"><meta property="og:image" content="https://init.web.id/continuous-deployment-hugo-dengan-github-actions/cover.png"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2020-12-19T14:30:39+07:00">
+<meta property="article:modified_time" content="2020-12-20T01:00:00+07:00">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://init.web.id/continuous-deployment-hugo-dengan-github-actions/cover.png">
+<meta name=twitter:title content="Continuous Deployment Hugo dengan Github Actions">
+<meta name=twitter:description content="Implementasi CI-CD Static Site Hugo dengan Github Actions.">
+<meta name=application-name content="Anwar's Blog">
+<meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
+<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/continuous-deployment-hugo-dengan-github-actions/><link rel=prev href=https://init.web.id/beralih-ke-runit/><link rel=next href=https://init.web.id/custom-apex-domain-untuk-github-pages/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Continuous Deployment Hugo dengan Github Actions","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/continuous-deployment-hugo-dengan-github-actions\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/continuous-deployment-hugo-dengan-github-actions\/cover.png","width":1e3,"height":420}],"genre":"posts","keywords":"Hugo, Github, CI-CD, Automation, Review","wordcount":965,"url":"https:\/\/init.web.id\/continuous-deployment-hugo-dengan-github-actions\/","datePublished":"2020-12-19T14:30:39+07:00","dateModified":"2020-12-20T01:00:00+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Implementasi CI-CD Static Site Hugo dengan Github Actions."}</script></head>
+<body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'white'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'white'==='dark')&&document.body.setAttribute('theme','dark')</script>
+<div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
+<div class=header-wrapper>
+<div class=header-title>
+<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a>
+</div>
+<div class=menu>
+<div class=menu-inner><a class=menu-item href=/posts/> Posts </a><a class=menu-item href=/categories/> Categories </a><a class=menu-item href=/about/> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder="Search titles or contents..." id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search>
+<i class="fas fa-search fa-fw"></i>
+</a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear>
+<i class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id=search-loading-desktop>
+<i class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i>
+</a>
+</div>
+</div>
+</div>
+</header><header class=mobile id=header-mobile>
+<div class=header-container>
+<div class=header-wrapper>
+<div class=header-title>
+<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a>
+</div>
+<div class=menu-toggle id=menu-toggle-mobile>
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class=menu id=menu-mobile><div class=search-wrapper>
+<div class="search mobile" id=search-mobile>
+<input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search>
+<i class="fas fa-search fa-fw"></i>
+</a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear>
+<i class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id=search-loading-mobile>
+<i class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>
+Cancel
+</a>
+</div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</header>
+<div class="search-dropdown desktop">
+<div id=search-dropdown-desktop></div>
+</div>
+<div class="search-dropdown mobile">
+<div id=search-dropdown-mobile></div>
+</div>
+<main class=main>
+<div class=container><div class=toc id=toc-auto>
+<h2 class=toc-title>Contents</h2>
+<div class=toc-content id=toc-content-auto></div>
+</div><article class="page single"><h1 class="single-title animated flipInX">Continuous Deployment Hugo dengan Github Actions</h1><div class=post-meta>
+<div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/blog/><i class="far fa-folder fa-fw"></i>Blog</a></span></div>
+<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2020-12-19>2020-12-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;965 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
+</div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/continuous-deployment-hugo-dengan-github-actions/cover.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/cover.png, /continuous-deployment-hugo-dengan-github-actions/cover.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/cover.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/cover.png title="Implementasi CI-CD Static Site Hugo dengan Github Actions."></div><div class="details toc" id=toc-static kept>
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents>
+<ul>
+<li><a href=#remote-repository>Remote Repository</a></li>
+<li><a href=#github-pages>Github Pages</a></li>
+<li><a href=#workflows>Workflows</a>
+<ul>
+<li><a href=#generate-ssh-keys>Generate SSH Keys</a></li>
+<li><a href=#deploy-keys>Deploy Keys</a></li>
+<li><a href=#secrets>Secrets</a></li>
+</ul>
+</li>
+<li><a href=#pengujian>Pengujian</a>
+<ul>
+<li><a href=#tambahkan-perubahan-ke-_staging_>Tambahkan perubahan ke <em>staging</em></a></li>
+<li><a href=#_commit_><em>Commit</em></a></li>
+<li><a href=#push-ke-_remote_-repository>Push ke <em>remote</em> repository</a></li>
+</ul>
+</li>
+<li><a href=#hasil>Hasil</a></li>
+<li><a href=#kesimpulan>Kesimpulan</a></li>
+<li><a href=#referensi>Referensi</a></li>
+</ul>
+</nav></div>
+</div><div class=content id=content><p>Hugo adalah static site generator untuk membangun situs web statis yang database-free. Karena Hugo berjalan tanpa koneksi basis data, maka dapat digunakanlah Github Pages sebagai hosting. Dalam meningkatkan efisiensi operasionalnya, Github Actions akan menjadi solusi continuous deployment.</p>
+<h2 id=remote-repository>Remote Repository</h2>
+<p>Anggap kita sudah memiliki sebuah project situs website Hugo bernama <strong>example</strong> dengan struktur direktori seperti di bawah. Lalu kita anggap bahwa project kita telah terintegrasi dengan remote repository di Github.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -65,7 +177,9 @@
 </span><span class=lnt>55
 </span><span class=lnt>56
 </span><span class=lnt>57
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cfg data-lang=cfg><span class=na>example</span>
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>example</span>
 <span class=na>├── archetypes</span>
 <span class=na>│   └── default.md</span>
 <span class=na>├── config.toml</span>
@@ -122,13 +236,66 @@
         <span class=na>│   └── css</span>
         <span class=na>│       └── nix.css</span>
         <span class=na>└── theme.toml</span>
-</code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Artikel ini tidak membahas bagaimana caranya membuat sebuah situs Hugo. Silahkan membaca dokumentasi tentang Hugo yang lebih lengkap di <a href=https://gohugo.io/documentation/ target=_blank rel="noopener noreffer">Hugo Documentation</a>.</div></div></div><p>Project dalam repository lokal perlu diintegrasikan dengan remote repository di Github.<figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/remote-repository-example.png title="Remote Repository example" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/remote-repository-example.png data-sub-html="<h2>Remote Repository example</h2><p>Remote Repository example</p>"><img class=lazyload src=/svg/loading.min.svg data-src=remote-repository-example.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/remote-repository-example.png, remote-repository-example.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/remote-repository-example.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/remote-repository-example.png></a><figcaption class=image-caption>Remote Repository example</figcaption></figure>Jika belum maka silahkan menjalankan perintah berikut untuk melakukan inisialisasi repository.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ git init
-</code></pre></td></tr></table></div></div><p>Kemudian silahkan login akun Github dan <a href=https://github.com/new target=_blank rel="noopener noreffer">membuat sebuah repository baru</a>, misalnya dengan nama <strong>example</strong>. Jika sudah, kembali ke terminal dan tambahkan remote repository baru dari Github dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ git remote add origin git@github.com:&lt;username-github&gt;/example.git
-</code></pre></td></tr></table></div></div><hr><h2 id=github-pages>Github Pages</h2><p>Kita perlu membuat remote repository lain di Github, misalnya dengan nama <strong>blog-public</strong>. Nantinya repository baru tersebut akan menampung file-file hasil <em>generate</em> Hugo secara otomatis dari repository <strong>example</strong>.</p><p><figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/remote-repository-blog-public.png title="Remote Repository" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/remote-repository-blog-public.png data-sub-html="<h2>Remote Repository blog-public</h2><p>Remote Repository</p>"><img class=lazyload src=/svg/loading.min.svg data-src=remote-repository-blog-public.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/remote-repository-blog-public.png, remote-repository-blog-public.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/remote-repository-blog-public.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/remote-repository-blog-public.png></a><figcaption class=image-caption>Remote Repository blog-public</figcaption></figure></p><p>Kemudian masuk ke <strong>Settings</strong> pada repository tersebut, dan aktifkan <em>Source</em> <code>master</code> pada bagian <strong>GitHub Pages</strong></p><p><figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/github-pages.png title="Github Pages pada Repository blog-public" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/github-pages.png data-sub-html="<h2>Github Pages pada Repository blog-public</h2><p>Github Pages pada Repository blog-public</p>"><img class=lazyload src=/svg/loading.min.svg data-src=github-pages.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/github-pages.png, github-pages.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/github-pages.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/github-pages.png></a><figcaption class=image-caption>Github Pages pada Repository blog-public</figcaption></figure></p><hr><h2 id=workflows>Workflows</h2><p>Kembali ke terminal, buat sebuah direktori baru di project kita dengan nama <code>.github</code> lalu di dalamnya buat lagi sebuah direktori bernama <code>workflows</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ mkdir -p .github/workflows
-</code></pre></td></tr></table></div></div><p>Jika sudah, di dalamnya kita buat sebuah file, misalnya bernama <code>pages.yml</code> dan di dalam file tersebut akan kita gunakan sebagai konfigurasi <em>runner</em> dari Github Actions.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</code></pre></td></tr></table>
+</div>
+</div><div class="details admonition warning open">
+<div class="details-summary admonition-title">
+<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class=details-content>
+<div class=admonition-content>Artikel ini tidak membahas bagaimana caranya membuat sebuah situs Hugo. Silahkan membaca dokumentasi tentang Hugo yang lebih lengkap di <a href=https://gohugo.io/documentation/ target=_blank rel="noopener noreffer">Hugo Documentation</a>.</div>
+</div>
+</div>
+<p>Project dalam repository lokal perlu diintegrasikan dengan remote repository di Github.
+<figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/remote-repository-example.png title="Remote Repository example" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/remote-repository-example.png data-sub-html="<h2>Remote Repository example</h2><p>Remote Repository example</p>">
+<img class=lazyload src=/svg/loading.min.svg data-src=remote-repository-example.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/remote-repository-example.png, remote-repository-example.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/remote-repository-example.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/remote-repository-example.png>
+</a><figcaption class=image-caption>Remote Repository example</figcaption>
+</figure>
+Jika belum maka silahkan menjalankan perintah berikut untuk melakukan inisialisasi repository.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ git init
+</code></pre></td></tr></table>
+</div>
+</div><p>Kemudian silahkan login akun Github dan <a href=https://github.com/new target=_blank rel="noopener noreffer">membuat sebuah repository baru</a>, misalnya dengan nama <strong>example</strong>. Jika sudah, kembali ke terminal dan tambahkan remote repository baru dari Github dengan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ git remote add origin git@github.com:&lt;username-github&gt;/example.git
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id=github-pages>Github Pages</h2>
+<p>Kita perlu membuat remote repository lain di Github, misalnya dengan nama <strong>blog-public</strong>. Nantinya repository baru tersebut akan menampung file-file hasil <em>generate</em> Hugo secara otomatis dari repository <strong>example</strong>.</p>
+<p><figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/remote-repository-blog-public.png title="Remote Repository" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/remote-repository-blog-public.png data-sub-html="<h2>Remote Repository blog-public</h2><p>Remote Repository</p>">
+<img class=lazyload src=/svg/loading.min.svg data-src=remote-repository-blog-public.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/remote-repository-blog-public.png, remote-repository-blog-public.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/remote-repository-blog-public.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/remote-repository-blog-public.png>
+</a><figcaption class=image-caption>Remote Repository blog-public</figcaption>
+</figure></p>
+<p>Kemudian masuk ke <strong>Settings</strong> pada repository tersebut, dan aktifkan <em>Source</em> <code>master</code> pada bagian <strong>GitHub Pages</strong></p>
+<p><figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/github-pages.png title="Github Pages pada Repository blog-public" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/github-pages.png data-sub-html="<h2>Github Pages pada Repository blog-public</h2><p>Github Pages pada Repository blog-public</p>">
+<img class=lazyload src=/svg/loading.min.svg data-src=github-pages.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/github-pages.png, github-pages.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/github-pages.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/github-pages.png>
+</a><figcaption class=image-caption>Github Pages pada Repository blog-public</figcaption>
+</figure></p>
+<hr>
+<h2 id=workflows>Workflows</h2>
+<p>Kembali ke terminal, buat sebuah direktori baru di project kita dengan nama <code>.github</code> lalu di dalamnya buat lagi sebuah direktori bernama <code>workflows</code></p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ mkdir -p .github/workflows
+</code></pre></td></tr></table>
+</div>
+</div><p>Jika sudah, di dalamnya kita buat sebuah file, misalnya bernama <code>pages.yml</code> dan di dalam file tersebut akan kita gunakan sebagai konfigurasi <em>runner</em> dari Github Actions.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -161,7 +328,9 @@
 </span><span class=lnt>31
 </span><span class=lnt>32
 </span><span class=lnt>33
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-yaml data-lang=yaml><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>blog-publish</span><span class=w>
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>blog-publish</span><span class=w>
 </span><span class=w>
 </span><span class=w></span><span class=nt>on</span><span class=p>:</span><span class=w>
 </span><span class=w>  </span><span class=nt>push</span><span class=p>:</span><span class=w>
@@ -194,22 +363,174 @@
 </span><span class=w>        </span><span class=nt>deploy_key</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.ACTIONS_DEPLOY_KEYS }}</span><span class=w>
 </span><span class=w>        </span><span class=nt>allow_empty_commit</span><span class=p>:</span><span class=w> </span><span class=kc>false</span><span class=w>
 </span><span class=w>        </span><span class=nt>commit_message</span><span class=p>:</span><span class=w> </span><span class=l>${{ github.event.head_commit.message }}</span><span class=w>
-</span></code></pre></td></tr></table></div></div><h3 id=generate-ssh-keys>Generate SSH Keys</h3><p>SSH Keys diperlukan untuk memberikan akses kepada Github Actions dalam memodifikasi repository external.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ ssh-keygen -t rsa -b <span class=m>4096</span> -C <span class=s2>&#34;&lt;email-github@kalian.com&gt;&#34;</span> -f master
-</code></pre></td></tr></table></div></div><p>Nantinya akan ter-<em>generate</em> 2 file yaitu</p><ol><li>File <code>master</code> adalah private key</li><li>File <code>master.pub</code> adalah public key</li></ol><h3 id=deploy-keys>Deploy Keys</h3><p>Salin <em>public keys</em> <code>master.pub</code> ke dalam <em>clipboard</em> dengan perintah seperti berikut</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ xclip -selection clipboard &lt; master.pub
-</code></pre></td></tr></table></div></div><p>Silahkan buka halaman Settings pada repository <strong>blog-public</strong>, lalu pilih <strong>Deploy keys</strong>. Tambahkan public keys dengan nama <strong>ACTIONS_DEPLOY_KEYS</strong>.<figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/deploy-keys.png title="Deploy keys di Repository blog-public" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/deploy-keys.png data-sub-html="<h2>Deploy keys di Repository blog-public</h2><p>Deploy keys di Repository blog-public</p>"><img class=lazyload src=/svg/loading.min.svg data-src=deploy-keys.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/deploy-keys.png, deploy-keys.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/deploy-keys.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/deploy-keys.png></a><figcaption class=image-caption>Deploy keys di Repository blog-public</figcaption></figure></p><h3 id=secrets>Secrets</h3><p>Salin private keys <code>master</code> ke dalam <em>clipboard</em> dengan perintah seperti berikut</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ xclip -selection clipboard &lt; master
-</code></pre></td></tr></table></div></div><p>Buka halaman Settings pada repository <strong>example</strong>, lalu pilih <strong>Secrets</strong>. Tambahkan <em>secret</em> baru dengan nama <strong>ACTIONS_DEPLOY_KEYS</strong>, berisi <em>private key</em> yang baru saja kita salin.<figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/secrets.png title="Secrets di Repository example" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/secrets.png data-sub-html="<h2>Secrets di Repository example</h2><p>Secrets di Repository example</p>"><img class=lazyload src=/svg/loading.min.svg data-src=secrets.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/secrets.png, secrets.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/secrets.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/secrets.png></a><figcaption class=image-caption>Secrets di Repository example</figcaption></figure></p><hr><h2 id=pengujian>Pengujian</h2><p>Semua perubahan telah dilakukan pada direktori project Hugo <strong>example</strong>, sekarang kita akan melakukan pengujian apakah dengan melakukan <em>push</em> ke <em>remote repository</em> akan memberikan efek ke repository <strong>blog-public</strong>.</p><h3 id=tambahkan-perubahan-ke-_staging_>Tambahkan perubahan ke <em>staging</em></h3><p>Tambahkan seluruh file yang sudah ada di repository lokal menjadi berstatus <em>staging</em>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ git add .
-</code></pre></td></tr></table></div></div><h3 id=_commit_><em>Commit</em></h3><p>Sebelum melakukan <em>commit</em> biasanya kita perlu melakukan konfigurasi <em>username</em> dan <em>email</em> akun Github kalian.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id=generate-ssh-keys>Generate SSH Keys</h3>
+<p>SSH Keys diperlukan untuk memberikan akses kepada Github Actions dalam memodifikasi repository external.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ ssh-keygen -t rsa -b <span class=m>4096</span> -C <span class=s2>&#34;&lt;email-github@kalian.com&gt;&#34;</span> -f master
+</code></pre></td></tr></table>
+</div>
+</div><p>Nantinya akan ter-<em>generate</em> 2 file yaitu</p>
+<ol>
+<li>File <code>master</code> adalah private key</li>
+<li>File <code>master.pub</code> adalah public key</li>
+</ol>
+<h3 id=deploy-keys>Deploy Keys</h3>
+<p>Salin <em>public keys</em> <code>master.pub</code> ke dalam <em>clipboard</em> dengan perintah seperti berikut</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ xclip -selection clipboard &lt; master.pub
+</code></pre></td></tr></table>
+</div>
+</div><p>Silahkan buka halaman Settings pada repository <strong>blog-public</strong>, lalu pilih <strong>Deploy keys</strong>. Tambahkan public keys dengan nama <strong>ACTIONS_DEPLOY_KEYS</strong>.
+<figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/deploy-keys.png title="Deploy keys di Repository blog-public" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/deploy-keys.png data-sub-html="<h2>Deploy keys di Repository blog-public</h2><p>Deploy keys di Repository blog-public</p>">
+<img class=lazyload src=/svg/loading.min.svg data-src=deploy-keys.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/deploy-keys.png, deploy-keys.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/deploy-keys.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/deploy-keys.png>
+</a><figcaption class=image-caption>Deploy keys di Repository blog-public</figcaption>
+</figure></p>
+<h3 id=secrets>Secrets</h3>
+<p>Salin private keys <code>master</code> ke dalam <em>clipboard</em> dengan perintah seperti berikut</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ xclip -selection clipboard &lt; master
+</code></pre></td></tr></table>
+</div>
+</div><p>Buka halaman Settings pada repository <strong>example</strong>, lalu pilih <strong>Secrets</strong>. Tambahkan <em>secret</em> baru dengan nama <strong>ACTIONS_DEPLOY_KEYS</strong>, berisi <em>private key</em> yang baru saja kita salin.
+<figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/secrets.png title="Secrets di Repository example" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/secrets.png data-sub-html="<h2>Secrets di Repository example</h2><p>Secrets di Repository example</p>">
+<img class=lazyload src=/svg/loading.min.svg data-src=secrets.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/secrets.png, secrets.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/secrets.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/secrets.png>
+</a><figcaption class=image-caption>Secrets di Repository example</figcaption>
+</figure></p>
+<hr>
+<h2 id=pengujian>Pengujian</h2>
+<p>Semua perubahan telah dilakukan pada direktori project Hugo <strong>example</strong>, sekarang kita akan melakukan pengujian apakah dengan melakukan <em>push</em> ke <em>remote repository</em> akan memberikan efek ke repository <strong>blog-public</strong>.</p>
+<h3 id=tambahkan-perubahan-ke-_staging_>Tambahkan perubahan ke <em>staging</em></h3>
+<p>Tambahkan seluruh file yang sudah ada di repository lokal menjadi berstatus <em>staging</em>.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ git add .
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=_commit_><em>Commit</em></h3>
+<p>Sebelum melakukan <em>commit</em> biasanya kita perlu melakukan konfigurasi <em>username</em> dan <em>email</em> akun Github kalian.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ git config user.name <span class=s2>&#34;&lt;username-github&gt;&#34;</span>
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ git config user.name <span class=s2>&#34;&lt;username-github&gt;&#34;</span>
 $ git config user.email <span class=s2>&#34;&lt;email-github@kalian.com&gt;&#34;</span>
-</code></pre></td></tr></table></div></div><p>Lalu <em>commit</em> semua file yang berada di dalam mode staging dengan perinah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ git commit -m <span class=s2>&#34;Commit Pertama Kali&#34;</span>
-</code></pre></td></tr></table></div></div><h3 id=push-ke-_remote_-repository>Push ke <em>remote</em> repository</h3><p>Jika sudah lakukan lakukan <em>push</em> ke remote repository Github.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ git push --set-upstream origin master
-</code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Untuk autentikasi git saat ingin melakukan <em>push</em> dengan SSH silahkan baca dokumentasi <a href=https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/connecting-to-github-with-ssh target=_blank rel="noopener noreffer">Github.</a></div></div></div><p>Jika berhasil, maka seharusnya proses deployment melalui Github Actions akan langsung berjalan seperti berikut.<figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/deployment.gif title=Deployment data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/deployment.gif data-sub-html="<h2>Deployment</h2><p>Deployment</p>"><img class=lazyload src=/svg/loading.min.svg data-src=deployment.gif data-srcset="/continuous-deployment-hugo-dengan-github-actions/deployment.gif, deployment.gif 1.5x, /continuous-deployment-hugo-dengan-github-actions/deployment.gif 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/deployment.gif></a><figcaption class=image-caption>Deployment</figcaption></figure></p><hr><h2 id=hasil>Hasil</h2><p>Berikut ini adalah hasil setelah melakukan <em>push</em> dan proses <em>deployment</em> pada Github Actions berjalan.</p><p><figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/hasil-repo-blog-public.png title="Hasil pada Repository blog-public" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/hasil-repo-blog-public.png data-sub-html="<h2>Hasil pada Repository blog-public</h2><p>Hasil pada Repository blog-public</p>"><img class=lazyload src=/svg/loading.min.svg data-src=hasil-repo-blog-public.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/hasil-repo-blog-public.png, hasil-repo-blog-public.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/hasil-repo-blog-public.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/hasil-repo-blog-public.png></a><figcaption class=image-caption>Hasil pada Repository blog-public</figcaption></figure></p><p>Terlihat bahwa Github Actions berhasil menjalankan <em>push</em> secara otomatis ke repository eksternal <strong>blog-public</strong>. Dan hasil <em>build</em> Hugo dapat kita buka pada Github Pages dengan URL berikut.</p><p><a href=https://anwareset.github.io/blog-public/ target=_blank rel="noopener noreffer">https://&lt;username-github>.github.io/blog-public</a></p><p><figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/hasil.png title="Hasil Build" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/hasil.png data-sub-html="<h2>Hasil Build</h2><p>Hasil Build</p>"><img class=lazyload src=/svg/loading.min.svg data-src=hasil.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/hasil.png, hasil.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/hasil.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/hasil.png></a><figcaption class=image-caption>Hasil Build</figcaption></figure></p><hr><h2 id=kesimpulan>Kesimpulan</h2><p>Dengan penerapan CI/CD memakai Github Actions, proses penyuntingan dan berbagai hal operasional lain menjadi dipangkas. Tentu berkat implementasi konsep <em>automation</em> semua menjadi lebih efisien. Beberapa keuntungan yang kita peroleh adalah sebagai berikut.</p><ol><li>Tidak perlu melakukan <em>build</em> secara manual.</li><li>Repository utama (<strong>example</strong>) dapat kita jadikan <em>private repository</em>.</li><li>Aktivitas <em>push</em> hasil <em>build</em> Hugo dilakukan secara otomatis, tiap kali ada perubahan.</li></ol><hr><h2 id=referensi>Referensi</h2><ul><li><a href=https://gohugo.io/documentation/ target=_blank rel="noopener noreffer">gohugo.io/documentation</a></li><li><a href=https://docs.github.com/en/free-pro-team@latest/actions target=_blank rel="noopener noreffer">docs.github.com/en/free-pro-team@latest/actions</a></li><li><a href=https://github.com/marketplace/actions/github-pages-action target=_blank rel="noopener noreffer">github.com/marketplace/actions/github-pages-action</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2020-12-20</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/continuous-deployment-hugo-dengan-github-actions/index.md target=_blank>Read Markdown</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/hugo/>Hugo</a>,&nbsp;<a href=/tags/github/>Github</a>,&nbsp;<a href=/tags/ci-cd/>CI-CD</a>,&nbsp;<a href=/tags/automation/>Automation</a>,&nbsp;<a href=/tags/review/>Review</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/beralih-ke-runit/ class=prev rel=prev title="Beralih ke Runit"><i class="fas fa-angle-left fa-fw"></i>Beralih ke Runit</a>
-<a href=/custom-apex-domain-untuk-github-pages/ class=next rel=next title="Custom APEX Domain untuk Github Pages">Custom APEX Domain untuk Github Pages<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=disqus_thread class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2021</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
-</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
+</code></pre></td></tr></table>
+</div>
+</div><p>Lalu <em>commit</em> semua file yang berada di dalam mode staging dengan perinah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ git commit -m <span class=s2>&#34;Commit Pertama Kali&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=push-ke-_remote_-repository>Push ke <em>remote</em> repository</h3>
+<p>Jika sudah lakukan lakukan <em>push</em> ke remote repository Github.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ git push --set-upstream origin master
+</code></pre></td></tr></table>
+</div>
+</div><div class="details admonition warning open">
+<div class="details-summary admonition-title">
+<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class=details-content>
+<div class=admonition-content>Untuk autentikasi git saat ingin melakukan <em>push</em> dengan SSH silahkan baca dokumentasi <a href=https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/connecting-to-github-with-ssh target=_blank rel="noopener noreffer">Github.</a></div>
+</div>
+</div>
+<p>Jika berhasil, maka seharusnya proses deployment melalui Github Actions akan langsung berjalan seperti berikut.
+<figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/deployment.gif title=Deployment data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/deployment.gif data-sub-html="<h2>Deployment</h2><p>Deployment</p>">
+<img class=lazyload src=/svg/loading.min.svg data-src=deployment.gif data-srcset="/continuous-deployment-hugo-dengan-github-actions/deployment.gif, deployment.gif 1.5x, /continuous-deployment-hugo-dengan-github-actions/deployment.gif 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/deployment.gif>
+</a><figcaption class=image-caption>Deployment</figcaption>
+</figure></p>
+<hr>
+<h2 id=hasil>Hasil</h2>
+<p>Berikut ini adalah hasil setelah melakukan <em>push</em> dan proses <em>deployment</em> pada Github Actions berjalan.</p>
+<p><figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/hasil-repo-blog-public.png title="Hasil pada Repository blog-public" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/hasil-repo-blog-public.png data-sub-html="<h2>Hasil pada Repository blog-public</h2><p>Hasil pada Repository blog-public</p>">
+<img class=lazyload src=/svg/loading.min.svg data-src=hasil-repo-blog-public.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/hasil-repo-blog-public.png, hasil-repo-blog-public.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/hasil-repo-blog-public.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/hasil-repo-blog-public.png>
+</a><figcaption class=image-caption>Hasil pada Repository blog-public</figcaption>
+</figure></p>
+<p>Terlihat bahwa Github Actions berhasil menjalankan <em>push</em> secara otomatis ke repository eksternal <strong>blog-public</strong>. Dan hasil <em>build</em> Hugo dapat kita buka pada Github Pages dengan URL berikut.</p>
+<p><a href=https://anwareset.github.io/blog-public/ target=_blank rel="noopener noreffer">https://&lt;username-github>.github.io/blog-public</a></p>
+<p><figure><a class=lightgallery href=/continuous-deployment-hugo-dengan-github-actions/hasil.png title="Hasil Build" data-thumbnail=/continuous-deployment-hugo-dengan-github-actions/hasil.png data-sub-html="<h2>Hasil Build</h2><p>Hasil Build</p>">
+<img class=lazyload src=/svg/loading.min.svg data-src=hasil.png data-srcset="/continuous-deployment-hugo-dengan-github-actions/hasil.png, hasil.png 1.5x, /continuous-deployment-hugo-dengan-github-actions/hasil.png 2x" data-sizes=auto alt=/continuous-deployment-hugo-dengan-github-actions/hasil.png>
+</a><figcaption class=image-caption>Hasil Build</figcaption>
+</figure></p>
+<hr>
+<h2 id=kesimpulan>Kesimpulan</h2>
+<p>Dengan penerapan CI/CD memakai Github Actions, proses penyuntingan dan berbagai hal operasional lain menjadi dipangkas. Tentu berkat implementasi konsep <em>automation</em> semua menjadi lebih efisien. Beberapa keuntungan yang kita peroleh adalah sebagai berikut.</p>
+<ol>
+<li>Tidak perlu melakukan <em>build</em> secara manual.</li>
+<li>Repository utama (<strong>example</strong>) dapat kita jadikan <em>private repository</em>.</li>
+<li>Aktivitas <em>push</em> hasil <em>build</em> Hugo dilakukan secara otomatis, tiap kali ada perubahan.</li>
+</ol>
+<hr>
+<h2 id=referensi>Referensi</h2>
+<ul>
+<li><a href=https://gohugo.io/documentation/ target=_blank rel="noopener noreffer">gohugo.io/documentation</a></li>
+<li><a href=https://docs.github.com/en/free-pro-team@latest/actions target=_blank rel="noopener noreffer">docs.github.com/en/free-pro-team@latest/actions</a></li>
+<li><a href=https://github.com/marketplace/actions/github-pages-action target=_blank rel="noopener noreffer">github.com/marketplace/actions/github-pages-action</a></li>
+</ul></div><div class=post-footer id=post-footer>
+<div class=post-info>
+<div class=post-info-line>
+<div class=post-info-mod>
+<span>Updated on 2020-12-20</span>
+</div>
+<div class=post-info-license></div>
+</div>
+<div class=post-info-line>
+<div class=post-info-md><span>
+<a class=link-to-markdown href=/continuous-deployment-hugo-dengan-github-actions/index.md target=_blank>Read Markdown</a>
+</span></div>
+<div class=post-info-share>
+<span></span>
+</div>
+</div>
+</div>
+<div class=post-info-more>
+<section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/hugo/>Hugo</a>,&nbsp;<a href=/tags/github/>Github</a>,&nbsp;<a href=/tags/ci-cd/>CI-CD</a>,&nbsp;<a href=/tags/automation/>Automation</a>,&nbsp;<a href=/tags/review/>Review</a></section>
+<section>
+<span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span>
+</section>
+</div>
+<div class=post-nav><a href=/beralih-ke-runit/ class=prev rel=prev title="Beralih ke Runit"><i class="fas fa-angle-left fa-fw"></i>Beralih ke Runit</a>
+<a href=/custom-apex-domain-untuk-github-pages/ class=next rel=next title="Custom APEX Domain untuk Github Pages">Custom APEX Domain untuk Github Pages<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id=comments><div id=disqus_thread class=comment></div><noscript>
+Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.
+</noscript></div></article></div>
+</main><footer class=footer>
+<div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2021</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top">
+<i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments">
+<i class="fas fa-comment fa-fw"></i>
+</a>
+</div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body>
+</html>

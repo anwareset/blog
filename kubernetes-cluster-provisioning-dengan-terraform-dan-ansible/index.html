@@ -1,32 +1,246 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Kubernetes Cluster Provisioning dengan Terraform dan Ansible - Anwar's Blog</title><meta name=Description content="Provisioning Kubernetes dengan Terraform dan Ansible di AWS menggunakan spesifikasi instance minimal."><meta property="og:title" content="Kubernetes Cluster Provisioning dengan Terraform dan Ansible"><meta property="og:description" content="Provisioning Kubernetes dengan Terraform dan Ansible di AWS menggunakan spesifikasi instance minimal."><meta property="og:type" content="article"><meta property="og:url" content="https://init.web.id/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/"><meta property="og:image" content="https://init.web.id/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-01-17T15:12:37+07:00"><meta property="article:modified_time" content="2021-01-31T21:05:11+07:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://init.web.id/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png"><meta name=twitter:title content="Kubernetes Cluster Provisioning dengan Terraform dan Ansible"><meta name=twitter:description content="Provisioning Kubernetes dengan Terraform dan Ansible di AWS menggunakan spesifikasi instance minimal."><meta name=application-name content="Anwar's Blog"><meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/><link rel=prev href=https://init.web.id/integrasi-sysdig-monitor-di-openshift/><link rel=next href=https://init.web.id/integrasi-github-pages-dengan-cloudflare-cdn/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Kubernetes Cluster Provisioning dengan Terraform dan Ansible","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible\/cover.png","width":1e3,"height":420}],"genre":"posts","keywords":"Kubernetes, Terraform, Ansible, AWS","wordcount":2537,"url":"https:\/\/init.web.id\/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible\/","datePublished":"2021-01-17T15:12:37+07:00","dateModified":"2021-01-31T21:05:11+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Provisioning Kubernetes dengan Terraform dan Ansible di AWS menggunakan spesifikasi instance minimal."}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'white'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'white'==='dark')&&document.body.setAttribute('theme','dark')</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/about/>About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop><input type=text placeholder="Search titles or contents..." id=search-input-desktop>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw"></i></a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
-<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
-</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw"></i></a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
-<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">Kubernetes Cluster Provisioning dengan Terraform dan Ansible</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/platform/><i class="far fa-folder fa-fw"></i>Platform</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-01-17>2021-01-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2537 words&nbsp;
-<i class="far fa-clock fa-fw"></i>&nbsp;12 minutes&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png data-srcset="/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png, /kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png 1.5x, /kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png 2x" data-sizes=auto alt=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png title="Provisioning Kubernetes dengan Terraform dan Ansible di AWS menggunakan spesifikasi instance minimal."></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
-<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#struktur-klaster>Struktur Klaster</a><ul><li><a href=#provisioning>Provisioning</a></li></ul></li><li><a href=#prerequisites>Prerequisites</a><ul><li><a href=#access-key>Access Key</a></li><li><a href=#vpc>VPC</a></li><li><a href=#ssh-key>SSH Key</a></li></ul></li><li><a href=#infrastructure-provisioning>Infrastructure Provisioning</a><ul><li><a href=#pasang-paket-terraform>Pasang Paket Terraform</a></li><li><a href=#script-terraform>Script Terraform</a></li><li><a href=#eksekusi-terraform>Eksekusi Terraform</a></li></ul></li><li><a href=#configuration-provisioning>Configuration Provisioning</a><ul><li><a href=#pasang-paket-ansible>Pasang Paket Ansible</a></li><li><a href=#konfigurasi-ansible>Konfigurasi Ansible</a></li><li><a href=#inventory-ansible-playbook>Inventory Ansible Playbook</a></li><li><a href=#docker>Docker</a></li><li><a href=#bootstraping-kubernetes>Bootstraping Kubernetes</a></li><li><a href=#joining-cluster>Joining Cluster</a></li></ul></li><li><a href=#post-installation>Post Installation</a><ul><li><a href=#menghapus-worker-node-elastic-ip>Menghapus Worker Node Elastic IP</a></li><li><a href=#ubah-label-worker-node>Ubah Label Worker Node</a></li></ul></li><li><a href=#pengujian>Pengujian</a></li><li><a href=#kesimpulan>Kesimpulan</a></li><li><a href=#referensi>Referensi</a></li></ul></nav></div></div><div class=content id=content><p>Kubernetes Vanilla atau versi Kubernetes orisinil merupakan aplikasi opensource untuk <em>Container Orchestration</em> dengan berbagai fleksibilitas yang dapat diintegrasikan lebih lanjut bersama komponen atau tools lain dari pihak ketiga. Berbeda dengan distribusi Kubernetes (seperti OpenShift dan OKD) yang menawarkan kemudahan dalam instalasi, Kubernetes (atau sering disebut k8s) seringkali membutuhkan <em>effort</em> yang lebih besar dalam membangun klaster-nya jika dilakukan secara manual tanpa layanan dari vendor atau <em>cloud provider</em> (seperti EKS atau GKS). Namun sebenarnya kita dapat melakukannya dengan lebih <em>effortless</em> menggunakan tools untuk <em>provisioning</em> infrastruktur maupun konfigurasi, seperti Terraform dan Ansible.</p><h2 id=struktur-klaster>Struktur Klaster</h2><p>Pada artikel ini saya akan membangun klaster Kubernetes yang terdiri dari satu Control Plane atau Master Node, serta dua Worker Node. Untuk pengelolaan container di dalam klaster saya akan menggunakan Docker. Infrastruktur akan didirikan di <em>cloud provider</em> AWS (Amazon Web Service).</p><p><figure><a class=lightgallery href=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/klaster-kubernetes.png title="Klaster Kubernetes" data-thumbnail=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/klaster-kubernetes.png data-sub-html="<h2>Klaster Kubernetes</h2><p>Klaster Kubernetes</p>"><img class=lazyload src=/svg/loading.min.svg data-src=klaster-kubernetes.png data-srcset="/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/klaster-kubernetes.png, klaster-kubernetes.png 1.5x, /kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/klaster-kubernetes.png 2x" data-sizes=auto alt=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/klaster-kubernetes.png></a><figcaption class=image-caption>Klaster Kubernetes</figcaption></figure></p><h3 id=provisioning>Provisioning</h3><p><strong>Provisioning</strong> dalam urusan <em>cloud native</em> sering dianggap sebagai proses menyediakan suatu layanan. Segala proses yang terjadi dalam menyediakan layanan tersebut dapat dilakukan secara manual, namun seiring berkembangnya zaman tentu saja kini banyak sekali tools yang bermunculan dan menawarkan kemampuan untuk membuat <em>process automation</em>. Misalnya pada artikel ini, <a href=https://registry.terraform.io/providers/hashicorp/aws/latest/docs target=_blank rel="noopener noreffer"><strong>Terraform</strong></a> akan digunakan untuk melakukan provisioning infrastruktur pada AWS. Sementara dalam melakukan konfigurasi atau <em>setup</em> setiap instance, <a href=https://docs.ansible.com/ansible/latest/user_guide/playbooks.html target=_blank rel="noopener noreffer"><strong>Ansible Playbook</strong></a> adalah tools yang akan bertanggung jawab untuk melakukannya. Ansible Playbook akan melakukan beberapa proses mulai dari update sistem operasi, setup Docker, memasang <code>kubelet</code>, <code>etcd</code>, membuat token bagi worker node hingga berbagai keperluan <em>setup</em> k8s lainnya sampai selesai.</p><hr><h2 id=prerequisites>Prerequisites</h2><p>Pastikan beberapa prasyarat berikut ini sudah terpenuhi sebelum melakukan tahap lebih lanjut.</p><h3 id=access-key>Access Key</h3><p>Untuk mendapatkan access key AWS, kita harus memiliki akun AWS. Access Key ini sama dengan yang biasanya digunakan sebagai credentials <code>aws-cli</code>, dan pada artikel ini access key tersebut akan dipakai oleh Terraform untuk mengeksekusi perintah sesuai dengan script yang kita buat. Untuk lebih lengkapnya silahkan lihat <a href=https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html#get-access-keys target=_blank rel="noopener noreffer">dokumentasi resmi AWS</a>. Simpan access key tersebut ke dalam sebuah file, misalnya <code>credentials</code> seperti berikut ini.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="noodp">
+<meta http-equiv=x-ua-compatible content="IE=edge, chrome=1">
+<title>Kubernetes Cluster Provisioning dengan Terraform dan Ansible - Anwar's Blog</title><meta name=Description content="Provisioning Kubernetes dengan Terraform dan Ansible di AWS menggunakan spesifikasi instance minimal."><meta property="og:title" content="Kubernetes Cluster Provisioning dengan Terraform dan Ansible">
+<meta property="og:description" content="Provisioning Kubernetes dengan Terraform dan Ansible di AWS menggunakan spesifikasi instance minimal.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://init.web.id/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/"><meta property="og:image" content="https://init.web.id/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-01-17T15:12:37+07:00">
+<meta property="article:modified_time" content="2021-01-31T21:05:11+07:00">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://init.web.id/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png">
+<meta name=twitter:title content="Kubernetes Cluster Provisioning dengan Terraform dan Ansible">
+<meta name=twitter:description content="Provisioning Kubernetes dengan Terraform dan Ansible di AWS menggunakan spesifikasi instance minimal.">
+<meta name=application-name content="Anwar's Blog">
+<meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
+<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/><link rel=prev href=https://init.web.id/integrasi-sysdig-monitor-di-openshift/><link rel=next href=https://init.web.id/integrasi-github-pages-dengan-cloudflare-cdn/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Kubernetes Cluster Provisioning dengan Terraform dan Ansible","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible\/cover.png","width":1e3,"height":420}],"genre":"posts","keywords":"Kubernetes, Terraform, Ansible, AWS","wordcount":2537,"url":"https:\/\/init.web.id\/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible\/","datePublished":"2021-01-17T15:12:37+07:00","dateModified":"2021-01-31T21:05:11+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Provisioning Kubernetes dengan Terraform dan Ansible di AWS menggunakan spesifikasi instance minimal."}</script></head>
+<body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'white'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'white'==='dark')&&document.body.setAttribute('theme','dark')</script>
+<div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
+<div class=header-wrapper>
+<div class=header-title>
+<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a>
+</div>
+<div class=menu>
+<div class=menu-inner><a class=menu-item href=/posts/> Posts </a><a class=menu-item href=/categories/> Categories </a><a class=menu-item href=/about/> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder="Search titles or contents..." id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search>
+<i class="fas fa-search fa-fw"></i>
+</a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear>
+<i class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id=search-loading-desktop>
+<i class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i>
+</a>
+</div>
+</div>
+</div>
+</header><header class=mobile id=header-mobile>
+<div class=header-container>
+<div class=header-wrapper>
+<div class=header-title>
+<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a>
+</div>
+<div class=menu-toggle id=menu-toggle-mobile>
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class=menu id=menu-mobile><div class=search-wrapper>
+<div class="search mobile" id=search-mobile>
+<input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search>
+<i class="fas fa-search fa-fw"></i>
+</a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear>
+<i class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id=search-loading-mobile>
+<i class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>
+Cancel
+</a>
+</div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</header>
+<div class="search-dropdown desktop">
+<div id=search-dropdown-desktop></div>
+</div>
+<div class="search-dropdown mobile">
+<div id=search-dropdown-mobile></div>
+</div>
+<main class=main>
+<div class=container><div class=toc id=toc-auto>
+<h2 class=toc-title>Contents</h2>
+<div class=toc-content id=toc-content-auto></div>
+</div><article class="page single"><h1 class="single-title animated flipInX">Kubernetes Cluster Provisioning dengan Terraform dan Ansible</h1><div class=post-meta>
+<div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/platform/><i class="far fa-folder fa-fw"></i>Platform</a></span></div>
+<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-01-17>2021-01-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2537 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;12 minutes&nbsp;</div>
+</div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png data-srcset="/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png, /kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png 1.5x, /kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png 2x" data-sizes=auto alt=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/cover.png title="Provisioning Kubernetes dengan Terraform dan Ansible di AWS menggunakan spesifikasi instance minimal."></div><div class="details toc" id=toc-static kept>
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents>
+<ul>
+<li><a href=#struktur-klaster>Struktur Klaster</a>
+<ul>
+<li><a href=#provisioning>Provisioning</a></li>
+</ul>
+</li>
+<li><a href=#prerequisites>Prerequisites</a>
+<ul>
+<li><a href=#access-key>Access Key</a></li>
+<li><a href=#vpc>VPC</a></li>
+<li><a href=#ssh-key>SSH Key</a></li>
+</ul>
+</li>
+<li><a href=#infrastructure-provisioning>Infrastructure Provisioning</a>
+<ul>
+<li><a href=#pasang-paket-terraform>Pasang Paket Terraform</a></li>
+<li><a href=#script-terraform>Script Terraform</a></li>
+<li><a href=#eksekusi-terraform>Eksekusi Terraform</a></li>
+</ul>
+</li>
+<li><a href=#configuration-provisioning>Configuration Provisioning</a>
+<ul>
+<li><a href=#pasang-paket-ansible>Pasang Paket Ansible</a></li>
+<li><a href=#konfigurasi-ansible>Konfigurasi Ansible</a></li>
+<li><a href=#inventory-ansible-playbook>Inventory Ansible Playbook</a></li>
+<li><a href=#docker>Docker</a></li>
+<li><a href=#bootstraping-kubernetes>Bootstraping Kubernetes</a></li>
+<li><a href=#joining-cluster>Joining Cluster</a></li>
+</ul>
+</li>
+<li><a href=#post-installation>Post Installation</a>
+<ul>
+<li><a href=#menghapus-worker-node-elastic-ip>Menghapus Worker Node Elastic IP</a></li>
+<li><a href=#ubah-label-worker-node>Ubah Label Worker Node</a></li>
+</ul>
+</li>
+<li><a href=#pengujian>Pengujian</a></li>
+<li><a href=#kesimpulan>Kesimpulan</a></li>
+<li><a href=#referensi>Referensi</a></li>
+</ul>
+</nav></div>
+</div><div class=content id=content><p>Kubernetes Vanilla atau versi Kubernetes orisinil merupakan aplikasi opensource untuk <em>Container Orchestration</em> dengan berbagai fleksibilitas yang dapat diintegrasikan lebih lanjut bersama komponen atau tools lain dari pihak ketiga. Berbeda dengan distribusi Kubernetes (seperti OpenShift dan OKD) yang menawarkan kemudahan dalam instalasi, Kubernetes (atau sering disebut k8s) seringkali membutuhkan <em>effort</em> yang lebih besar dalam membangun klaster-nya jika dilakukan secara manual tanpa layanan dari vendor atau <em>cloud provider</em> (seperti EKS atau GKS). Namun sebenarnya kita dapat melakukannya dengan lebih <em>effortless</em> menggunakan tools untuk <em>provisioning</em> infrastruktur maupun konfigurasi, seperti Terraform dan Ansible.</p>
+<h2 id=struktur-klaster>Struktur Klaster</h2>
+<p>Pada artikel ini saya akan membangun klaster Kubernetes yang terdiri dari satu Control Plane atau Master Node, serta dua Worker Node. Untuk pengelolaan container di dalam klaster saya akan menggunakan Docker. Infrastruktur akan didirikan di <em>cloud provider</em> AWS (Amazon Web Service).</p>
+<p><figure><a class=lightgallery href=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/klaster-kubernetes.png title="Klaster Kubernetes" data-thumbnail=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/klaster-kubernetes.png data-sub-html="<h2>Klaster Kubernetes</h2><p>Klaster Kubernetes</p>">
+<img class=lazyload src=/svg/loading.min.svg data-src=klaster-kubernetes.png data-srcset="/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/klaster-kubernetes.png, klaster-kubernetes.png 1.5x, /kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/klaster-kubernetes.png 2x" data-sizes=auto alt=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/klaster-kubernetes.png>
+</a><figcaption class=image-caption>Klaster Kubernetes</figcaption>
+</figure></p>
+<h3 id=provisioning>Provisioning</h3>
+<p><strong>Provisioning</strong> dalam urusan <em>cloud native</em> sering dianggap sebagai proses menyediakan suatu layanan. Segala proses yang terjadi dalam menyediakan layanan tersebut dapat dilakukan secara manual, namun seiring berkembangnya zaman tentu saja kini banyak sekali tools yang bermunculan dan menawarkan kemampuan untuk membuat <em>process automation</em>. Misalnya pada artikel ini, <a href=https://registry.terraform.io/providers/hashicorp/aws/latest/docs target=_blank rel="noopener noreffer"><strong>Terraform</strong></a> akan digunakan untuk melakukan provisioning infrastruktur pada AWS. Sementara dalam melakukan konfigurasi atau <em>setup</em> setiap instance, <a href=https://docs.ansible.com/ansible/latest/user_guide/playbooks.html target=_blank rel="noopener noreffer"><strong>Ansible Playbook</strong></a> adalah tools yang akan bertanggung jawab untuk melakukannya. Ansible Playbook akan melakukan beberapa proses mulai dari update sistem operasi, setup Docker, memasang <code>kubelet</code>, <code>etcd</code>, membuat token bagi worker node hingga berbagai keperluan <em>setup</em> k8s lainnya sampai selesai.</p>
+<hr>
+<h2 id=prerequisites>Prerequisites</h2>
+<p>Pastikan beberapa prasyarat berikut ini sudah terpenuhi sebelum melakukan tahap lebih lanjut.</p>
+<h3 id=access-key>Access Key</h3>
+<p>Untuk mendapatkan access key AWS, kita harus memiliki akun AWS. Access Key ini sama dengan yang biasanya digunakan sebagai credentials <code>aws-cli</code>, dan pada artikel ini access key tersebut akan dipakai oleh Terraform untuk mengeksekusi perintah sesuai dengan script yang kita buat. Untuk lebih lengkapnya silahkan lihat <a href=https://docs.aws.amazon.com/powershell/latest/userguide/pstools-appendix-sign-up.html#get-access-keys target=_blank rel="noopener noreffer">dokumentasi resmi AWS</a>. Simpan access key tersebut ke dalam sebuah file, misalnya <code>credentials</code> seperti berikut ini.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>[default]
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>[default]
 aws_access_key_id=AKIA3ANXUSNAUATXXXXX
 aws_secret_access_key=+JDR1HWw4vrcFrLqbf+ewv/nJL/L6TlVAhwXXXXX
-</code></pre></td></tr></table></div></div><h3 id=vpc>VPC</h3><p>Pada umumnya <em>by-default</em> AWS sudah memiliki VPC (Virtual Private Cloud), namun jika belum kita dapat membuatnya sendiri dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ aws ec2 create-default-vpc --availability-zone us-east-1
-</code></pre></td></tr></table></div></div><p>Saya akan menggunakan default VPC Subnet yang sudah ada pada AWS. Namun jika belum ada maka kita dapat membuatnya sendiri seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ aws ec2 create-default-subnet --availability-zone us-east-1a 
-</code></pre></td></tr></table></div></div><p>Kita akan membutuhkan <strong>id</strong> dari Subnet VPC yang telah kita buat untuk tahap selanjutnya.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ aws ec2 describe-subnets --region us-east-1
-</code></pre></td></tr></table></div></div><p>Catat dan simpan <strong>id</strong> dari Subnet VPC yang telah kita buat.</p><h3 id=ssh-key>SSH Key</h3><p>Buat sebuah SSH Key bagi instance AWS yang akan kita dirikan. Untuk membuatnya saya menggunakan <code>aws-cli</code> dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ aws ec2 create-key-pair --region us-east-1 --key-name infra-k8s --query <span class=s1>&#39;KeyMaterial&#39;</span> --output text &gt; infra-k8s.pem
-</code></pre></td></tr></table></div></div><p>Nantinya perintah tersebut akan menghasilkan sebuah file SSH Key bernama <code>infra-k8s.pem</code>. Selanjutnya kita perlu merubah permissionnya supaya dapat digunakan untuk mengakses instance.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ chmod <span class=m>400</span> infra-k8s.pem
-</code></pre></td></tr></table></div></div><div class="details admonition info open"><div class="details-summary admonition-title"><i class="icon fas fa-info-circle fa-fw"></i>Info<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Dalam artikel ini saya menggunakan region <code>us-east-1</code> atau North Virginia. Jika ingin menggunakan regional lain, silahkan lihat <a href=https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html target=_blank rel="noopener noreffer">dokumentasi resmi AWS</a>.</div></div></div><hr><h2 id=infrastructure-provisioning>Infrastructure Provisioning</h2><h3 id=pasang-paket-terraform>Pasang Paket Terraform</h3><p>Pasang paket <code>terraform</code> pada komputer lokal seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ sudo pacman -Sy terraform
-</code></pre></td></tr></table></div></div><div class="details admonition info open"><div class="details-summary admonition-title"><i class="icon fas fa-info-circle fa-fw"></i>Info<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Saya menggunakan sistem operasi GNU/Linux dengan distro Arch-based yang memiliki package manager <code>pacman</code>. Silahkan sesuaikan dengan perintah package manager pada distro masing-masing.</div></div></div><h3 id=script-terraform>Script Terraform</h3><p>Selanjutnya silahkan buat file baru untuk menulis script terraform. Misalnya saya membuat file <code>infra.tf</code> yang akan berisi script Terraform seperti berikut ini.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>  1
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=vpc>VPC</h3>
+<p>Pada umumnya <em>by-default</em> AWS sudah memiliki VPC (Virtual Private Cloud), namun jika belum kita dapat membuatnya sendiri dengan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ aws ec2 create-default-vpc --availability-zone us-east-1
+</code></pre></td></tr></table>
+</div>
+</div><p>Saya akan menggunakan default VPC Subnet yang sudah ada pada AWS. Namun jika belum ada maka kita dapat membuatnya sendiri seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ aws ec2 create-default-subnet --availability-zone us-east-1a 
+</code></pre></td></tr></table>
+</div>
+</div><p>Kita akan membutuhkan <strong>id</strong> dari Subnet VPC yang telah kita buat untuk tahap selanjutnya.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ aws ec2 describe-subnets --region us-east-1
+</code></pre></td></tr></table>
+</div>
+</div><p>Catat dan simpan <strong>id</strong> dari Subnet VPC yang telah kita buat.</p>
+<h3 id=ssh-key>SSH Key</h3>
+<p>Buat sebuah SSH Key bagi instance AWS yang akan kita dirikan. Untuk membuatnya saya menggunakan <code>aws-cli</code> dengan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ aws ec2 create-key-pair --region us-east-1 --key-name infra-k8s --query <span class=s1>&#39;KeyMaterial&#39;</span> --output text &gt; infra-k8s.pem
+</code></pre></td></tr></table>
+</div>
+</div><p>Nantinya perintah tersebut akan menghasilkan sebuah file SSH Key bernama <code>infra-k8s.pem</code>. Selanjutnya kita perlu merubah permissionnya supaya dapat digunakan untuk mengakses instance.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ chmod <span class=m>400</span> infra-k8s.pem
+</code></pre></td></tr></table>
+</div>
+</div><div class="details admonition info open">
+<div class="details-summary admonition-title">
+<i class="icon fas fa-info-circle fa-fw"></i>Info<i class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class=details-content>
+<div class=admonition-content>Dalam artikel ini saya menggunakan region <code>us-east-1</code> atau North Virginia. Jika ingin menggunakan regional lain, silahkan lihat <a href=https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html target=_blank rel="noopener noreffer">dokumentasi resmi AWS</a>.</div>
+</div>
+</div>
+<hr>
+<h2 id=infrastructure-provisioning>Infrastructure Provisioning</h2>
+<h3 id=pasang-paket-terraform>Pasang Paket Terraform</h3>
+<p>Pasang paket <code>terraform</code> pada komputer lokal seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo pacman -Sy terraform
+</code></pre></td></tr></table>
+</div>
+</div><div class="details admonition info open">
+<div class="details-summary admonition-title">
+<i class="icon fas fa-info-circle fa-fw"></i>Info<i class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class=details-content>
+<div class=admonition-content>Saya menggunakan sistem operasi GNU/Linux dengan distro Arch-based yang memiliki package manager <code>pacman</code>. Silahkan sesuaikan dengan perintah package manager pada distro masing-masing.</div>
+</div>
+</div>
+<h3 id=script-terraform>Script Terraform</h3>
+<p>Selanjutnya silahkan buat file baru untuk menulis script terraform. Misalnya saya membuat file <code>infra.tf</code> yang akan berisi script Terraform seperti berikut ini.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>  1
 </span><span class=lnt>  2
 </span><span class=lnt>  3
 </span><span class=lnt>  4
@@ -218,7 +432,9 @@ aws_secret_access_key=+JDR1HWw4vrcFrLqbf+ewv/nJL/L6TlVAhwXXXXX
 </span><span class=lnt>190
 </span><span class=lnt>191
 </span><span class=lnt>192
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-terraform data-lang=terraform><span class=c1>## AWS Provider
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-terraform data-lang=terraform><span class=c1>## AWS Provider
 </span><span class=c1></span><span class=nx>terraform</span> <span class=p>{</span>
   <span class=nx>required_providers</span> <span class=p>{</span>
     <span class=na>aws</span> = <span class=p>{</span>
@@ -410,57 +626,141 @@ aws_secret_access_key=+JDR1HWw4vrcFrLqbf+ewv/nJL/L6TlVAhwXXXXX
   <span class=p>}</span>
 <span class=p>}</span>
 
-</code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Sesuaikan variabel <code>subnet_id</code> dengan <strong>id</strong> Subnet VPC yang telah kita buat <a href=#vpc rel>sebelumnya</a>. Sedangkan variabel <code>ami</code> merupakan <strong>id</strong> dari Amazon Machine Image yang value nya tergantung dari distro apa yang akan kita jalankan pada setiap instance EC2 untuk informasi lebih lanjut kita dapat melihatnya dari <a href=https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html target=_blank rel="noopener noreffer">dokumentasi resmi AWS</a> karena setiap region dan distro hingga sistem operasi memiliki AMI ID yang berbeda-beda. Terlihat bahwa saya membuka seluruh traffic dari <em>inbound</em> dan <em>outbound</em> yang tentu saja tidaklah aman, sesuaikan dengan kebutuhan <a href=https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#check-required-ports target=_blank rel="noopener noreffer">port Kubernetes</a> pada umumnya.</div></div></div><p>Inisialiasi terraform untuk mengunduh dependency yang diperlukan dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ terraform init
-</code></pre></td></tr></table></div></div><h3 id=eksekusi-terraform>Eksekusi Terraform</h3><p>Sekarang jalankan provisioning menggunakan terraform sesuai dengan script yang telah dibuat sebelumnya.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ terraform apply
-</code></pre></td></tr></table></div></div><hr><h2 id=configuration-provisioning>Configuration Provisioning</h2><h3 id=pasang-paket-ansible>Pasang Paket Ansible</h3><p>Pasang <code>ansible</code> pada komputer lokal menggunakan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ sudo pacman -Sy ansible
-</code></pre></td></tr></table></div></div><h3 id=konfigurasi-ansible>Konfigurasi Ansible</h3><p>Kita perlu membuat sebuah file bernama <code>ansible.cfg</code> yang berisi konfigurasi seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table>
+</div>
+</div><div class="details admonition warning open">
+<div class="details-summary admonition-title">
+<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class=details-content>
+<div class=admonition-content>Sesuaikan variabel <code>subnet_id</code> dengan <strong>id</strong> Subnet VPC yang telah kita buat <a href=#vpc rel>sebelumnya</a>. Sedangkan variabel <code>ami</code> merupakan <strong>id</strong> dari Amazon Machine Image yang value nya tergantung dari distro apa yang akan kita jalankan pada setiap instance EC2 untuk informasi lebih lanjut kita dapat melihatnya dari <a href=https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html target=_blank rel="noopener noreffer">dokumentasi resmi AWS</a> karena setiap region dan distro hingga sistem operasi memiliki AMI ID yang berbeda-beda. Terlihat bahwa saya membuka seluruh traffic dari <em>inbound</em> dan <em>outbound</em> yang tentu saja tidaklah aman, sesuaikan dengan kebutuhan <a href=https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#check-required-ports target=_blank rel="noopener noreffer">port Kubernetes</a> pada umumnya.</div>
+</div>
+</div>
+<p>Inisialiasi terraform untuk mengunduh dependency yang diperlukan dengan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ terraform init
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=eksekusi-terraform>Eksekusi Terraform</h3>
+<p>Sekarang jalankan provisioning menggunakan terraform sesuai dengan script yang telah dibuat sebelumnya.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ terraform apply
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id=configuration-provisioning>Configuration Provisioning</h2>
+<h3 id=pasang-paket-ansible>Pasang Paket Ansible</h3>
+<p>Pasang <code>ansible</code> pada komputer lokal menggunakan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo pacman -Sy ansible
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=konfigurasi-ansible>Konfigurasi Ansible</h3>
+<p>Kita perlu membuat sebuah file bernama <code>ansible.cfg</code> yang berisi konfigurasi seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span><span class=lnt>6
 </span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>[defaults]
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>[defaults]
 inventory = inventory
 Private_key_file = infra-k8s.pem
 remote_user = ubuntu
 ansible_python_interpreter = /usr/bin/python3
 host_key_checking = false
 remote_tmp = /tmp/.ansible-${USER}/tmp
-</code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Variabel <code>remote_user</code> adalah user pada instance EC2 yang akan dipakai untuk penerapan provisioning, <em>by-default</em> pada AWS untuk AMI <strong>Ubuntu 18</strong> menggunakan user <code>ubuntu</code>. Jika menggunakan AMI lain maka kita perlu menyesuaikannya.</div></div></div><h3 id=inventory-ansible-playbook>Inventory Ansible Playbook</h3><p>Jalankan perintah berikut untuk mendapatkan IP Publik dari Master Node.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table>
+</div>
+</div><div class="details admonition warning open">
+<div class="details-summary admonition-title">
+<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class=details-content>
+<div class=admonition-content>Variabel <code>remote_user</code> adalah user pada instance EC2 yang akan dipakai untuk penerapan provisioning, <em>by-default</em> pada AWS untuk AMI <strong>Ubuntu 18</strong> menggunakan user <code>ubuntu</code>. Jika menggunakan AMI lain maka kita perlu menyesuaikannya.</div>
+</div>
+</div>
+<h3 id=inventory-ansible-playbook>Inventory Ansible Playbook</h3>
+<p>Jalankan perintah berikut untuk mendapatkan IP Publik dari Master Node.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ aws ec2 describe-instances  <span class=se>\
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ aws ec2 describe-instances  <span class=se>\
 </span><span class=se></span>    --region us-east-1 <span class=se>\
 </span><span class=se></span>    --filters <span class=s2>&#34;Name=tag-value,Values=public&#34;</span>
-</code></pre></td></tr></table></div></div><p>Jalankan perintah berikut untuk mendapatkan IP Publik dari Worker Node pertama.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table>
+</div>
+</div><p>Jalankan perintah berikut untuk mendapatkan IP Publik dari Worker Node pertama.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ aws ec2 describe-instances  <span class=se>\
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ aws ec2 describe-instances  <span class=se>\
 </span><span class=se></span>    --region us-east-1 <span class=se>\
 </span><span class=se></span>    --filters <span class=s2>&#34;Name=tag-value,Values=node-1&#34;</span>
-</code></pre></td></tr></table></div></div><p>Jalankan perintah berikut untuk mendapatkan IP Publik dari Worker Node pertama.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table>
+</div>
+</div><p>Jalankan perintah berikut untuk mendapatkan IP Publik dari Worker Node pertama.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ aws ec2 describe-instances  <span class=se>\
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ aws ec2 describe-instances  <span class=se>\
 </span><span class=se></span>    --region us-east-1 <span class=se>\
 </span><span class=se></span>    --filters <span class=s2>&#34;Name=tag-value,Values=node-2&#34;</span>
-</code></pre></td></tr></table></div></div><p>Kemudian masukan ketiga IP tersebut ke dalam file bernama <code>inventory</code> sehingga kurang lebih isinya akan menjadi seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table>
+</div>
+</div><p>Kemudian masukan ketiga IP tersebut ke dalam file bernama <code>inventory</code> sehingga kurang lebih isinya akan menjadi seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span><span class=lnt>6
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>[public]
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>[public]
 18.233.242.19
 
 [nodes]
 3.224.63.65
 54.198.25.43
-</code></pre></td></tr></table></div></div><h3 id=docker>Docker</h3><p>Selanjutnya saya membuat file baru bernama <code>docker.yml</code> yang berisi script untuk melakukan update sistem operasi dan <em>setup</em> Docker.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=docker>Docker</h3>
+<p>Selanjutnya saya membuat file baru bernama <code>docker.yml</code> yang berisi script untuk melakukan update sistem operasi dan <em>setup</em> Docker.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -522,7 +822,9 @@ remote_tmp = /tmp/.ansible-${USER}/tmp
 </span><span class=lnt>60
 </span><span class=lnt>61
 </span><span class=lnt>62
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-yaml data-lang=yaml>- <span class=nt>hosts</span><span class=p>:</span><span class=w> </span><span class=l>all</span><span class=w>
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml>- <span class=nt>hosts</span><span class=p>:</span><span class=w> </span><span class=l>all</span><span class=w>
 </span><span class=w>  </span><span class=nt>gather_facts</span><span class=p>:</span><span class=w> </span><span class=kc>false</span><span class=w>
 </span><span class=w>  </span><span class=nt>tasks</span><span class=p>:</span><span class=w>
 </span><span class=w>    </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Update &amp; Upgrade</span><span class=w>
@@ -584,17 +886,37 @@ remote_tmp = /tmp/.ansible-${USER}/tmp
 </span><span class=w>      </span><span class=nt>user</span><span class=p>:</span><span class=w>
 </span><span class=w>        </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>ubuntu</span><span class=w>
 </span><span class=w>        </span><span class=nt>group</span><span class=p>:</span><span class=w> </span><span class=l>docker</span><span class=w>
-</span></code></pre></td></tr></table></div></div><p>Terapkan script yang telah kita buat dengan Ansible Playbook seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ ansible docker.yml
-</code></pre></td></tr></table></div></div><p>Jika berhasil maka akan muncul tampilan seperti berikut ini.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td></tr></table>
+</div>
+</div><p>Terapkan script yang telah kita buat dengan Ansible Playbook seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ ansible docker.yml
+</code></pre></td></tr></table>
+</div>
+</div><p>Jika berhasil maka akan muncul tampilan seperti berikut ini.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>PLAY RECAP *******************************************************************************************************
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>PLAY RECAP *******************************************************************************************************
 18.233.242.19              : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 3.224.63.65                : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 54.198.25.43               : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-</code></pre></td></tr></table></div></div><h3 id=bootstraping-kubernetes>Bootstraping Kubernetes</h3><p>Sekarang buat file baru bernama <code>k8s.yml</code> yang berisi script untuk melakukan <em>setup</em> Kubernetes.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>  1
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=bootstraping-kubernetes>Bootstraping Kubernetes</h3>
+<p>Sekarang buat file baru bernama <code>k8s.yml</code> yang berisi script untuk melakukan <em>setup</em> Kubernetes.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>  1
 </span><span class=lnt>  2
 </span><span class=lnt>  3
 </span><span class=lnt>  4
@@ -714,7 +1036,9 @@ remote_tmp = /tmp/.ansible-${USER}/tmp
 </span><span class=lnt>118
 </span><span class=lnt>119
 </span><span class=lnt>120
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-yaml data-lang=yaml>- <span class=nt>hosts</span><span class=p>:</span><span class=w> </span><span class=l>all</span><span class=w>
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml>- <span class=nt>hosts</span><span class=p>:</span><span class=w> </span><span class=l>all</span><span class=w>
 </span><span class=w>  </span><span class=nt>gather_facts</span><span class=p>:</span><span class=w> </span><span class=kc>false</span><span class=w>
 </span><span class=w>  </span><span class=nt>tasks</span><span class=p>:</span><span class=w>
 </span><span class=w>    </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Add Google official GPG key</span><span class=w>
@@ -834,71 +1158,195 @@ remote_tmp = /tmp/.ansible-${USER}/tmp
 </span><span class=w>      </span><span class=nt>become</span><span class=p>:</span><span class=w> </span><span class=kc>yes</span><span class=w>
 </span><span class=w>      </span><span class=nt>become_method</span><span class=p>:</span><span class=w> </span><span class=l>sudo</span><span class=w>
 </span><span class=w>      </span><span class=nt>shell</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;{{ kubeadm }}&#34;</span><span class=w>
-</span></code></pre></td></tr></table></div></div><p>Kemudian terapkan script tersebut dengan Ansible Playbook seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ ansible k8s.yml
-</code></pre></td></tr></table></div></div><h3 id=joining-cluster>Joining Cluster</h3><p>Di tengah proses, kita akan diberikan sebuah token yang harus dimasukkan secara manual. Token tersebut digunakan oleh Worker Node untuk bergabung ke dalam klaster.<figure><a class=lightgallery href=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/join-token.png title="Join Token" data-thumbnail=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/join-token.png data-sub-html="<h2>Join Token</h2><p>Join Token</p>"><img class=lazyload src=/svg/loading.min.svg data-src=join-token.png data-srcset="/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/join-token.png, join-token.png 1.5x, /kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/join-token.png 2x" data-sizes=auto alt=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/join-token.png></a><figcaption class=image-caption>Join Token</figcaption></figure></p><p>Jika berhasil maka akan muncul tampilan seperti berikut ini.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td></tr></table>
+</div>
+</div><p>Kemudian terapkan script tersebut dengan Ansible Playbook seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ ansible k8s.yml
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=joining-cluster>Joining Cluster</h3>
+<p>Di tengah proses, kita akan diberikan sebuah token yang harus dimasukkan secara manual. Token tersebut digunakan oleh Worker Node untuk bergabung ke dalam klaster.
+<figure><a class=lightgallery href=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/join-token.png title="Join Token" data-thumbnail=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/join-token.png data-sub-html="<h2>Join Token</h2><p>Join Token</p>">
+<img class=lazyload src=/svg/loading.min.svg data-src=join-token.png data-srcset="/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/join-token.png, join-token.png 1.5x, /kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/join-token.png 2x" data-sizes=auto alt=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/join-token.png>
+</a><figcaption class=image-caption>Join Token</figcaption>
+</figure></p>
+<p>Jika berhasil maka akan muncul tampilan seperti berikut ini.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>PLAY RECAP *******************************************************************************************************
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>PLAY RECAP *******************************************************************************************************
 18.233.242.19              : <span class=nv>ok</span><span class=o>=</span><span class=m>15</span>   <span class=nv>changed</span><span class=o>=</span><span class=m>14</span>   <span class=nv>unreachable</span><span class=o>=</span><span class=m>0</span>    <span class=nv>failed</span><span class=o>=</span><span class=m>0</span>    <span class=nv>skipped</span><span class=o>=</span><span class=m>0</span>    <span class=nv>rescued</span><span class=o>=</span><span class=m>0</span>    <span class=nv>ignored</span><span class=o>=</span><span class=m>0</span>   
 3.224.63.65                : <span class=nv>ok</span><span class=o>=</span><span class=m>12</span>   <span class=nv>changed</span><span class=o>=</span><span class=m>12</span>   <span class=nv>unreachable</span><span class=o>=</span><span class=m>0</span>    <span class=nv>failed</span><span class=o>=</span><span class=m>0</span>    <span class=nv>skipped</span><span class=o>=</span><span class=m>0</span>    <span class=nv>rescued</span><span class=o>=</span><span class=m>0</span>    <span class=nv>ignored</span><span class=o>=</span><span class=m>0</span>   
 54.198.25.43               : <span class=nv>ok</span><span class=o>=</span><span class=m>12</span>   <span class=nv>changed</span><span class=o>=</span><span class=m>12</span>   <span class=nv>unreachable</span><span class=o>=</span><span class=m>0</span>    <span class=nv>failed</span><span class=o>=</span><span class=m>0</span>    <span class=nv>skipped</span><span class=o>=</span><span class=m>0</span>    <span class=nv>rescued</span><span class=o>=</span><span class=m>0</span>    <span class=nv>ignored</span><span class=o>=</span><span class=m>0</span>   
-</code></pre></td></tr></table></div></div><hr><h2 id=post-installation>Post Installation</h2><h3 id=menghapus-worker-node-elastic-ip>Menghapus Worker Node Elastic IP</h3><p>Karena Worker Node sudah tidak lagi membutuhkan IP Publik, maka kita akan menghapusnya dengan cara merubah script file <code>infra.tf</code> yang sebelumnya kita buat. Jadikan beberapa baris konfigurasi menjadi <em>comment</em> seperti berikut ini.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id=post-installation>Post Installation</h2>
+<h3 id=menghapus-worker-node-elastic-ip>Menghapus Worker Node Elastic IP</h3>
+<p>Karena Worker Node sudah tidak lagi membutuhkan IP Publik, maka kita akan menghapusnya dengan cara merubah script file <code>infra.tf</code> yang sebelumnya kita buat. Jadikan beberapa baris konfigurasi menjadi <em>comment</em> seperti berikut ini.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>## Elastic IP for Node Server (Temporary)
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>## Elastic IP for Node Server (Temporary)
 #resource &#34;aws_eip&#34; &#34;lb-node&#34; {
 #  count = 2
 #  instance = aws_instance.node[count.index].id
 #}
-</code></pre></td></tr></table></div></div><p>Dan tambahkan <em>comment</em> juga pada baris konfigurasi variabel <code>associate_public_ip_address</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>#associate_public_ip_address = false
-</code></pre></td></tr></table></div></div><p>Kemudian jalankan kembali Terraform seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ terraform apply
-</code></pre></td></tr></table></div></div><p>Periksa dan jika sudah benar maka ketik <strong><code>yes</code></strong> dan tekan <strong>Enter</strong>. Apabila berhasil maka akan muncul tampilan seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table>
+</div>
+</div><p>Dan tambahkan <em>comment</em> juga pada baris konfigurasi variabel <code>associate_public_ip_address</code>.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>#associate_public_ip_address = false
+</code></pre></td></tr></table>
+</div>
+</div><p>Kemudian jalankan kembali Terraform seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ terraform apply
+</code></pre></td></tr></table>
+</div>
+</div><p>Periksa dan jika sudah benar maka ketik <strong><code>yes</code></strong> dan tekan <strong>Enter</strong>. Apabila berhasil maka akan muncul tampilan seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span><span class=lnt>6
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>aws_eip.lb-node[1]: Destroying... [id=eipalloc-0adb19f75c6648130]
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>aws_eip.lb-node[1]: Destroying... [id=eipalloc-0adb19f75c6648130]
 aws_eip.lb-node[0]: Destroying... [id=eipalloc-07464709ac36cafe4]
 aws_eip.lb-node[0]: Destruction complete after 5s
 aws_eip.lb-node[1]: Destruction complete after 5s
 
 Apply complete! Resources: 0 added, 0 changed, 2 destroyed.
-</code></pre></td></tr></table></div></div><h3 id=ubah-label-worker-node>Ubah Label Worker Node</h3><p>Sekarang coba akses Master Node lewat SSH menggunakan SSH Key yang sebelumnya telah kita miliki.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ ssh -i infra-k8s.pem ubuntu@18.233.242.19
-</code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Sesuaikan dengan alamat IP Publik yang dimiliki oleh Master Node atau Control Plane.</div></div></div><p>Setelah berhasil masuk, sekarang jalankan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ kubectl get nodes
-</code></pre></td></tr></table></div></div><p>Maka akan muncul daftar node yang terhubung pada klaster.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=ubah-label-worker-node>Ubah Label Worker Node</h3>
+<p>Sekarang coba akses Master Node lewat SSH menggunakan SSH Key yang sebelumnya telah kita miliki.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ ssh -i infra-k8s.pem ubuntu@18.233.242.19
+</code></pre></td></tr></table>
+</div>
+</div><div class="details admonition warning open">
+<div class="details-summary admonition-title">
+<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class=details-content>
+<div class=admonition-content>Sesuaikan dengan alamat IP Publik yang dimiliki oleh Master Node atau Control Plane.</div>
+</div>
+</div>
+<p>Setelah berhasil masuk, sekarang jalankan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ kubectl get nodes
+</code></pre></td></tr></table>
+</div>
+</div><p>Maka akan muncul daftar node yang terhubung pada klaster.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>NAME               STATUS   ROLES                  AGE     VERSION
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>NAME               STATUS   ROLES                  AGE     VERSION
 ip-172-31-16-20    Ready    control-plane,master   8m50s   v1.20.2
 ip-172-31-25-81    Ready    &lt;none&gt;                 7m41s   v1.20.2
 ip-172-31-29-192   Ready    &lt;none&gt;                 7m40s   v1.20.2
-</code></pre></td></tr></table></div></div><p>Ubah <strong>ROLES</strong> Worker Node dengan menambahkan label.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table>
+</div>
+</div><p>Ubah <strong>ROLES</strong> Worker Node dengan menambahkan label.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ kubectl label node ip-172-31-25-81 node-role.kubernetes.io/worker<span class=o>=</span>worker1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ kubectl label node ip-172-31-25-81 node-role.kubernetes.io/worker<span class=o>=</span>worker1
 $ kubectl label node ip-172-31-29-192 node-role.kubernetes.io/worker<span class=o>=</span>worker2
-</code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Sesuaikan nama node dengan <strong>NAME</strong> seperti yang muncul dari hasil pemeriksaan daftar node.</div></div></div><hr><h2 id=pengujian>Pengujian</h2><p>Sekarang coba periksa lagi daftar node yang ada.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ kubectl get nodes
-</code></pre></td></tr></table></div></div><p>Jika berhasil hasilnya akan menjadi seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table>
+</div>
+</div><div class="details admonition warning open">
+<div class="details-summary admonition-title">
+<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class=details-content>
+<div class=admonition-content>Sesuaikan nama node dengan <strong>NAME</strong> seperti yang muncul dari hasil pemeriksaan daftar node.</div>
+</div>
+</div>
+<hr>
+<h2 id=pengujian>Pengujian</h2>
+<p>Sekarang coba periksa lagi daftar node yang ada.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ kubectl get nodes
+</code></pre></td></tr></table>
+</div>
+</div><p>Jika berhasil hasilnya akan menjadi seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cfg data-lang=cfg><span class=na>NAME               STATUS   ROLES                  AGE     VERSION</span>
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>NAME               STATUS   ROLES                  AGE     VERSION</span>
 <span class=na>ip-172-31-16-20    Ready    control-plane,master   8m50s   v1.20.2</span>
 <span class=na>ip-172-31-25-81    Ready    worker                 7m41s   v1.20.2</span>
 <span class=na>ip-172-31-29-192   Ready    worker                 7m40s   v1.20.2</span>
-</code></pre></td></tr></table></div></div><p>Periksa pod yang berjalan pada semua namespace.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-bash data-lang=bash>$ kubectl get pods --all-namespaces
-</code></pre></td></tr></table></div></div><p>Hasilnya kurang lebih akan seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</code></pre></td></tr></table>
+</div>
+</div><p>Periksa pod yang berjalan pada semua namespace.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ kubectl get pods --all-namespaces
+</code></pre></td></tr></table>
+</div>
+</div><p>Hasilnya kurang lebih akan seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -911,7 +1359,9 @@ $ kubectl label node ip-172-31-29-192 node-role.kubernetes.io/worker<span class=
 </span><span class=lnt>11
 </span><span class=lnt>12
 </span><span class=lnt>13
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-cfg data-lang=cfg><span class=na>NAMESPACE     NAME                                      READY   STATUS    RESTARTS   AGE</span>
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>NAMESPACE     NAME                                      READY   STATUS    RESTARTS   AGE</span>
 <span class=na>kube-system   coredns-74ff55c5b-kfzvr                   1/1     Running   0          4h56m</span>
 <span class=na>kube-system   coredns-74ff55c5b-qrz2j                   1/1     Running   0          4h56m</span>
 <span class=na>kube-system   etcd-ip-172-31-16-20                      1/1     Running   0          4h56m</span>
@@ -924,6 +1374,60 @@ $ kubectl label node ip-172-31-29-192 node-role.kubernetes.io/worker<span class=
 <span class=na>kube-system   kube-proxy-bd7cj                          1/1     Running   0          4h56m</span>
 <span class=na>kube-system   kube-proxy-gjkr6                          1/1     Running   0          4h55m</span>
 <span class=na>kube-system   kube-scheduler-ip-172-31-16-20            1/1     Running   0          4h56m</span>
-</code></pre></td></tr></table></div></div><hr><h2 id=kesimpulan>Kesimpulan</h2><p>Dengan menggunakan Terraform dan Ansible, kita dapat membangun klaster Kubernetes sendiri pada AWS. Salah satu keunggulan yang saya rasakan adalah fleksibilitas yang tinggi, dimana saya dapat menggunakan spesifikasi instance yang terbilang rendah untuk mencoba membangun klaster Kubernetes jika dibandingkan dengan menggunakan distribusi Kubernetes (seperti OKD atau OpenShift). Jika semua script telah tersedia, maka proses instalasi klaster bisa dikatakan sangat cepat.</p><hr><h2 id=referensi>Referensi</h2><ul><li><a href=https://registry.terraform.io/providers/hashicorp/aws/latest/docs target=_blank rel="noopener noreffer">registry.terraform.io/providers/hashicorp/aws/latest/docs</a></li><li><a href=https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html#playbook-keywords target=_blank rel="noopener noreffer">docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html</a></li><li><a href=https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker target=_blank rel="noopener noreffer">kubernetes.io/docs/setup/production-environment/container-runtimes/#docker</a></li><li><a href=https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/ target=_blank rel="noopener noreffer">kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/</a></li><li><a href=https://docs.aws.amazon.com/cli/latest/reference/ec2/ target=_blank rel="noopener noreffer">docs.aws.amazon.com/cli/latest/reference/ec2/</a></li><li><a href=https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html target=_blank rel="noopener noreffer">docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html</a></li><li><a href=https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-instances.html target=_blank rel="noopener noreffer">docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-instances.html</a></li><li><a href=https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpcs.html target=_blank rel="noopener noreffer">docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpcs.html</a></li><li><a href=https://blog.leonprasetya.my.id/p/setup-kubernetes-cluster-pada-aws-educate-mulai-dari-penyiapan-server-sampai-selesai/ target=_blank rel="noopener noreffer">blog.leonprasetya.my.id</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2021-01-31</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/index.md target=_blank>Read Markdown</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/kubernetes/>Kubernetes</a>,&nbsp;<a href=/tags/terraform/>Terraform</a>,&nbsp;<a href=/tags/ansible/>Ansible</a>,&nbsp;<a href=/tags/aws/>AWS</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/integrasi-sysdig-monitor-di-openshift/ class=prev rel=prev title="Integrasi Sysdig Monitor di OpenShift"><i class="fas fa-angle-left fa-fw"></i>Integrasi Sysdig Monitor di OpenShift</a>
-<a href=/integrasi-github-pages-dengan-cloudflare-cdn/ class=next rel=next title="Integrasi Github Pages dengan Cloudflare CDN">Integrasi Github Pages dengan Cloudflare CDN<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=disqus_thread class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2021</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
-</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id=kesimpulan>Kesimpulan</h2>
+<p>Dengan menggunakan Terraform dan Ansible, kita dapat membangun klaster Kubernetes sendiri pada AWS. Salah satu keunggulan yang saya rasakan adalah fleksibilitas yang tinggi, dimana saya dapat menggunakan spesifikasi instance yang terbilang rendah untuk mencoba membangun klaster Kubernetes jika dibandingkan dengan menggunakan distribusi Kubernetes (seperti OKD atau OpenShift). Jika semua script telah tersedia, maka proses instalasi klaster bisa dikatakan sangat cepat.</p>
+<hr>
+<h2 id=referensi>Referensi</h2>
+<ul>
+<li><a href=https://registry.terraform.io/providers/hashicorp/aws/latest/docs target=_blank rel="noopener noreffer">registry.terraform.io/providers/hashicorp/aws/latest/docs</a></li>
+<li><a href=https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html#playbook-keywords target=_blank rel="noopener noreffer">docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html</a></li>
+<li><a href=https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker target=_blank rel="noopener noreffer">kubernetes.io/docs/setup/production-environment/container-runtimes/#docker</a></li>
+<li><a href=https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/ target=_blank rel="noopener noreffer">kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/</a></li>
+<li><a href=https://docs.aws.amazon.com/cli/latest/reference/ec2/ target=_blank rel="noopener noreffer">docs.aws.amazon.com/cli/latest/reference/ec2/</a></li>
+<li><a href=https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html target=_blank rel="noopener noreffer">docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-keypairs.html</a></li>
+<li><a href=https://docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-instances.html target=_blank rel="noopener noreffer">docs.aws.amazon.com/cli/latest/userguide/cli-services-ec2-instances.html</a></li>
+<li><a href=https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpcs.html target=_blank rel="noopener noreffer">docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpcs.html</a></li>
+<li><a href=https://blog.leonprasetya.my.id/p/setup-kubernetes-cluster-pada-aws-educate-mulai-dari-penyiapan-server-sampai-selesai/ target=_blank rel="noopener noreffer">blog.leonprasetya.my.id</a></li>
+</ul></div><div class=post-footer id=post-footer>
+<div class=post-info>
+<div class=post-info-line>
+<div class=post-info-mod>
+<span>Updated on 2021-01-31</span>
+</div>
+<div class=post-info-license></div>
+</div>
+<div class=post-info-line>
+<div class=post-info-md><span>
+<a class=link-to-markdown href=/kubernetes-cluster-provisioning-dengan-terraform-dan-ansible/index.md target=_blank>Read Markdown</a>
+</span></div>
+<div class=post-info-share>
+<span></span>
+</div>
+</div>
+</div>
+<div class=post-info-more>
+<section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/kubernetes/>Kubernetes</a>,&nbsp;<a href=/tags/terraform/>Terraform</a>,&nbsp;<a href=/tags/ansible/>Ansible</a>,&nbsp;<a href=/tags/aws/>AWS</a></section>
+<section>
+<span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span>
+</section>
+</div>
+<div class=post-nav><a href=/integrasi-sysdig-monitor-di-openshift/ class=prev rel=prev title="Integrasi Sysdig Monitor di OpenShift"><i class="fas fa-angle-left fa-fw"></i>Integrasi Sysdig Monitor di OpenShift</a>
+<a href=/integrasi-github-pages-dengan-cloudflare-cdn/ class=next rel=next title="Integrasi Github Pages dengan Cloudflare CDN">Integrasi Github Pages dengan Cloudflare CDN<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div id=comments><div id=disqus_thread class=comment></div><noscript>
+Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.
+</noscript></div></article></div>
+</main><footer class=footer>
+<div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2021</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top">
+<i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments">
+<i class="fas fa-comment fa-fw"></i>
+</a>
+</div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body>
+</html>
