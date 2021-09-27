@@ -46,7 +46,7 @@ data:
 #   echo -n 'g71Kv9SUBnk7yqUQLw8UJV08jq3i4Vcl' | base64
 #     ZzcxS3Y5U1VCbms3eXFVUUx3OFVKVjA4anEzaTRWY2w=
     admin-token: ZzcxS3Y5U1VCbms3eXFVUUx3OFVKVjA4anEzaTRWY2w=
-# Ubah plaintext password ke base64
+# Ubah plaintext password ke bae64
 # Contoh:
 #   echo -n 'administrator' | base64
 #       YWRtaW5pc3RyYXRvcg==
@@ -191,7 +191,7 @@ influxdb   <none>   tick.k8s.local   192.168.39.26   80      49s
 ```
 
 {{< admonition warning "Perhatian" >}}
-Saya menggunakan [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/) untuk mengekspos Service dengan objek Ingress, serta PersistentVolume berjenis [hostPath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath), silahkan sesuaikan dengan kebutuhan di environment masing-masing.
+Saya menggunakan [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/) untuk mengekspos Service dengan objek Ingress, serta PersistentVolume berjenis [hostPath](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumes-typed-hostpath), silahkan sesuaikan dengan kebutuhan di environment.
 {{< /admonition >}}
 
 ### InfluxDB Secret
@@ -391,8 +391,7 @@ InfluxDB dapat kita gunakan sebagai alternatif monitoring dan logging cluster Ku
 - [docs.influxdata.com/influxdb/v2.0/install/?t=Kubernetes](https://docs.influxdata.com/influxdb/v2.0/install/?t=Kubernetes)
 - [github.com/influxdata/helm-charts](https://github.com/influxdata/helm-charts/)
 - [github.com/influxdata/telegraf/tree/master/plugins/inputs/kube_inventory](https://github.com/influxdata/telegraf/tree/master/plugins/inputs/kube_inventory)
-- [kubernetes.io/docs/concepts/storage/volumes/#hostpath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath)
-- [kubernetes.io/docs/concepts/storage/persistent-volumes/#types-of-persistent-volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#types-of-persistent-volumes)
+- [kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumes-typed-hostpath](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumes-typed-hostpath)
 - [github.com/influxdata/community-templates/tree/master/k8s](https://github.com/influxdata/community-templates/tree/master/k8s)
 - [kubernetes.github.io/ingress-nginx/deploy](https://kubernetes.github.io/ingress-nginx/deploy/)
 - [helm.sh/docs/intro/using_helm](https://helm.sh/docs/intro/using_helm/)

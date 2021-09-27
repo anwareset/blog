@@ -20,7 +20,6 @@ Seluruh konten yang tersedia pada situs web ini akan sepenuhnya gratis dan bebas
 
 #### Contact
 
-* :(fab fa-telegram fa-fw): **[Telegram](https://t.me/mtrianwar)**
 * :(fab fa-twitter-square fa-fw): **[Twitter](https://twitter.com/mtrianwar)**
 * :(fas fa-envelope fa-fw): **[Email](mailto:trianwar@protonmail.com)**
 
