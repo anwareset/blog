@@ -1,7 +1,7 @@
 # Virtualisasi Infrastruktur dengan oVirt
 
 
-[**oVirt**](https://ovirt.org) adalah virtualization platform open source untuk mengelola infrastruktur datacenter. Hypervisor yang dipakai oVirt adalah [`KVM`](https://www.linux-kvm.org), kemudian [`libvirt`](httpd://libvirt.org) dugunakan sebagai interface sehingga dapat hadir dalam bentuk tampilan Web. Pada artikel ini saya hanya membahas setup oVirt Node dengan _Self-hosted Engine_ sampai mampu menjalankan _guest VM_.
+[**oVirt**](https://ovirt.org) adalah virtualization platform untuk mengelola infrastruktur datacenter. Hypervisor yang dipakai oVirt adalah [`KVM`](https://www.linux-kvm.org), kemudian [`libvirt`](httpd://libvirt.org) dugunakan sebagai interface sehingga dapat hadir dalam bentuk tampilan Web. Pada artikel ini saya hanya membahas setup oVirt Node dengan _Self-hosted Engine_ sampai mampu menjalankan _guest VM_.
 
 <!--more-->
 
