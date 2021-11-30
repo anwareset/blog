@@ -61,7 +61,7 @@ Masukkan masing-masing MAC address dari virtual NIC kedua VM host, misalnya sepe
 
 Artinya _virtual network_ KVM pada komputer kita hanya akan memulai alokasi DHCP dari `192.168.122.50` sampai `192.168.122.159`, sementara kedua MAC yang kita masukkan tidak berubah karena dijadikan static, dengan IP `192.168.122.20` untuk `host1.ovirt.local` dan IP `192.168.122.21` untuk `host2.ovirt.local`.
 
-Karena deployment _hosted-engine_ nantinya akan melakukan _lookup_ hostname dan kita tidak menggunakan server DNS pada artikel ini, maka selanjutnya kita perlu menambahkan konfigurasi pada `/etc/hosts` pada komputer dan kedua host seperti berikut.
+Karena deployment _hosted-engine_ nantinya akan melakukan _lookup_ hostname dan kita tidak menggunakan server DNS pada artikel ini, maka selanjutnya kita perlu menambahkan konfigurasi pada `/etc/hosts` di komputer, kedua host, serta VM Self-hosted Engine seperti berikut.
 ```text
 192.168.122.20  host1.ovirt.local
 192.168.122.21  host2.ovirt.local
@@ -134,7 +134,7 @@ mount: /mnt/storage1 does not contain SELinux labels.
 /mnt/storage1            : successfully mounted
 ```
 
-Tambahkan mountpoint tersebut ke dalam konfigurasi NFS server, lakukan export dan jalankan service `nfs-server`.
+Tambahkan mountpoint tersebut ke dalam konfigurasi NFS server, lakukan export dengan `exportfs` dan jalankan service `nfs-server` dengan [systemd](https://www.freedesktop.org/software/systemd/man/systemctl.html).
 ```shell
 echo "/mnt/storage1 *(rw,sync)" >> /etc/exports
 exportfs -arv
