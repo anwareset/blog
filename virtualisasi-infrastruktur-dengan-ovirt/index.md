@@ -80,7 +80,7 @@ Pada `host1.ovirt.local` diperlukan tambahan disk yang nantinya dijadikan sebaga
 {{</ admonition >}}
 
 ### NFS Server
-Setidaknya sebuah Storage Domain dibutuhkan dalam Datacenter oVirt, dan kita dapat menambahkan beberapa jenis storage seperti misalnya NFS server. Pada sebelumnya kita kita telah menambahkan disk tambahan pada `host1.ovirt.local` anggaplah terbaca sebagai `/dev/vdb` dan akan kita gunakan sebagai filesystem bagi NFS. Supaya lebih efisien, dalam artikel ini NFS server akan saya bangun juga pada `host1.ovirt.local`.
+Setidaknya sebuah Storage Domain dibutuhkan dalam Datacenter oVirt, dan kita dapat menambahkan beberapa jenis storage seperti misalnya NFS server. Pada sebelumnya kita telah menambahkan disk tambahan pada `host1.ovirt.local` anggaplah terbaca sebagai `/dev/vdb` dan akan kita gunakan sebagai filesystem bagi NFS. Supaya lebih efisien, dalam artikel ini NFS server akan saya bangun juga pada `host1.ovirt.local`.
 ```text
 [root@host1 ~]# parted /dev/vdb
 GNU Parted 3.2
@@ -318,13 +318,13 @@ Sesuaikan resource memori dan CPU yang akan dialokasikan untuk VM.
 Saat pertamakali membuat, VM akan dalam keadaan _Powered Off_, pilih **Run Once** dan _attach_ file ISO yang telah kita upload sebelumnya.
 ![Run Once For OS Installation](run-once-for-os-installation.png "Run Once For OS Installation")
 
-Untuk melakukan remote menggunakan protokol [`SPICE`](https://spice-space.org), klik VM yang kita nyalakan dan pilih **Console**. Web Browser akan mengunduh sebuah file bernama `console.vv` yang dapat kita bukan menggunakan tool bernama `virt-viewer`. Jika belum ada, silahkan install terlebih dahulu pada komputer kalian.
+Untuk melakukan remote menggunakan protokol [`SPICE`](https://spice-space.org), klik VM yang kita nyalakan dan pilih **Console**. Web Browser akan mengunduh sebuah file bernama `console.vv` yang dapat kita buka menggunakan tool bernama `virt-viewer`. Jika belum ada, silahkan install terlebih dahulu pada komputer kalian.
 ```shell
 sudo pacman -Sy virt-viewer
 ```
 
 {{< admonition info "Info" >}}
-Komputer saya menjalankan distro [Artix Linux](https://artixlinux.org) sehingga menggunakan package manager 'pacman'. Silahkan sesuaikan dengan distro yang kalian gunakan.
+Komputer saya menjalankan distro [Artix Linux](https://artixlinux.org) sehingga menggunakan package manager `pacman`. Silahkan sesuaikan dengan distro yang kalian gunakan.
 {{</ admonition >}}
 
 Berikut ini adalah tampilan dari VM yang berjalan di atas oVirt, sedang menjalankan instalasi Ubuntu Server menggunakan ISO yang telah kita upload ke Storage Domain lewat NFS.
@@ -348,7 +348,7 @@ Sementara berikut ini adalah Overview dari oVirt Webmanager, terlihat bahwa dua 
 
 
 ## Kesimpulan
-Tentunya di production grade RHV lebih banyak diminati karena tersedianya support, dan oVirt menjadi alternatif jika ingin merasakan teknologi virtualisasi ini tanpa perlu biaya subscription. Harap dicatat bahwa dibutuhkan _effort_ lebih untuk produk community yang dapat dipakai secara bebas tanpa biaya langganan jika misalnya kita mendapati masalah atau issue. Selain RHV dan oVirt, masih ada banyak teknologi di level hypervisor yang dapat kita jadikan referensi seperti misalnya vSphere, Proxmox, ESXi, hingga OpenStack. Dari segi fitur, lumayan banyak yang bisa kita dapati di oVirt dan RHV. Namun untuk Web Interface saya rasa masih kurang user friendly jika dibandingkan kompetitornya.
+Tentunya di production grade RHV lebih banyak diminati karena tersedianya support, dan oVirt menjadi alternatif jika ingin merasakan teknologi virtualisasi ini tanpa perlu biaya subscription. Harap dicatat bahwa dibutuhkan _effort_ lebih untuk produk community yang dapat dipakai secara bebas tanpa biaya langganan jika misalnya kita mendapati masalah atau issue. Selain RHV dan oVirt, masih ada banyak teknologi di level hypervisor yang dapat kita jadikan referensi seperti misalnya vSphere, Proxmox, ESXi, hingga OpenStack. Dari segi fitur, lumayan banyak yang bisa kita manfaatkan di oVirt dan RHV. Namun untuk Web Interface saya rasa masih kurang _user friendly_ jika dibandingkan kompetitornya.
 
 
 
