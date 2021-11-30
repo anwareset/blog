@@ -366,6 +366,6 @@ Tentunya di production grade RHV lebih banyak diminati karena tersedianya suppor
 - [www.desktop-virtualization.com/2008/05/01/qumranet-solid-ice](http://www.desktop-virtualization.com/2008/05/01/qumranet-solid-ice)
 - [www.desktop-virtualization.com/2008/09/09/redhat-acquires-qumranet-for-107m](http://www.desktop-virtualization.com/2008/09/09/redhat-acquires-qumranet-for-107m)
 - [access.redhat.com/documentation/en-us/red_hat_virtualization/4.4/html-single/administration_guide/index#Copy_ISO_to_ISO_domain-storage_tasks](https://access.redhat.com/documentation/en-us/red_hat_virtualization/4.4/html-single/administration_guide/index#Copy_ISO_to_ISO_domain-storage_tasks)
-- [ccess.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/deploying_different_types_of_servers/exporting-nfs-shares_deploying-different-types-of-servers](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/deploying_different_types_of_servers/exporting-nfs-shares_deploying-different-types-of-servers)
+- [access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/deploying_different_types_of_servers/exporting-nfs-shares_deploying-different-types-of-servers](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/deploying_different_types_of_servers/exporting-nfs-shares_deploying-different-types-of-servers)
 - [ubuntu.com/tutorials/install-ubuntu-server](https://ubuntu.com/tutorials/install-ubuntu-server)
 
