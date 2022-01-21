@@ -1,0 +1,683 @@
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="noodp">
+<meta http-equiv=x-ua-compatible content="IE=edge, chrome=1">
+<title>Plug and Play USB Devices dengan Udev Rules - Anwar's Blog</title><meta name=Description content="Deteksi dan respon otomatis terhadap perangkat USB menggunakan Udev pada sistem operasi GNU/Linux"><meta property="og:title" content="Plug and Play USB Devices dengan Udev Rules">
+<meta property="og:description" content="Deteksi dan respon otomatis terhadap perangkat USB menggunakan Udev pada sistem operasi GNU/Linux">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://init.web.id/plug-and-play-usb-devices-dengan-udev-rules/"><meta property="og:image" content="https://init.web.id/plug-and-play-usb-devices-dengan-udev-rules/cover.png"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2022-01-21T19:07:20+07:00">
+<meta property="article:modified_time" content="2022-01-21T19:07:20+07:00">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://init.web.id/plug-and-play-usb-devices-dengan-udev-rules/cover.png">
+<meta name=twitter:title content="Plug and Play USB Devices dengan Udev Rules">
+<meta name=twitter:description content="Deteksi dan respon otomatis terhadap perangkat USB menggunakan Udev pada sistem operasi GNU/Linux">
+<meta name=application-name content="Anwar's Blog">
+<meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
+<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/plug-and-play-usb-devices-dengan-udev-rules/><link rel=prev href=https://init.web.id/virtualisasi-infrastruktur-dengan-ovirt/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Plug and Play USB Devices dengan Udev Rules","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/plug-and-play-usb-devices-dengan-udev-rules\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/plug-and-play-usb-devices-dengan-udev-rules\/cover.png","width":1640,"height":924}],"genre":"posts","keywords":"Environment, Review","wordcount":1490,"url":"https:\/\/init.web.id\/plug-and-play-usb-devices-dengan-udev-rules\/","datePublished":"2022-01-21T19:07:20+07:00","dateModified":"2022-01-21T19:07:20+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Deteksi dan respon otomatis terhadap perangkat USB menggunakan Udev pada sistem operasi GNU/Linux"}</script></head>
+<body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'white'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'white'==='dark')&&document.body.setAttribute('theme','dark')</script>
+<div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
+<div class=header-wrapper>
+<div class=header-title>
+<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a>
+</div>
+<div class=menu>
+<div class=menu-inner><a class=menu-item href=/posts/> Posts </a><a class=menu-item href=/categories/> Categories </a><a class=menu-item href=/about/> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder="Search titles or contents..." id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search>
+<i class="fas fa-search fa-fw"></i>
+</a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear>
+<i class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id=search-loading-desktop>
+<i class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i>
+</a>
+</div>
+</div>
+</div>
+</header><header class=mobile id=header-mobile>
+<div class=header-container>
+<div class=header-wrapper>
+<div class=header-title>
+<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a>
+</div>
+<div class=menu-toggle id=menu-toggle-mobile>
+<span></span><span></span><span></span>
+</div>
+</div>
+<div class=menu id=menu-mobile><div class=search-wrapper>
+<div class="search mobile" id=search-mobile>
+<input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search>
+<i class="fas fa-search fa-fw"></i>
+</a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear>
+<i class="fas fa-times-circle fa-fw"></i>
+</a>
+<span class="search-button search-loading" id=search-loading-mobile>
+<i class="fas fa-spinner fa-fw fa-spin"></i>
+</span>
+</div>
+<a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>
+Cancel
+</a>
+</div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i>
+</a></div>
+</div>
+</header>
+<div class="search-dropdown desktop">
+<div id=search-dropdown-desktop></div>
+</div>
+<div class="search-dropdown mobile">
+<div id=search-dropdown-mobile></div>
+</div>
+<main class=main>
+<div class=container><div class=toc id=toc-auto>
+<h2 class=toc-title>Contents</h2>
+<div class=toc-content id=toc-content-auto></div>
+</div><article class="page single"><h1 class="single-title animated flipInX">Plug and Play USB Devices dengan Udev Rules</h1><div class=post-meta>
+<div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/gnu/linux/><i class="far fa-folder fa-fw"></i>GNU/Linux</a></span></div>
+<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-01-21>2022-01-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1490 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;7 minutes&nbsp;</div>
+</div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/plug-and-play-usb-devices-dengan-udev-rules/cover.png data-srcset="/plug-and-play-usb-devices-dengan-udev-rules/cover.png, /plug-and-play-usb-devices-dengan-udev-rules/cover.png 1.5x, /plug-and-play-usb-devices-dengan-udev-rules/cover.png 2x" data-sizes=auto alt=/plug-and-play-usb-devices-dengan-udev-rules/cover.png title="Deteksi dan respon otomatis terhadap perangkat USB menggunakan Udev pada sistem operasi GNU/Linux"></div><div class="details toc" id=toc-static kept>
+<div class="details-summary toc-title">
+<span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span>
+</div>
+<div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents>
+<ul>
+<li><a href=#xinput>Xinput</a>
+<ul>
+<li><a href=#listing>Listing</a></li>
+<li><a href=#properties>Properties</a></li>
+<li><a href=#set-mouse-properties>Set Mouse Properties</a></li>
+</ul>
+</li>
+<li><a href=#deteksi-usb-mouse>Deteksi USB Mouse</a>
+<ul>
+<li><a href=#lsusb>lsusb</a></li>
+<li><a href=#udevadm>udevadm</a></li>
+<li><a href=#symlink>Symlink</a></li>
+</ul>
+</li>
+<li><a href=#plug-and-play>Plug And Play</a>
+<ul>
+<li><a href=#udev-rules>Udev rules</a></li>
+<li><a href=#response>Response</a></li>
+</ul>
+</li>
+<li><a href=#kesimpulan>Kesimpulan</a></li>
+<li><a href=#referensi>Referensi</a></li>
+</ul>
+</nav></div>
+</div><div class=content id=content><p>Perangkat USB yang terpasang ke komputer dengan sistem operasi GNU/Linux akan dimonitor oleh daemon dari Udev. Saya baru saja membeli sebuah USB Mouse <em>hybrid</em> yaitu Rexus Arka RX107 yang mendukung <em>dual-mode</em> di mana kita dapat menggunakannya secara nirkabel maupun berkabel. Dalam kasus ini mouse dapat terdeteksi dan digunakan secara langsung, namun ada beberapa hal yang saya butuhkan, seperti mengatur beberapa <em>properties</em> pada mouse. Yang saya maksud misalnya akselerasi kursor, kecepatan <em>double-click</em>, hingga kecepatan <em>scroll</em>. Konfigurasi semacam itu terkadang perlu kita <em>adjust</em> secara mandiri dan tidak dapat serta merta dilakukan begitu saja dari System Settings (contohnya <code>xfce4-mouse-settings</code>) di DE (Desktop Environment) XFCE. Terlebih saya tidak menggunakan DE, hanya Window Manager saja.</p>
+<h2 id=xinput>Xinput</h2>
+<p>Biasanya saya menggunakan <code>xinput</code> untuk melakukan konfigurasi pada properties milik mouse.</p>
+<h3 id=listing>Listing</h3>
+<p>Kita dapat melihat perangkat apa saja yang terhubung seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>xinput list
+</code></pre></td></tr></table>
+</div>
+</div><p>Dan di sini saya mempunyai beberapa perangkat input, kita akan berfokus pada perangkat yang namanya mengandung kata <em>Wireless</em> dan <em>pointer</em> karena kita membahas tentang akselerasi mouse.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>⎡ Virtual core pointer                    	id=2	[master pointer  (3)]
+⎜   ↳ LXDDZ 2.4G Wireless Mouse               	id=19	[slave  pointer  (2)]
+⎜   ↳ LXDDZ 2.4G Wireless Mouse Consumer Control	id=12	[slave  pointer  (2)]
+...
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=properties>Properties</h3>
+<p>Untuk melihat properties apa saja yang mungkin dapat kita <em>set</em>, jalankan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>xinput list-props <span class=m>19</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Angka <strong>19</strong> adalah <strong>id</strong> dari pointer <strong>LXDDZ 2.4G Wireless Mouse</strong>. Kurang lebih outputnya seperti dibawah ini, cari yang kata yang berhubungan dengan <em>Speed</em> atau <em>Accel</em>.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>Device &#39;LXDDZ 2.4G Wireless Mouse&#39;:
+...
+	libinput Accel Speed (321):	0.000000
+	libinput Accel Speed Default (322):	0.000000
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>Dari sini kita akan mendapatkan <strong>id</strong> dari properties <strong>Accel Speed</strong> adalah <strong>321</strong>. Kita akan membutuhkannya untuk melakukan <em>adjustment</em> pada mouse.</p>
+<h3 id=set-mouse-properties>Set Mouse Properties</h3>
+<p>Untuk memberikan value baru pada properties di atas, kita dapat menggunakan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>xinput set-prop <span class=m>19</span> <span class=m>321</span> --type<span class=o>=</span>float -0.575
+</code></pre></td></tr></table>
+</div>
+</div><p>Saya memberikan value sebesar <strong>-0.575</strong> bertipe <em>float</em> atau pecahan, untuk menurunkan kecepatan akselerasi pada mouse. Dari sini seharusnya mouse akan terasa lebih lambat untuk digerakkan, sesuaikan dengan preferensi kalian. Kita perlu mengatur properties tersebut tiap kali mouse <em>reconnected</em>, tentu saja sangat melelahkan. Maka dari itu, mari membuatnya menjadi otomatis.</p>
+<hr>
+<h2 id=deteksi-usb-mouse>Deteksi USB Mouse</h2>
+<p>Saya mencoba membaca perangkat USB yang terhubung menggunakan perintah <code>lsusb</code>, beberapa informasi yang kita butuhkan adalah <strong>Device ID</strong> dan <strong>Vendor ID</strong>.</p>
+<h3 id=lsusb>lsusb</h3>
+<p>Informasi terkait dapat kita dapatkan dengan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>sudo lsusb -v <span class=p>|</span> grep -iE <span class=s1>&#39;idproduct|idvendor&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Berikut ini adalah sebelum Mouse USB terpasang.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>...
+  idVendor           0x1d6b Linux Foundation
+  idProduct          0x0003 3.0 root hub
+  idVendor           0x138a Validity Sensors, Inc.
+  idProduct          0x0017 VFS 5011 fingerprint sensor
+  idVendor           0x04ca Lite-On Technology Corp.
+  idProduct          0x7035 
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>Kemudian saya menghubungkan Mouse USB, dan inilah outputnya.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>...
+  idVendor           0x1d6b Linux Foundation
+  idProduct          0x0003 3.0 root hub
+  idVendor           0x138a Validity Sensors, Inc.
+  idProduct          0x0017 VFS 5011 fingerprint sensor
+  idVendor           0x1d57 Xenta
+  idProduct          0xfa60 
+  idVendor           0x04ca Lite-On Technology Corp.
+  idProduct          0x7035 
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>Berdasarkan output diatas, dapat kita ambil value yang baru muncul (bernama <strong>Xenta</strong>).</p>
+<table>
+<thead>
+<tr>
+<th style=text-align:center>Key</th>
+<th style=text-align:center>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style=text-align:center>idVendor</td>
+<td style=text-align:center>0x1d57</td>
+</tr>
+<tr>
+<td style=text-align:center>idProduct</td>
+<td style=text-align:center>0xfa60</td>
+</tr>
+</tbody>
+</table>
+<h3 id=udevadm>udevadm</h3>
+<p>Sekarang mari kita monitor <em>path</em> dari pertangkat USB yang terhubung. Tapi sebelumnya saya akan mencabut mouse terlebih dahulu, barulah menjalankan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>udevadm monitor
+</code></pre></td></tr></table>
+</div>
+</div><p>Setelah mouse kembali dihubungkan ke komputer, saya mendapatkan output seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>monitor will print the received events for:
+UDEV - the event which udev sends out after rule processing
+KERNEL - the kernel uevent
+
+KERNEL[2977.046735] add      /devices/pci0000:00/0000:00:14.0/usb3/3-3 (usb)
+KERNEL[2977.049111] change   /devices/pci0000:00/0000:00:14.0/usb3/3-3 (usb)
+KERNEL[2977.049159] add      /devices/pci0000:00/0000:00:14.0/usb3/3-3/3-3:1.0 (usb)
+KERNEL[2977.050130] add      /devices/pci0000:00/0000:00:14.0/usb3/3-3/3-3:1.0/0003:1D57:FA60.0011 (hid)
+KERNEL[2977.050251] add      /devices/pci0000:00/0000:00:14.0/usb3/3-3/wakeup/wakeup25 (wakeup)
+KERNEL[2977.050369] add      /devices/pci0000:00/0000:00:14.0/usb3/3-3/3-3:1.0/0003:1D57:FA60.0011/input/input44 (input)
+</code></pre></td></tr></table>
+</div>
+</div><p>Kita hanya perlu mencari <em>path</em> yang berhubungan dengan <strong>idVendor</strong> dan <strong>idProduct</strong> yang telah kita dapatkan sebelumnya. Maka kita akan menggunakan baris berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>KERNEL[2977.049159] add      /devices/pci0000:00/0000:00:14.0/usb3/3-3/3-3:1.0 (usb)
+KERNEL[2977.050130] add      /devices/pci0000:00/0000:00:14.0/usb3/3-3/3-3:1.0/0003:1D57:FA60.0011 (hid)
+</code></pre></td></tr></table>
+</div>
+</div><p>Lalu kita cari informasi lebih lanjut tentang <em>path</em> tersebut menggunakan perintah berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>udevadm info -a -p /devices/pci0000:00/0000:00:14.0/usb3/3-3/3-3:1.0
+</code></pre></td></tr></table>
+</div>
+</div><p>Maka kita akan mendapatkan banyak sekali output seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>  looking at parent device &#39;/devices/pci0000:00/0000:00:14.0/usb3/3-3&#39;:
+    KERNELS==&#34;3-3&#34;
+    SUBSYSTEMS==&#34;usb&#34;
+    DRIVERS==&#34;usb&#34;
+    ATTRS{authorized}==&#34;1&#34;
+    ATTRS{avoid_reset_quirk}==&#34;0&#34;
+    ATTRS{bConfigurationValue}==&#34;1&#34;
+    ATTRS{bDeviceClass}==&#34;00&#34;
+    ATTRS{bDeviceProtocol}==&#34;00&#34;
+    ATTRS{bDeviceSubClass}==&#34;00&#34;
+    ATTRS{bMaxPacketSize0}==&#34;64&#34;
+    ATTRS{bMaxPower}==&#34;100mA&#34;
+    ATTRS{bNumConfigurations}==&#34;1&#34;
+    ATTRS{bNumInterfaces}==&#34; 4&#34;
+    ATTRS{bcdDevice}==&#34;2003&#34;
+    ATTRS{bmAttributes}==&#34;a0&#34;
+    ATTRS{busnum}==&#34;3&#34;
+    ATTRS{configuration}==&#34;&#34;
+    ATTRS{devnum}==&#34;9&#34;
+    ATTRS{devpath}==&#34;3&#34;
+    ATTRS{idProduct}==&#34;fa60&#34;
+    ATTRS{idVendor}==&#34;1d57&#34;
+    ATTRS{ltm_capable}==&#34;no&#34;
+    ATTRS{manufacturer}==&#34;LXDDZ&#34;
+    ATTRS{maxchild}==&#34;0&#34;
+    ATTRS{power/active_duration}==&#34;553324&#34;
+    ATTRS{power/autosuspend}==&#34;2&#34;
+    ATTRS{power/autosuspend_delay_ms}==&#34;2000&#34;
+    ATTRS{power/connected_duration}==&#34;553324&#34;
+    ATTRS{power/control}==&#34;on&#34;
+    ATTRS{power/level}==&#34;on&#34;
+    ATTRS{power/persist}==&#34;1&#34;
+    ATTRS{power/runtime_active_time}==&#34;553060&#34;
+    ATTRS{power/runtime_status}==&#34;active&#34;
+    ATTRS{power/runtime_suspended_time}==&#34;0&#34;
+    ATTRS{power/wakeup}==&#34;enabled&#34;
+    ATTRS{power/wakeup_abort_count}==&#34;0&#34;
+    ATTRS{power/wakeup_active}==&#34;0&#34;
+    ATTRS{power/wakeup_active_count}==&#34;0&#34;
+    ATTRS{power/wakeup_count}==&#34;0&#34;
+    ATTRS{power/wakeup_expire_count}==&#34;0&#34;
+    ATTRS{power/wakeup_last_time_ms}==&#34;0&#34;
+    ATTRS{power/wakeup_max_time_ms}==&#34;0&#34;
+    ATTRS{power/wakeup_total_time_ms}==&#34;0&#34;
+    ATTRS{product}==&#34;2.4G Wireless Mouse&#34;
+    ATTRS{quirks}==&#34;0x0&#34;
+    ATTRS{removable}==&#34;removable&#34;
+    ATTRS{remove}==&#34;(write-only)&#34;
+    ATTRS{rx_lanes}==&#34;1&#34;
+    ATTRS{speed}==&#34;12&#34;
+    ATTRS{tx_lanes}==&#34;1&#34;
+    ATTRS{urbnum}==&#34;22306&#34;
+    ATTRS{version}==&#34; 1.10&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>Kita dapat melihat lebih detail informasi yang tentang perangkat USB Mouse yang baru saja saya beli, untuk membuat Udev rules saya membutuhkan value dari <strong>SUBSYSTEMS</strong> pada output di atas.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>...
+  looking at parent device &#39;/devices/pci0000:00/0000:00:14.0/usb3/3-3&#39;:
+    KERNELS==&#34;3-3&#34;
+    SUBSYSTEMS==&#34;usb&#34;
+    DRIVERS==&#34;usb&#34;
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>Value dari <strong>SUBSYSTEMS</strong> adalah <strong>usb</strong>.</p>
+<h3 id=symlink>Symlink</h3>
+<p>Mari kita buktikan dengan langsung membuat sebuah Udev rules yang akan menciptakan sebuah <em>symlink path</em> pada <code>/dev/</code> ketika perangkat terhubung, dan hilang saat perangkat tercabut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=nb>echo</span> <span class=s1>&#39;SUBSYSTEM==&#34;usb&#34;, ATTRS{idVendor}==&#34;1d57&#34;, ATTRS{idProduct}==&#34;fa61&#34;, SYMLINK+=&#34;usb_mouse_rexus_wired&#34;&#39;</span> <span class=p>|</span> sudo tee -a /etc/udev/rules.d/83-hybrid-wireless-mouse-rexus-rx107.rules
+</code></pre></td></tr></table>
+</div>
+</div><p>Dengan perintah di atas, saya membuat file baru di direktori <code>/etc/udev/rules.d</code> yang bernama <code>83-hybrid-wireless-mouse-rexus-rx107.rules</code>. Untuk format nama file pada Udev selalu diawali dengan angka yang akan menjadi nomor urut dari rules tersebut untuk dieksekusi.</p>
+<p>Kemudian jalankan ujicoba pada <em>path</em> yang kita dapatkan sebelumnya.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>sudo udevadm <span class=nb>test</span> -a /devices/pci0000:00/0000:00:14.0/usb3/3-3
+</code></pre></td></tr></table>
+</div>
+</div><p>Jika Udev rules berhasil, maka kita akan mendapatkan output seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>...
+Reading rules file: /etc/udev/rules.d/83-hybrid-wireless-mouse-rexus-rx107.rules
+...
+3-3: /etc/udev/rules.d/83-hybrid-wireless-mouse-rexus-rx107.rules:6 LINK &#39;usb_mouse_rexus_wireless&#39;
+...
+ID_VENDOR_ID=1d57
+ID_MODEL_ID=fa60
+DEVLINKS=/dev/usb_mouse_rexus_wireless
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>Periksa juga apakah <em>symlink</em> telah terbuat di direktori <code>/dev/</code>.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>$ ls -l /dev/usb_mouse_rexus_wireless
+lrwxrwxrwx 1 root root 15 Jan 21 20:24 /dev/usb_mouse_rexus_wireless -&gt; bus/usb/003/009
+</code></pre></td></tr></table>
+</div>
+</div><p>Dan saat mouse dicabut, <em>symlink</em> tersebut akan hilang.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>ls -l /dev/usb_mouse_rexus_wireless
+ls: cannot access &#39;/dev/usb_mouse_rexus_wireless&#39;: No such file or directory
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id=plug-and-play>Plug And Play</h2>
+<p>Sebenarnya menggunakan istilah <em>PnP</em> atau Plug and Play kurang tepat, karena mouse langsung dapat digunakan tanpa perlu memasang <em>driver</em> dan sebagainya. Hanya saja, seperti yang saya tulis sebelumnya bahwa konfigurasi properties pada mouse perlu tidaklah permanen. Artinya saya perlu melakukannya setiap kali <em>reconnecting</em> mouse, namun terimakasih kepada <code>udev</code> dan shell script sederhana yang akan melakukannya secara otomatis.</p>
+<h3 id=udev-rules>Udev rules</h3>
+<p>Sebelumnya kita telah mencoba membuat rules untuk <em>path symlink</em>, kali ini kita akan menambahkan beberapa baris rules lagi untuk mengeksekusi sebuah shell script yang berisi perintah <code>xinput</code> untuk konfigurasi properties pada mouse.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback># Wired
+SUBSYSTEM==&#34;usb&#34;, ATTRS{idVendor}==&#34;1d57&#34;, ATTRS{idProduct}==&#34;fa61&#34;, SYMLINK+=&#34;usb_mouse_rexus_wired&#34;
+ACTION==&#34;add&#34;, SUBSYSTEM==&#34;usb&#34;, ATTRS{idVendor}==&#34;1d57&#34;, ATTRS{idProduct}==&#34;fa61&#34;, ENV{DISPLAY}=&#34;:0.0&#34;, ENV{XAUTHORITY}=&#34;/home/pwn3r/.Xauthority&#34;, RUN+=&#34;/usr/local/bin/set-prop-rexus-mouse&#34;
+
+# Wireless
+SUBSYSTEM==&#34;usb&#34;, ATTRS{idVendor}==&#34;1d57&#34;, ATTRS{idProduct}==&#34;fa60&#34;, SYMLINK+=&#34;usb_mouse_rexus_wireless&#34;
+ACTION==&#34;add&#34;, SUBSYSTEM==&#34;usb&#34;, ATTRS{idVendor}==&#34;1d57&#34;, ATTRS{idProduct}==&#34;fa60&#34;, ENV{DISPLAY}=&#34;:0.0&#34;, ENV{XAUTHORITY}=&#34;/home/pwn3r/.Xauthority&#34;, RUN+=&#34;/usr/local/bin/set-prop-rexus-mouse&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>Kenapa saya membuat dua <em>symlink</em> dan terdapat dua <strong>idProduct</strong> yang berbeda? Hal ini karena ketika mouse mempunyai <em>dual-mode</em>, yang ternyata memiliki <strong>idProduct</strong> berbeda saat dioperasikan secara nirkabel ataupun berkabel.</p>
+<p>Lalu kita dapat melihat <code>ACTION=="add"</code> yang artinya rules akan mulai menjalankan <code>RUN</code> saat mendeteksi <em>action</em> berupa <strong>add</strong> pada atribut yang sesuai dengan <strong>SUBSYSTEM</strong>, <strong>idVendor</strong> dan <strong>idProduct</strong>. Sementara <code>ENV</code> adalah <em>environment variable</em> yang akan dilewatkan ketika <code>RUN</code> dieksekusi, hal ini diperlukan karena perintah <code>xinput</code> pada shell script akan dieksekusi oleh sistem (root). Maka <code>udev</code> perlu tahu mana user yang dimaksud, dan mana letak sesi display manager user tersebut.</p>
+<p>Selanjutnya muat ulang Udev rules yang telah kita buat supaya <em>daemon</em> akan menerapkannya.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>sudo udevadm control --reload
+</code></pre></td></tr></table>
+</div>
+</div><h3 id=response>Response</h3>
+<p>Dari sini kita akan melakukan sedikit shell scripting, kurang lebih seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=cp>#!/usr/bin/bash
+</span><span class=cp></span>
+<span class=nb>export</span> <span class=nv>DISPLAY</span><span class=o>=</span><span class=si>${</span><span class=nv>DISPLAY</span><span class=si>}</span>
+<span class=nb>export</span> <span class=nv>HOME</span><span class=o>=</span>/home/pwn3r
+<span class=nb>export</span> <span class=nv>XAUTHORITY</span><span class=o>=</span><span class=nv>$HOME</span>/.Xauthority
+
+/usr/local/bin/set-prop-rexus-mouse-worker <span class=p>&amp;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Namun file tersebut tidak akan menjalankan perintah <code>xinput</code>. Karena mouse belum terdeteksi pada <code>xinput list</code> ketika Udev rules pertama kali dieksekusi. Maka kita akan memanggil shell script lain di <em>background</em> seperti berikut.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=cp>#!/usr/bin/bash
+</span><span class=cp></span>
+sleep <span class=m>2</span>
+
+<span class=k>for</span> i in <span class=k>$(</span>xinput list <span class=p>|</span> grep -i <span class=s2>&#34;LXDDZ 2.4G Wireless Mouse&#34;</span> <span class=p>|</span> grep -iEv <span class=s2>&#34;Consumer|Control|keyboard&#34;</span> <span class=p>|</span> se-e <span class=s1>&#39;s/^.*id=\([0-9]*.\).*$/\1/&#39;</span><span class=k>)</span>
+<span class=k>do</span> 
+    xinput set-prop <span class=nv>$i</span> <span class=m>321</span> --type<span class=o>=</span>float -0.6
+<span class=k>done</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="details admonition warning open">
+<div class="details-summary admonition-title">
+<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
+</div>
+<div class=details-content>
+<div class=admonition-content>Perhatikan argumen dari perintah <code>grep</code> di atas, kita perlu menyesuaikannya untuk mendapatkan <strong>id</strong> dari perangkat yang terdeteksi oleh <code>xinput list</code>. Artinya setiap perangkat memiliki karakteristik yang berbeda, dan silahkan bermain-main untuk mencari value yang sesuai dengan perangkat kalian.</div>
+</div>
+</div>
+<p>Saya menyimpan kedua file shell script tersebut ke direktori <code>/usr/local/bin</code> dan jangan lupa tambahkan executable permission.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>sudo chmod +x /usr/local/bin/set-prop-rexus-mouse
+</code></pre></td></tr></table>
+</div>
+</div><p>Dari sini kita dapat memicu Udev rules dengan perintah berikut. Atau sederhana saja, cukup cabut dan hubungkan kembali mouse. Maka kedua shell script tersebut akan dieksekusi oleh Udev rules.</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>sudo udevadm trigger -c add
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id=kesimpulan>Kesimpulan</h2>
+<p>Sebenarnya <code>udev</code> tidak terlalu rumit untuk digunakan, hanya sedikit susah dalam hal <em>debug</em> perangkat. Faktanya <code>udev</code> juga dapat digunakan untuk berbagai macam perangkat dengan interface lain seperti SCSI, SATA/eSATA, PCI, hingga VGA dan HDMI. Jadi tidak untuk USB saja, <code>udev</code> dipakai oleh sistem operasi untuk <em>handling</em> berbagai <em>peripheral</em> yang terhubung ke komputer.</p>
+<hr>
+<h2 id=referensi>Referensi</h2>
+<ul>
+<li><a href=http://granjow.net/udev-rules.html target=_blank rel="noopener noreffer">granjow.net/udev-rules.html</a></li>
+<li><a href=https://man7.org/linux/man-pages/man8/udevadm.8.html target=_blank rel="noopener noreffer">man7.org/linux/man-pages/man8/udevadm.8.html</a></li>
+<li><a href=https://wiki.archlinux.org/title/udev target=_blank rel="noopener noreffer">wiki.archlinux.org/title/udev</a></li>
+<li><a href=https://bootlin.com/doc/legacy/udev/udev.pdf target=_blank rel="noopener noreffer">bootlin.com/doc/legacy/udev/udev.pdf</a></li>
+<li><a href=https://wiki.archlinux.org/title/xinput target=_blank rel="noopener noreffer">wiki.archlinux.org/title/xinput</a></li>
+</ul></div><div class=post-footer id=post-footer>
+<div class=post-info>
+<div class=post-info-line>
+<div class=post-info-mod>
+<span>Updated on 2022-01-21</span>
+</div>
+<div class=post-info-license></div>
+</div>
+<div class=post-info-line>
+<div class=post-info-md><span>
+<a class=link-to-markdown href=/plug-and-play-usb-devices-dengan-udev-rules/index.md target=_blank>Read Markdown</a>
+</span></div>
+<div class=post-info-share>
+<span></span>
+</div>
+</div>
+</div>
+<div class=post-info-more>
+<section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/environment/>Environment</a>,&nbsp;<a href=/tags/review/>Review</a></section>
+<section>
+<span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span>
+</section>
+</div>
+<div class=post-nav><a href=/virtualisasi-infrastruktur-dengan-ovirt/ class=prev rel=prev title="Virtualisasi Infrastruktur dengan oVirt"><i class="fas fa-angle-left fa-fw"></i>Virtualisasi Infrastruktur dengan oVirt</a></div>
+</div>
+<div id=comments><div id=disqus_thread class=comment></div><noscript>
+Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.
+</noscript></div></article></div>
+</main><footer class=footer>
+<div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div>
+</div>
+</footer></div>
+<div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top">
+<i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments">
+<i class="fas fa-comment fa-fw"></i>
+</a>
+</div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body>
+</html>
