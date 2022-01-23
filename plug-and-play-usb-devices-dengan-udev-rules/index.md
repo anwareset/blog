@@ -268,7 +268,7 @@ Namun file tersebut tidak akan menjalankan perintah `xinput`. Karena mouse belum
 
 sleep 2
 
-for i in $(xinput list | grep -i "LXDDZ 2.4G Wireless Mouse" | grep -iEv "Consumer|Control|keyboard" | se-e 's/^.*id=\([0-9]*.\).*$/\1/')
+for i in $(xinput list | grep -i "LXDDZ 2.4G Wireless Mouse" | grep -iEv "Consumer|Control|keyboard" | sed -e 's/^.*id=\([0-9]*.\).*$/\1/')
 do 
     xinput set-prop $i 321 --type=float -0.6
 done
