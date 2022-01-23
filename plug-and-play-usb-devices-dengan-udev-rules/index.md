@@ -27,7 +27,7 @@ Untuk melihat properties apa saja yang mungkin dapat kita _set_, jalankan perint
 ```shell
 xinput list-props 19
 ```
-Angka **19** adalah **id** dari pointer **LXDDZ 2.4G Wireless Mouse**. Kurang lebih outputnya seperti dibawah ini, cari yang kata yang berhubungan dengan _Speed_ atau _Accel_.
+Angka **19** adalah **id** dari pointer **LXDDZ 2.4G Wireless Mouse**. Kurang lebih outputnya seperti dibawah ini, cukup cari kata yang berhubungan dengan _Speed_ atau _Accel_.
 ```log
 Device 'LXDDZ 2.4G Wireless Mouse':
 ...
