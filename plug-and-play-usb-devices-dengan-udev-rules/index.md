@@ -280,7 +280,8 @@ Perhatikan argumen dari perintah `grep` di atas, kita perlu menyesuaikannya untu
 
 Saya menyimpan kedua file shell script tersebut ke direktori `/usr/local/bin` dan jangan lupa tambahkan executable permission.
 ```shell
-sudo chmod +x /usr/local/bin/set-prop-rexus-mouse
+sudo chmod +x /usr/local/bin/set-prop-rexus-mouse.sh
+sudo chmod +x /usr/local/bin/set-prop-rexus-mouse-worker.sh
 ```
 
 Dari sini kita dapat memicu Udev rules dengan perintah berikut. Atau sederhana saja, cukup cabut dan hubungkan kembali mouse. Maka kedua shell script tersebut akan dieksekusi oleh Udev rules.
