@@ -1,163 +1,18 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="noodp">
-<meta http-equiv=x-ua-compatible content="IE=edge, chrome=1">
-<title>Monitoring Kubernetes dengan InfluxDB v2 - Anwar's Blog</title><meta name=Description content="Memanfaatkan InfluxDB v2 untuk resource usage monitoring cluster Kubernetes"><meta property="og:title" content="Monitoring Kubernetes dengan InfluxDB v2">
-<meta property="og:description" content="Memanfaatkan InfluxDB v2 untuk resource usage monitoring cluster Kubernetes">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://init.web.id/monitoring-kubernetes-dengan-influxdb-v2/"><meta property="og:image" content="https://init.web.id/monitoring-kubernetes-dengan-influxdb-v2/cover.webp"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2021-06-18T14:49:12+07:00">
-<meta property="article:modified_time" content="2021-06-18T17:48:12+07:00">
-<meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://init.web.id/monitoring-kubernetes-dengan-influxdb-v2/cover.webp">
-<meta name=twitter:title content="Monitoring Kubernetes dengan InfluxDB v2">
-<meta name=twitter:description content="Memanfaatkan InfluxDB v2 untuk resource usage monitoring cluster Kubernetes">
-<meta name=application-name content="Anwar's Blog">
-<meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
-<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/monitoring-kubernetes-dengan-influxdb-v2/><link rel=prev href=https://init.web.id/nxrm-untuk-private-image-registry/><link rel=next href=https://init.web.id/virtualisasi-infrastruktur-dengan-ovirt/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Monitoring Kubernetes dengan InfluxDB v2","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/monitoring-kubernetes-dengan-influxdb-v2\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/monitoring-kubernetes-dengan-influxdb-v2\/cover.webp","width":1e3,"height":839}],"genre":"posts","keywords":"InfluxDB, TICK, Monitoring, Kubernetes","wordcount":1613,"url":"https:\/\/init.web.id\/monitoring-kubernetes-dengan-influxdb-v2\/","datePublished":"2021-06-18T14:49:12+07:00","dateModified":"2021-06-18T17:48:12+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Memanfaatkan InfluxDB v2 untuk resource usage monitoring cluster Kubernetes"}</script></head>
-<body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'dark'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'dark'==='dark')&&document.body.setAttribute('theme','dark')</script>
-<div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
-<div class=header-wrapper>
-<div class=header-title>
-<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a>
-</div>
-<div class=menu>
-<div class=menu-inner><a class=menu-item href=/posts/> Posts </a><a class=menu-item href=/categories/> Categories </a><a class=menu-item href=/about/> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Monitoring Kubernetes dengan InfluxDB v2 - Anwar's Blog</title><meta name=Description content="Memanfaatkan InfluxDB v2 untuk resource usage monitoring cluster Kubernetes"><meta property="og:title" content="Monitoring Kubernetes dengan InfluxDB v2"><meta property="og:description" content="Memanfaatkan InfluxDB v2 untuk resource usage monitoring cluster Kubernetes"><meta property="og:type" content="article"><meta property="og:url" content="https://init.web.id/monitoring-kubernetes-dengan-influxdb-v2/"><meta property="og:image" content="https://init.web.id/monitoring-kubernetes-dengan-influxdb-v2/cover.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-06-18T14:49:12+07:00"><meta property="article:modified_time" content="2021-06-18T17:48:12+07:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://init.web.id/monitoring-kubernetes-dengan-influxdb-v2/cover.webp"><meta name=twitter:title content="Monitoring Kubernetes dengan InfluxDB v2"><meta name=twitter:description content="Memanfaatkan InfluxDB v2 untuk resource usage monitoring cluster Kubernetes"><meta name=application-name content="Anwar's Blog"><meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/monitoring-kubernetes-dengan-influxdb-v2/><link rel=prev href=https://init.web.id/nxrm-untuk-private-image-registry/><link rel=next href=https://init.web.id/virtualisasi-infrastruktur-dengan-ovirt/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Monitoring Kubernetes dengan InfluxDB v2","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/monitoring-kubernetes-dengan-influxdb-v2\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/monitoring-kubernetes-dengan-influxdb-v2\/cover.webp","width":1e3,"height":839}],"genre":"posts","keywords":"InfluxDB, TICK, Monitoring, Kubernetes","wordcount":1613,"url":"https:\/\/init.web.id\/monitoring-kubernetes-dengan-influxdb-v2\/","datePublished":"2021-06-18T14:49:12+07:00","dateModified":"2021-06-18T17:48:12+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Memanfaatkan InfluxDB v2 untuk resource usage monitoring cluster Kubernetes"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"dark"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"dark"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/about/>About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
 <input type=text placeholder="Search titles or contents..." id=search-input-desktop>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search>
-<i class="fas fa-search fa-fw"></i>
-</a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear>
-<i class="fas fa-times-circle fa-fw"></i>
-</a>
-<span class="search-button search-loading" id=search-loading-desktop>
-<i class="fas fa-spinner fa-fw fa-spin"></i>
-</span>
-</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i>
-</a>
-</div>
-</div>
-</div>
-</header><header class=mobile id=header-mobile>
-<div class=header-container>
-<div class=header-wrapper>
-<div class=header-title>
-<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a>
-</div>
-<div class=menu-toggle id=menu-toggle-mobile>
-<span></span><span></span><span></span>
-</div>
-</div>
-<div class=menu id=menu-mobile><div class=search-wrapper>
-<div class="search mobile" id=search-mobile>
-<input type=text placeholder="Search titles or contents..." id=search-input-mobile>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search>
-<i class="fas fa-search fa-fw"></i>
-</a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear>
-<i class="fas fa-times-circle fa-fw"></i>
-</a>
-<span class="search-button search-loading" id=search-loading-mobile>
-<i class="fas fa-spinner fa-fw fa-spin"></i>
-</span>
-</div>
-<a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>
-Cancel
-</a>
-</div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i>
-</a></div>
-</div>
-</header>
-<div class="search-dropdown desktop">
-<div id=search-dropdown-desktop></div>
-</div>
-<div class="search-dropdown mobile">
-<div id=search-dropdown-mobile></div>
-</div>
-<main class=main>
-<div class=container><div class=toc id=toc-auto>
-<h2 class=toc-title>Contents</h2>
-<div class=toc-content id=toc-content-auto></div>
-</div><article class="page single"><h1 class="single-title animated flipInX">Monitoring Kubernetes dengan InfluxDB v2</h1><div class=post-meta>
-<div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/tools/><i class="far fa-folder fa-fw"></i>Tools</a></span></div>
-<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-06-18>2021-06-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1613 words&nbsp;
-<i class="far fa-clock fa-fw"></i>&nbsp;8 minutes&nbsp;</div>
-</div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/monitoring-kubernetes-dengan-influxdb-v2/cover.webp data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/cover.webp, /monitoring-kubernetes-dengan-influxdb-v2/cover.webp 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/cover.webp 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/cover.webp title="Memanfaatkan InfluxDB v2 untuk resource usage monitoring cluster Kubernetes"></div><div class="details toc" id=toc-static kept>
-<div class="details-summary toc-title">
-<span>Contents</span>
-<span><i class="details-icon fas fa-angle-right"></i></span>
-</div>
-<div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents>
-<ul>
-<li><a href=#influxdb>InfluxDB</a>
-<ul>
-<li><a href=#tick-stack>TICK Stack</a></li>
-<li><a href=#planning>Planning</a></li>
-</ul>
-</li>
-<li><a href=#deploy-influxdb>Deploy InfluxDB</a>
-<ul>
-<li><a href=#membuat-namespace>Membuat Namespace</a></li>
-<li><a href=#deploy-influxdb-1>Deploy InfluxDB</a></li>
-<li><a href=#memeriksa-objek-influxdb>Memeriksa Objek InfluxDB</a></li>
-<li><a href=#influxdb-secret>InfluxDB Secret</a></li>
-</ul>
-</li>
-<li><a href=#deploy-telegraf>Deploy Telegraf</a>
-<ul>
-<li><a href=#add-repo-helm>Add Repo Helm</a></li>
-<li><a href=#values>Values</a></li>
-<li><a href=#memeriksa-objek-telegraf>Memeriksa Objek Telegraf</a></li>
-</ul>
-</li>
-<li><a href=#influxdb-ui>InfluxDB UI</a>
-<ul>
-<li><a href=#template-boards-kubernetes>Template Boards Kubernetes</a></li>
-</ul>
-</li>
-<li><a href=#uninstall>Uninstall</a></li>
-<li><a href=#kesimpulan>Kesimpulan</a></li>
-<li><a href=#referensi>Referensi</a></li>
-</ul>
-</nav></div>
-</div><div class=content id=content><p>InfluxDB merupakan time-series database yang dibangun menggunakan bahasa pemrograman Go, dan dikembangkan oleh InfluxData. InfluxDB dioptimasi agar mampu berjalan dengan cepat dan mendukung konsep high-availability untuk menerima time-series data yang dipakai dalam hal monitoring, application metrics, data Internet of Things, hingga analisa secara real-time.</p>
-<h2 id=influxdb>InfluxDB</h2>
-<p>InfluxData memiliki beberapa macam produk, salah satunya yang akan kita gunakan adalah InfluxDB OSS (Open Source Software). Selain InfluxDB OSS, sebenarnya terdapat produk lain yang berbayar seperti InfluxDB Cloud dengan model SaaS (Software as a Service) dan InfluxDB Enterprise. Sedangkan untuk versi, saat artikel ini dibuat InfluxDB v2 adalah yang paling baru dan sudah diklaim sebagai versi stabil. InfluxDB Enterprise dapat mendukung high-availability sehingga kita dapat membangunnya menjadi seperti sebuah cluster, sedangkan InfluxDB OSS tidak mendukung fitur tersebut.
-<figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/flux-kube.jpg title="Monitor Kubernetes with InfluxDB" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/flux-kube.jpg data-sub-html="<h2>Monitor Kubernetes with InfluxDB</h2><p>Monitor Kubernetes with InfluxDB</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=flux-kube.jpg data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/flux-kube.jpg, flux-kube.jpg 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/flux-kube.jpg 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/flux-kube.jpg>
-</a><figcaption class=image-caption>Monitor Kubernetes with InfluxDB</figcaption>
-</figure></p>
-<h3 id=tick-stack>TICK Stack</h3>
-<p>Bagi pemula atau orang awam, perbedaan dari InfluxDB v1 dan InfluxDB v2 adalah dalam hal modulnya. InfluxDB v1 lebih modular, dalam artian masing-masing komponen perlu dipasang untuk dapat berjalan menjadi satu tumpukan teknologi yang dalam sering disebut sebagai TICK Stack. TICK merupakan singkatan dari Telegraf InfluxDB Chronograf Kapacitor, keempat komponen tersebut memiliki tugas masing-masing. Telegraf akan melakukan mengumpulkan data, InfluxDB untuk menampung data yang telah dikumpulkan, Chronograf dipakai untuk visualisasi dan pengelolaan data, lalu Kapacitor digunakan untuk melakukan alerting.
-Untuk InfluxDB v2 beberapa komponen sebelumnya di-bundle menjadi single-binary yang disebut sebagai InfluxDB saja. Beberapa komponen tersebut adalah InfluxDB, Chronograf, dan Kapacitor. Sedangkan untuk Telegraf masih terpisah, karena Telegraf bisa saja dijalankan di perangkat terpisah dan berfungsi untuk mengumpulkan data yang bisa saja lebih dari satu perangkat.</p>
-<p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/APM-Diagram-2.webp title="High Level Architecture InfluxDB v2" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/APM-Diagram-2.webp data-sub-html="<h2>Arsitektur InfluxDB v2</h2><p>High Level Architecture InfluxDB v2</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=APM-Diagram-2.webp data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/APM-Diagram-2.webp, APM-Diagram-2.webp 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/APM-Diagram-2.webp 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/APM-Diagram-2.webp>
-</a><figcaption class=image-caption>Arsitektur InfluxDB v2</figcaption>
-</figure></p>
-<h3 id=planning>Planning</h3>
-<p>Dalam artikel ini InfluxDB akan saya jalankan di atas cluster Kubernetes menggunakan objek StatefulSet sehingga persistent volume diperlukan supaya database tidak akan terhapus ketika pod mengalami restart atau terhapus. Lalu Telegraf akan saya jalankan sebagai objek DaemonSet supaya dapat mengambil data dari semua Nodes yang bergabung pada cluster. Untuk mempermudah proses deploy InfluxDB, sudah ada <a href=https://github.com/influxdata/helm-charts/ target=_blank rel="noopener noreffer">Helm chart</a> yang disediakan. Namun karena saat artikel ini dibuat, Helm bagi InfluxDB masih belum stable saya lebih memilih menulis dalam bentuk YAML, dan hanya menggunakan Helm untuk men-deploy Telegraf saja.</p>
-<hr>
-<h2 id=deploy-influxdb>Deploy InfluxDB</h2>
-<p>Sebelum lebih lanjut, saya membuat sebuah namespace khusus bernama <code>monitoring</code> yang akan berisi seluruh objek terkait InfluxDB.</p>
-<h3 id=membuat-namespace>Membuat Namespace</h3>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>kubectl create namespace monitoring
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=deploy-influxdb-1>Deploy InfluxDB</h3>
-<p>Silahkan sesuaikan script YAML berikut ini dengan environment yang ada.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>  1
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">Monitoring Kubernetes dengan InfluxDB v2</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/tools/><i class="far fa-folder fa-fw"></i>Tools</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-06-18>2021-06-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1613 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;8 minutes&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/monitoring-kubernetes-dengan-influxdb-v2/cover.webp data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/cover.webp, /monitoring-kubernetes-dengan-influxdb-v2/cover.webp 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/cover.webp 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/cover.webp title="Memanfaatkan InfluxDB v2 untuk resource usage monitoring cluster Kubernetes"></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#influxdb>InfluxDB</a><ul><li><a href=#tick-stack>TICK Stack</a></li><li><a href=#planning>Planning</a></li></ul></li><li><a href=#deploy-influxdb>Deploy InfluxDB</a><ul><li><a href=#membuat-namespace>Membuat Namespace</a></li><li><a href=#deploy-influxdb-1>Deploy InfluxDB</a></li><li><a href=#memeriksa-objek-influxdb>Memeriksa Objek InfluxDB</a></li><li><a href=#influxdb-secret>InfluxDB Secret</a></li></ul></li><li><a href=#deploy-telegraf>Deploy Telegraf</a><ul><li><a href=#add-repo-helm>Add Repo Helm</a></li><li><a href=#values>Values</a></li><li><a href=#memeriksa-objek-telegraf>Memeriksa Objek Telegraf</a></li></ul></li><li><a href=#influxdb-ui>InfluxDB UI</a><ul><li><a href=#template-boards-kubernetes>Template Boards Kubernetes</a></li></ul></li><li><a href=#uninstall>Uninstall</a></li><li><a href=#kesimpulan>Kesimpulan</a></li><li><a href=#referensi>Referensi</a></li></ul></nav></div></div><div class=content id=content><p>InfluxDB merupakan time-series database yang dibangun menggunakan bahasa pemrograman Go, dan dikembangkan oleh InfluxData. InfluxDB dioptimasi agar mampu berjalan dengan cepat dan mendukung konsep high-availability untuk menerima time-series data yang dipakai dalam hal monitoring, application metrics, data Internet of Things, hingga analisa secara real-time.</p><h2 id=influxdb>InfluxDB</h2><p>InfluxData memiliki beberapa macam produk, salah satunya yang akan kita gunakan adalah InfluxDB OSS (Open Source Software). Selain InfluxDB OSS, sebenarnya terdapat produk lain yang berbayar seperti InfluxDB Cloud dengan model SaaS (Software as a Service) dan InfluxDB Enterprise. Sedangkan untuk versi, saat artikel ini dibuat InfluxDB v2 adalah yang paling baru dan sudah diklaim sebagai versi stabil. InfluxDB Enterprise dapat mendukung high-availability sehingga kita dapat membangunnya menjadi seperti sebuah cluster, sedangkan InfluxDB OSS tidak mendukung fitur tersebut.<figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/flux-kube.jpg title="Monitor Kubernetes with InfluxDB" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/flux-kube.jpg data-sub-html="<h2>Monitor Kubernetes with InfluxDB</h2><p>Monitor Kubernetes with InfluxDB</p>"><img class=lazyload src=/svg/loading.min.svg data-src=flux-kube.jpg data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/flux-kube.jpg, flux-kube.jpg 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/flux-kube.jpg 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/flux-kube.jpg></a><figcaption class=image-caption>Monitor Kubernetes with InfluxDB</figcaption></figure></p><h3 id=tick-stack>TICK Stack</h3><p>Bagi pemula atau orang awam, perbedaan dari InfluxDB v1 dan InfluxDB v2 adalah dalam hal modulnya. InfluxDB v1 lebih modular, dalam artian masing-masing komponen perlu dipasang untuk dapat berjalan menjadi satu tumpukan teknologi yang dalam sering disebut sebagai TICK Stack. TICK merupakan singkatan dari Telegraf InfluxDB Chronograf Kapacitor, keempat komponen tersebut memiliki tugas masing-masing. Telegraf akan melakukan mengumpulkan data, InfluxDB untuk menampung data yang telah dikumpulkan, Chronograf dipakai untuk visualisasi dan pengelolaan data, lalu Kapacitor digunakan untuk melakukan alerting.
+Untuk InfluxDB v2 beberapa komponen sebelumnya di-bundle menjadi single-binary yang disebut sebagai InfluxDB saja. Beberapa komponen tersebut adalah InfluxDB, Chronograf, dan Kapacitor. Sedangkan untuk Telegraf masih terpisah, karena Telegraf bisa saja dijalankan di perangkat terpisah dan berfungsi untuk mengumpulkan data yang bisa saja lebih dari satu perangkat.</p><p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/APM-Diagram-2.webp title="High Level Architecture InfluxDB v2" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/APM-Diagram-2.webp data-sub-html="<h2>Arsitektur InfluxDB v2</h2><p>High Level Architecture InfluxDB v2</p>"><img class=lazyload src=/svg/loading.min.svg data-src=APM-Diagram-2.webp data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/APM-Diagram-2.webp, APM-Diagram-2.webp 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/APM-Diagram-2.webp 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/APM-Diagram-2.webp></a><figcaption class=image-caption>Arsitektur InfluxDB v2</figcaption></figure></p><h3 id=planning>Planning</h3><p>Dalam artikel ini InfluxDB akan saya jalankan di atas cluster Kubernetes menggunakan objek StatefulSet sehingga persistent volume diperlukan supaya database tidak akan terhapus ketika pod mengalami restart atau terhapus. Lalu Telegraf akan saya jalankan sebagai objek DaemonSet supaya dapat mengambil data dari semua Nodes yang bergabung pada cluster. Untuk mempermudah proses deploy InfluxDB, sudah ada <a href=https://github.com/influxdata/helm-charts/ target=_blank rel="noopener noreffer">Helm chart</a> yang disediakan. Namun karena saat artikel ini dibuat, Helm bagi InfluxDB masih belum stable saya lebih memilih menulis dalam bentuk YAML, dan hanya menggunakan Helm untuk men-deploy Telegraf saja.</p><hr><h2 id=deploy-influxdb>Deploy InfluxDB</h2><p>Sebelum lebih lanjut, saya membuat sebuah namespace khusus bernama <code>monitoring</code> yang akan berisi seluruh objek terkait InfluxDB.</p><h3 id=membuat-namespace>Membuat Namespace</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>kubectl create namespace monitoring
+</span></span></code></pre></td></tr></table></div></div><h3 id=deploy-influxdb-1>Deploy InfluxDB</h3><p>Silahkan sesuaikan script YAML berikut ini dengan environment yang ada.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
 </span><span class=lnt>  2
 </span><span class=lnt>  3
 </span><span class=lnt>  4
@@ -288,164 +143,142 @@ Untuk InfluxDB v2 beberapa komponen sebelumnya di-bundle menjadi single-binary y
 </span><span class=lnt>129
 </span><span class=lnt>130
 </span><span class=lnt>131
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nn>---</span><span class=w>
-</span><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>v1</span><span class=w>
-</span><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Secret</span><span class=w>
-</span><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>labels</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb-auth</span><span class=w>
-</span><span class=w>    </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
-</span><span class=w></span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>Opaque</span><span class=w>
-</span><span class=w></span><span class=nt>data</span><span class=p>:</span><span class=w>
-</span><span class=w></span><span class=c># Random alphanumeric 32 karakter dengan base64</span><span class=w>
-</span><span class=w></span><span class=c># Contoh:</span><span class=w>
-</span><span class=w></span><span class=c>#   cat /dev/urandom | tr -dc &#39;a-zA-Z0-9&#39; | fold -w 32 | head -n 1</span><span class=w>
-</span><span class=w></span><span class=c>#     g71Kv9SUBnk7yqUQLw8UJV08jq3i4Vcl</span><span class=w>
-</span><span class=w></span><span class=c>#   echo -n &#39;g71Kv9SUBnk7yqUQLw8UJV08jq3i4Vcl&#39; | base64</span><span class=w>
-</span><span class=w></span><span class=c>#     ZzcxS3Y5U1VCbms3eXFVUUx3OFVKVjA4anEzaTRWY2w=</span><span class=w>
-</span><span class=w>    </span><span class=nt>admin-token</span><span class=p>:</span><span class=w> </span><span class=l>ZzcxS3Y5U1VCbms3eXFVUUx3OFVKVjA4anEzaTRWY2w=</span><span class=w>
-</span><span class=w></span><span class=c># Ubah plaintext password ke bae64</span><span class=w>
-</span><span class=w></span><span class=c># Contoh:</span><span class=w>
-</span><span class=w></span><span class=c>#   echo -n &#39;administrator&#39; | base64</span><span class=w>
-</span><span class=w></span><span class=c>#       YWRtaW5pc3RyYXRvcg==</span><span class=w>
-</span><span class=w>    </span><span class=nt>admin-password</span><span class=p>:</span><span class=w> </span><span class=l>YWRtaW5pc3RyYXRvcg==</span><span class=w>
-</span><span class=w></span><span class=nn>---</span><span class=w>
-</span><span class=w></span><span class=c># PDB Untuk menjaga jumlah replikasi</span><span class=w>
-</span><span class=w></span><span class=c># https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#pod-disruption-budgets</span><span class=w>
-</span><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>policy/v1beta1</span><span class=w>
-</span><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>PodDisruptionBudget</span><span class=w>
-</span><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>    </span><span class=nt>labels</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>        </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
-</span><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>minAvailable</span><span class=p>:</span><span class=w> </span><span class=m>1</span><span class=w>
-</span><span class=w></span><span class=c>#    maxAvailable: 1</span><span class=w>
-</span><span class=w>    </span><span class=nt>selector</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>matchLabels</span><span class=p>:</span><span class=w>
-</span><span class=w>            </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w></span><span class=nn>---</span><span class=w>
-</span><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>apps/v1</span><span class=w>
-</span><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>StatefulSet</span><span class=w>
-</span><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>labels</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>    </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
-</span><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>replicas</span><span class=p>:</span><span class=w> </span><span class=m>1</span><span class=w>
-</span><span class=w>    </span><span class=nt>selector</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>matchLabels</span><span class=p>:</span><span class=w>
-</span><span class=w>            </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>    </span><span class=nt>serviceName</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>    </span><span class=nt>template</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span><span class=w>            </span><span class=nt>labels</span><span class=p>:</span><span class=w>
-</span><span class=w>                </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>        </span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span><span class=w>            </span><span class=nt>containers</span><span class=p>:</span><span class=w>
-</span><span class=w>              </span>- <span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>influxdb:2.0.6</span><span class=w>
-</span><span class=w>                </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>                </span><span class=nt>ports</span><span class=p>:</span><span class=w>
-</span><span class=w>                  </span>- <span class=nt>containerPort</span><span class=p>:</span><span class=w> </span><span class=m>8086</span><span class=w>
-</span><span class=w>                    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>                </span><span class=nt>volumeMounts</span><span class=p>:</span><span class=w>
-</span><span class=w>                  </span>- <span class=nt>mountPath</span><span class=p>:</span><span class=w> </span><span class=l>/var/lib/influxdb2</span><span class=w>
-</span><span class=w>                    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>data</span><span class=w>
-</span><span class=w>                </span><span class=nt>env</span><span class=p>:</span><span class=w>
-</span><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_MODE</span><span class=w>
-</span><span class=w>                    </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=l>setup</span><span class=w>
-</span><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_ORG</span><span class=w>
-</span><span class=w>                    </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=l>influxdata</span><span class=w>
-</span><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_BUCKET</span><span class=w>
-</span><span class=w>                    </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=l>demo</span><span class=w>
-</span><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_RETENTION</span><span class=w>
-</span><span class=w>                    </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=l>12h</span><span class=w>
-</span><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_USERNAME</span><span class=w>
-</span><span class=w>                    </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=l>admin</span><span class=w>
-</span><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_PASSWORD</span><span class=w>
-</span><span class=w>                    </span><span class=nt>valueFrom</span><span class=p>:</span><span class=w>
-</span><span class=w>                        </span><span class=nt>secretKeyRef</span><span class=p>:</span><span class=w>
-</span><span class=w>                            </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb-auth</span><span class=w>
-</span><span class=w>                            </span><span class=nt>key</span><span class=p>:</span><span class=w> </span><span class=l>admin-password</span><span class=w>
-</span><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_ADMIN_TOKEN</span><span class=w>
-</span><span class=w>                    </span><span class=nt>valueFrom</span><span class=p>:</span><span class=w>
-</span><span class=w>                        </span><span class=nt>secretKeyRef</span><span class=p>:</span><span class=w>
-</span><span class=w>                            </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb-auth</span><span class=w>
-</span><span class=w>                            </span><span class=nt>key</span><span class=p>:</span><span class=w> </span><span class=l>admin-token</span><span class=w>
-</span><span class=w>    </span><span class=nt>volumeClaimTemplates</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span>- <span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span><span class=w>            </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>data</span><span class=w>
-</span><span class=w>            </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
-</span><span class=w>        </span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span><span class=w>            </span><span class=nt>accessModes</span><span class=p>:</span><span class=w>
-</span><span class=w>              </span>- <span class=l>ReadWriteOnce</span><span class=w>
-</span><span class=w>            </span><span class=nt>resources</span><span class=p>:</span><span class=w>
-</span><span class=w>                </span><span class=nt>requests</span><span class=p>:</span><span class=w>
-</span><span class=w>                    </span><span class=nt>storage</span><span class=p>:</span><span class=w> </span><span class=l>1Gi</span><span class=w>
-</span><span class=w></span><span class=nn>---</span><span class=w>
-</span><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>v1</span><span class=w>
-</span><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Service</span><span class=w>
-</span><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>    </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
-</span><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>ClusterIP</span><span class=w>
-</span><span class=w>    </span><span class=nt>ports</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>        </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class=m>8086</span><span class=w>
-</span><span class=w>        </span><span class=nt>targetPort</span><span class=p>:</span><span class=w> </span><span class=m>8086</span><span class=w>
-</span><span class=w>    </span><span class=nt>selector</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w></span><span class=nn>---</span><span class=w>
-</span><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>networking.k8s.io/v1</span><span class=w>
-</span><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Ingress</span><span class=w>
-</span><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>    </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
-</span><span class=w>    </span><span class=nt>labels</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>rules</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span>- <span class=nt>host</span><span class=p>:</span><span class=w> </span><span class=l>tick.k8s.local</span><span class=w>
-</span><span class=w>          </span><span class=nt>http</span><span class=p>:</span><span class=w>
-</span><span class=w>            </span><span class=nt>paths</span><span class=p>:</span><span class=w>
-</span><span class=w>                </span>- <span class=nt>path</span><span class=p>:</span><span class=w> </span><span class=l>/</span><span class=w>
-</span><span class=w>                  </span><span class=nt>pathType</span><span class=p>:</span><span class=w> </span><span class=l>Prefix</span><span class=w>
-</span><span class=w>                  </span><span class=nt>backend</span><span class=p>:</span><span class=w>
-</span><span class=w>                    </span><span class=nt>service</span><span class=p>:</span><span class=w>
-</span><span class=w>                        </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
-</span><span class=w>                        </span><span class=nt>port</span><span class=p>:</span><span class=w>
-</span><span class=w>                            </span><span class=nt>number</span><span class=p>:</span><span class=w> </span><span class=m>8086</span><span class=w>
-</span></code></pre></td></tr></table>
-</div>
-</div><p>Simpan script tersebut, misalnya dengan nama <code>influxdb.yaml</code> dan jalankan perintah declarative berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>kubectl apply -f influxdb.yaml
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=memeriksa-objek-influxdb>Memeriksa Objek InfluxDB</h3>
-<p>Silahkan periksa apakah semua objek telah berhasil dibuat.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>kubectl -n monitoring get all<span class=p>;</span> kubectl -n monitoring get pvc<span class=p>;</span> kubectl -n monitoring get ingress
-</code></pre></td></tr></table>
-</div>
-</div><p>Jika StatefulSet telah membuat sebuah Pod, Service, PersistentVolumeClaim, dan Ingress telah terbuat maka kurang lebih akan muncul tampilan seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nn>---</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Secret</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb-auth</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>Opaque</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>data</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Random alphanumeric 32 karakter dengan base64</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Contoh:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c>#   cat /dev/urandom | tr -dc &#39;a-zA-Z0-9&#39; | fold -w 32 | head -n 1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c>#     g71Kv9SUBnk7yqUQLw8UJV08jq3i4Vcl</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c>#   echo -n &#39;g71Kv9SUBnk7yqUQLw8UJV08jq3i4Vcl&#39; | base64</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c>#     ZzcxS3Y5U1VCbms3eXFVUUx3OFVKVjA4anEzaTRWY2w=</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>admin-token</span><span class=p>:</span><span class=w> </span><span class=l>ZzcxS3Y5U1VCbms3eXFVUUx3OFVKVjA4anEzaTRWY2w=</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Ubah plaintext password ke bae64</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Contoh:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c>#   echo -n &#39;administrator&#39; | base64</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c>#       YWRtaW5pc3RyYXRvcg==</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>admin-password</span><span class=p>:</span><span class=w> </span><span class=l>YWRtaW5pc3RyYXRvcg==</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nn>---</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># PDB Untuk menjaga jumlah replikasi</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># https://kubernetes.io/docs/concepts/workloads/pods/disruptions/#pod-disruption-budgets</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>policy/v1beta1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>PodDisruptionBudget</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>minAvailable</span><span class=p>:</span><span class=w> </span><span class=m>1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c>#    maxAvailable: 1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>selector</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>matchLabels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nn>---</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>apps/v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>StatefulSet</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>replicas</span><span class=p>:</span><span class=w> </span><span class=m>1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>selector</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>matchLabels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>serviceName</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>template</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>containers</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>              </span>- <span class=nt>image</span><span class=p>:</span><span class=w> </span><span class=l>influxdb:2.0.6</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span>- <span class=nt>containerPort</span><span class=p>:</span><span class=w> </span><span class=m>8086</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nt>volumeMounts</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span>- <span class=nt>mountPath</span><span class=p>:</span><span class=w> </span><span class=l>/var/lib/influxdb2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>data</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nt>env</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_MODE</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=l>setup</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_ORG</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=l>influxdata</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_BUCKET</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=l>demo</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_RETENTION</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=l>12h</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_USERNAME</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>value</span><span class=p>:</span><span class=w> </span><span class=l>admin</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_PASSWORD</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>valueFrom</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                        </span><span class=nt>secretKeyRef</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                            </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb-auth</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                            </span><span class=nt>key</span><span class=p>:</span><span class=w> </span><span class=l>admin-password</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>DOCKER_INFLUXDB_INIT_ADMIN_TOKEN</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>valueFrom</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                        </span><span class=nt>secretKeyRef</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                            </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb-auth</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                            </span><span class=nt>key</span><span class=p>:</span><span class=w> </span><span class=l>admin-token</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>volumeClaimTemplates</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>data</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>accessModes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>              </span>- <span class=l>ReadWriteOnce</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=nt>requests</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>storage</span><span class=p>:</span><span class=w> </span><span class=l>1Gi</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nn>---</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Service</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>ClusterIP</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ports</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>port</span><span class=p>:</span><span class=w> </span><span class=m>8086</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>targetPort</span><span class=p>:</span><span class=w> </span><span class=m>8086</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>selector</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>app</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nn>---</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>apiVersion</span><span class=p>:</span><span class=w> </span><span class=l>networking.k8s.io/v1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>kind</span><span class=p>:</span><span class=w> </span><span class=l>Ingress</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=l>monitoring</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>labels</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>spec</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>rules</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>host</span><span class=p>:</span><span class=w> </span><span class=l>tick.k8s.local</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>http</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=nt>paths</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                </span>- <span class=nt>path</span><span class=p>:</span><span class=w> </span><span class=l>/</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span><span class=nt>pathType</span><span class=p>:</span><span class=w> </span><span class=l>Prefix</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                  </span><span class=nt>backend</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=nt>service</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                        </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>influxdb</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                        </span><span class=nt>port</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>                            </span><span class=nt>number</span><span class=p>:</span><span class=w> </span><span class=m>8086</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>Simpan script tersebut, misalnya dengan nama <code>influxdb.yaml</code> dan jalankan perintah declarative berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>kubectl apply -f influxdb.yaml
+</span></span></code></pre></td></tr></table></div></div><h3 id=memeriksa-objek-influxdb>Memeriksa Objek InfluxDB</h3><p>Silahkan periksa apakah semua objek telah berhasil dibuat.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>kubectl -n monitoring get all<span class=p>;</span> kubectl -n monitoring get pvc<span class=p>;</span> kubectl -n monitoring get ingress
+</span></span></code></pre></td></tr></table></div></div><p>Jika StatefulSet telah membuat sebuah Pod, Service, PersistentVolumeClaim, dan Ingress telah terbuat maka kurang lebih akan muncul tampilan seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -457,70 +290,29 @@ Untuk InfluxDB v2 beberapa komponen sebelumnya di-bundle menjadi single-binary y
 </span><span class=lnt>10
 </span><span class=lnt>11
 </span><span class=lnt>12
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>NAME             READY   STATUS    RESTARTS   AGE
-pod/influxdb-0   1/1     Running   0          49s
-
-NAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-service/influxdb   ClusterIP   10.104.71.97   &lt;none&gt;        8086/TCP   49s
-
-NAME                        READY   AGE
-statefulset.apps/influxdb   1/1     49s
-NAME              STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-data-influxdb-0   Bound    pvc-8b746bbc-2bf8-4d3a-9358-a66442bb6c88   1Gi        RWO            standard       49s
-NAME       CLASS    HOSTS            ADDRESS         PORTS   AGE
-influxdb   &lt;none&gt;   tick.k8s.local   192.168.39.26   80      49s
-</code></pre></td></tr></table>
-</div>
-</div><div class="details admonition warning open">
-<div class="details-summary admonition-title">
-<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
-</div>
-<div class=details-content>
-<div class=admonition-content>Saya menggunakan <a href=https://kubernetes.github.io/ingress-nginx/ target=_blank rel="noopener noreffer">NGINX Ingress Controller</a> untuk mengekspos Service dengan objek Ingress, serta PersistentVolume berjenis <a href=https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumes-typed-hostpath target=_blank rel="noopener noreffer">hostPath</a>, silahkan sesuaikan dengan kebutuhan di environment.</div>
-</div>
-</div>
-<h3 id=influxdb-secret>InfluxDB Secret</h3>
-<p>File YAML tersebut juga akan membuat sebuah objek Secret bernama <code>influxdb-auth</code> untuk menyimpan <code>admin-password</code> dan <code>admin-token</code>. Nantinya token akan dipakai oleh agent Telegraf untuk melakukan store data ke InfluxDB, sedangkan password akan kita pakai untuk masuk ke dalam UI InfluxDB. Jalankan perintah berikut untuk menampilkan <code>admin-password</code> dalam bentuk plain-text.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>NAME             READY   STATUS    RESTARTS   AGE
+</span></span><span class=line><span class=cl>pod/influxdb-0   1/1     Running   0          49s
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>NAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+</span></span><span class=line><span class=cl>service/influxdb   ClusterIP   10.104.71.97   &lt;none&gt;        8086/TCP   49s
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>NAME                        READY   AGE
+</span></span><span class=line><span class=cl>statefulset.apps/influxdb   1/1     49s
+</span></span><span class=line><span class=cl>NAME              STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+</span></span><span class=line><span class=cl>data-influxdb-0   Bound    pvc-8b746bbc-2bf8-4d3a-9358-a66442bb6c88   1Gi        RWO            standard       49s
+</span></span><span class=line><span class=cl>NAME       CLASS    HOSTS            ADDRESS         PORTS   AGE
+</span></span><span class=line><span class=cl>influxdb   &lt;none&gt;   tick.k8s.local   192.168.39.26   80      49s
+</span></span></code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Saya menggunakan <a href=https://kubernetes.github.io/ingress-nginx/ target=_blank rel="noopener noreffer">NGINX Ingress Controller</a> untuk mengekspos Service dengan objek Ingress, serta PersistentVolume berjenis <a href=https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumes-typed-hostpath target=_blank rel="noopener noreffer">hostPath</a>, silahkan sesuaikan dengan kebutuhan di environment.</div></div></div><h3 id=influxdb-secret>InfluxDB Secret</h3><p>File YAML tersebut juga akan membuat sebuah objek Secret bernama <code>influxdb-auth</code> untuk menyimpan <code>admin-password</code> dan <code>admin-token</code>. Nantinya token akan dipakai oleh agent Telegraf untuk melakukan store data ke InfluxDB, sedangkan password akan kita pakai untuk masuk ke dalam UI InfluxDB. Jalankan perintah berikut untuk menampilkan <code>admin-password</code> dalam bentuk plain-text.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=nb>echo</span> <span class=k>$(</span>kubectl get secret influxdb-auth -o <span class=s2>&#34;jsonpath={.data[&#39;admin-password&#39;]}&#34;</span> <span class=se>\
-</span><span class=se></span>    --namespace monitoring <span class=p>|</span> base64 --decode<span class=k>)</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Jalankan perintah berikut untuk menampilkan <code>admin-token</code> dalam bentuk plain-text.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>echo</span> <span class=k>$(</span>kubectl get secret influxdb-auth -o <span class=s2>&#34;jsonpath={.data[&#39;admin-password&#39;]}&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --namespace monitoring <span class=p>|</span> base64 --decode<span class=k>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>Jalankan perintah berikut untuk menampilkan <code>admin-token</code> dalam bentuk plain-text.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=nb>echo</span> <span class=k>$(</span>kubectl get secret influxdb-auth -o <span class=s2>&#34;jsonpath={.data[&#39;admin-token&#39;]}&#34;</span> <span class=se>\
-</span><span class=se></span>    --namespace monitoring <span class=p>|</span> base64 --decode<span class=k>)</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id=deploy-telegraf>Deploy Telegraf</h2>
-<p>Entah saya belum terlalu memahami atau apa, Telegraf membutuhkan dua macam Helm chart supaya dapat berjalan di kubernetes yang akan membuat dua macam objek (DaemonSet dan Deployment).</p>
-<h3 id=add-repo-helm>Add Repo Helm</h3>
-<p>Karena kita akan men-deploy Telegraf menggunakan Helm chart, mari kita siapkan terlebih repository influxdata terlebih dahulu.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>helm repo add influxdata https://helm.influxdata.com/
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=values>Values</h3>
-<p>Kita perlu mempersiapkan value untuk menampung beberapa argumen. Pertama mari membuat file <code>values-ds.yaml</code> berisi script seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>echo</span> <span class=k>$(</span>kubectl get secret influxdb-auth -o <span class=s2>&#34;jsonpath={.data[&#39;admin-token&#39;]}&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --namespace monitoring <span class=p>|</span> base64 --decode<span class=k>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=deploy-telegraf>Deploy Telegraf</h2><p>Entah saya belum terlalu memahami atau apa, Telegraf membutuhkan dua macam Helm chart supaya dapat berjalan di kubernetes yang akan membuat dua macam objek (DaemonSet dan Deployment).</p><h3 id=add-repo-helm>Add Repo Helm</h3><p>Karena kita akan men-deploy Telegraf menggunakan Helm chart, mari kita siapkan terlebih repository influxdata terlebih dahulu.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>helm repo add influxdata https://helm.influxdata.com/
+</span></span></code></pre></td></tr></table></div></div><h3 id=values>Values</h3><p>Kita perlu mempersiapkan value untuk menampung beberapa argumen. Pertama mari membuat file <code>values-ds.yaml</code> berisi script seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
@@ -529,23 +321,16 @@ influxdb   &lt;none&gt;   tick.k8s.local   192.168.39.26   80      49s
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>config</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>outputs</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span>- <span class=nt>influxdb_v2</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>urls</span><span class=p>:</span><span class=w>
-</span><span class=w>          </span>- <span class=s2>&#34;http://influxdb.monitoring.svc.cluster.local:8086&#34;</span><span class=w>
-</span><span class=w>        </span><span class=nt>bucket</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;demo&#34;</span><span class=w>
-</span><span class=w>        </span><span class=nt>token</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;g71Kv9SUBnk7yqUQLw8UJV08jq3i4Vcl&#34;</span><span class=w>
-</span><span class=w>        </span><span class=nt>organization</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;influxdata&#34;</span><span class=w>
-</span><span class=w>  </span><span class=nt>monitor_self</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span></code></pre></td></tr></table>
-</div>
-</div><p>Kemudian kita buat lagi file lain bernama <code>values-inventory.yaml</code> berisi script berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>config</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>outputs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=nt>influxdb_v2</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>urls</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span>- <span class=s2>&#34;http://influxdb.monitoring.svc.cluster.local:8086&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>bucket</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;demo&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>token</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;g71Kv9SUBnk7yqUQLw8UJV08jq3i4Vcl&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>organization</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;influxdata&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>monitor_self</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>Kemudian kita buat lagi file lain bernama <code>values-inventory.yaml</code> berisi script berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -582,91 +367,53 @@ influxdb   &lt;none&gt;   tick.k8s.local   192.168.39.26   80      49s
 </span><span class=lnt>35
 </span><span class=lnt>36
 </span><span class=lnt>37
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>service</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>enabled</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span><span class=w>  </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>ClusterIP</span><span class=w>
-</span><span class=w></span><span class=nt>metrics</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>health</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>enabled</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span><span class=w></span><span class=nt>rbac</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>create</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span><span class=w>  </span><span class=nt>clusterWide</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span><span class=w>  </span><span class=nt>rules</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span>- <span class=nt>apiGroups</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span>- <span class=s2>&#34;*&#34;</span><span class=w>
-</span><span class=w>      </span><span class=nt>resources</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span>- <span class=s2>&#34;*&#34;</span><span class=w>
-</span><span class=w>      </span><span class=nt>verbs</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span>- <span class=s2>&#34;*&#34;</span><span class=w>
-</span><span class=w>    </span>- <span class=nt>nonResourceURLs</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span>- <span class=s2>&#34;*&#34;</span><span class=w>
-</span><span class=w>      </span><span class=nt>verbs</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span>- <span class=s2>&#34;get&#34;</span><span class=w>
-</span><span class=w>        </span>- <span class=s2>&#34;list&#34;</span><span class=w>
-</span><span class=w>        </span>- <span class=s2>&#34;watch&#34;</span><span class=w>
-</span><span class=w></span><span class=nt>config</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>outputs</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span>- <span class=nt>influxdb_v2</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>urls</span><span class=p>:</span><span class=w>
-</span><span class=w>          </span>- <span class=s2>&#34;http://influxdb.monitoring.svc.cluster.local:8086&#34;</span><span class=w>
-</span><span class=w>        </span><span class=nt>bucket</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;demo&#34;</span><span class=w>
-</span><span class=w>        </span><span class=nt>token</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;g71Kv9SUBnk7yqUQLw8UJV08jq3i4Vcl&#34;</span><span class=w>
-</span><span class=w>        </span><span class=nt>organization</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;influxdata&#34;</span><span class=w>
-</span><span class=w>  </span><span class=nt>inputs</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span>- <span class=nt>kube_inventory</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=nt>url</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;https://kubernetes.default&#34;</span><span class=w>
-</span><span class=w>        </span><span class=nt>bearer_token</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;/run/secrets/kubernetes.io/serviceaccount/token&#34;</span><span class=w>
-</span><span class=w>        </span><span class=nt>insecure_skip_verify</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span><span class=w>        </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;&#34;</span><span class=w>
-</span><span class=w>  </span><span class=nt>monitor_self</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
-</span></code></pre></td></tr></table>
-</div>
-</div><p>Sesuaikan <strong>config</strong> pada bagian <code>bucket</code>, <code>token</code>, dan <code>organization</code> seperti yang kita definisikan pada file <code>influxdb.yaml</code>. Sedangkan untuk <code>urls</code> dilihat berdasarkan URL dari objek Service yang telah kita buat, gunakan perintah berikut untuk mencari tahu.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>kubectl -n monitoring describe services influxdb
-</code></pre></td></tr></table>
-</div>
-</div><div class="details admonition info open">
-<div class="details-summary admonition-title">
-<i class="icon fas fa-info-circle fa-fw"></i>Tips<i class="details-icon fas fa-angle-right fa-fw"></i>
-</div>
-<div class=details-content>
-<div class=admonition-content>Biasanya URL dari service akan berbentuk seperti berikut:
-<code>&lt;service-name>.&lt;namespace>.svc.cluster.local:&lt;service-port></code></div>
-</div>
-</div>
-<p>Jika semua file value sudah terbuat, sekarang saatnya kita jalankan Helm chart.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>service</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>enabled</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>type</span><span class=p>:</span><span class=w> </span><span class=l>ClusterIP</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>metrics</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>health</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>enabled</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>rbac</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>create</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>clusterWide</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>rules</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=nt>apiGroups</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=s2>&#34;*&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=s2>&#34;*&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>verbs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=s2>&#34;*&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=nt>nonResourceURLs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=s2>&#34;*&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>verbs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=s2>&#34;get&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=s2>&#34;list&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=s2>&#34;watch&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>config</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>outputs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=nt>influxdb_v2</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>urls</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span>- <span class=s2>&#34;http://influxdb.monitoring.svc.cluster.local:8086&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>bucket</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;demo&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>token</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;g71Kv9SUBnk7yqUQLw8UJV08jq3i4Vcl&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>organization</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;influxdata&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>inputs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>- <span class=nt>kube_inventory</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>url</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;https://kubernetes.default&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>bearer_token</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;/run/secrets/kubernetes.io/serviceaccount/token&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>insecure_skip_verify</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>namespace</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>monitor_self</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>Sesuaikan <strong>config</strong> pada bagian <code>bucket</code>, <code>token</code>, dan <code>organization</code> seperti yang kita definisikan pada file <code>influxdb.yaml</code>. Sedangkan untuk <code>urls</code> dilihat berdasarkan URL dari objek Service yang telah kita buat, gunakan perintah berikut untuk mencari tahu.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>kubectl -n monitoring describe services influxdb
+</span></span></code></pre></td></tr></table></div></div><div class="details admonition info open"><div class="details-summary admonition-title"><i class="icon fas fa-info-circle fa-fw"></i>Tips<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Biasanya URL dari service akan berbentuk seperti berikut:
+<code>&lt;service-name>.&lt;namespace>.svc.cluster.local:&lt;service-port></code></div></div></div><p>Jika semua file value sudah terbuat, sekarang saatnya kita jalankan Helm chart.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>helm upgrade -n monitoring --install telegraf-ds -f telegraf/values-ds.yaml influxdata/telegraf-ds
-helm upgrade -n monitoring --install telegraf-inventory -f telegraf/values-inventory.yaml influxdata/telegraf
-</code></pre></td></tr></table>
-</div>
-</div><hr>
-<h3 id=memeriksa-objek-telegraf>Memeriksa Objek Telegraf</h3>
-<p>Kita dapat memeriksa apakah semua objek Telegraf telah berjalan dengan perintah berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>kubectl -n monitoring get all
-</code></pre></td></tr></table>
-</div>
-</div><p>Jika sudah berjalan maka kurang lebih akan muncul tampilan seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>helm upgrade -n monitoring --install telegraf-ds -f telegraf/values-ds.yaml influxdata/telegraf-ds
+</span></span><span class=line><span class=cl>helm upgrade -n monitoring --install telegraf-inventory -f telegraf/values-inventory.yaml influxdata/telegraf
+</span></span></code></pre></td></tr></table></div></div><hr><h3 id=memeriksa-objek-telegraf>Memeriksa Objek Telegraf</h3><p>Kita dapat memeriksa apakah semua objek Telegraf telah berjalan dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>kubectl -n monitoring get all
+</span></span></code></pre></td></tr></table></div></div><p>Jika sudah berjalan maka kurang lebih akan muncul tampilan seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -686,172 +433,42 @@ helm upgrade -n monitoring --install telegraf-inventory -f telegraf/values-inven
 </span><span class=lnt>18
 </span><span class=lnt>19
 </span><span class=lnt>20
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>NAME                                      READY   STATUS    RESTARTS   AGE
-pod/influxdb-0                            1/1     Running   0          49m
-pod/telegraf-ds-8rzbh                     1/1     Running   0          4m17s
-pod/telegraf-inventory-56d799f599-k74zg   1/1     Running   0          2m59s
-
-NAME                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-service/influxdb             ClusterIP   10.104.71.97     &lt;none&gt;        8086/TCP   49m
-service/telegraf-inventory   ClusterIP   10.100.248.149   &lt;none&gt;        8888/TCP   2m59s
-
-NAME                         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
-daemonset.apps/telegraf-ds   1         1         1       1            1           &lt;none&gt;          4m17s
-
-NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/telegraf-inventory   1/1     1            1           2m59s
-
-NAME                                            DESIRED   CURRENT   READY   AGE
-replicaset.apps/telegraf-inventory-56d799f599   1         1         1       2m59s
-
-NAME                        READY   AGE
-statefulset.apps/influxdb   1/1     49m
-</code></pre></td></tr></table>
-</div>
-</div><p>Apabila kurang yakin silahkan periksa log dari kedua Pod Telegraf diatas.</p>
-<hr>
-<h2 id=influxdb-ui>InfluxDB UI</h2>
-<p>URL dari InfluxDB dapat kita lihat dari objek Ingress.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>kubectl -n monitoring get ingress
-</code></pre></td></tr></table>
-</div>
-</div><p>Di sini misalnya akan muncul output seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>NAME                                      READY   STATUS    RESTARTS   AGE
+</span></span><span class=line><span class=cl>pod/influxdb-0                            1/1     Running   0          49m
+</span></span><span class=line><span class=cl>pod/telegraf-ds-8rzbh                     1/1     Running   0          4m17s
+</span></span><span class=line><span class=cl>pod/telegraf-inventory-56d799f599-k74zg   1/1     Running   0          2m59s
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>NAME                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+</span></span><span class=line><span class=cl>service/influxdb             ClusterIP   10.104.71.97     &lt;none&gt;        8086/TCP   49m
+</span></span><span class=line><span class=cl>service/telegraf-inventory   ClusterIP   10.100.248.149   &lt;none&gt;        8888/TCP   2m59s
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>NAME                         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+</span></span><span class=line><span class=cl>daemonset.apps/telegraf-ds   1         1         1       1            1           &lt;none&gt;          4m17s
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span class=line><span class=cl>deployment.apps/telegraf-inventory   1/1     1            1           2m59s
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>NAME                                            DESIRED   CURRENT   READY   AGE
+</span></span><span class=line><span class=cl>replicaset.apps/telegraf-inventory-56d799f599   1         1         1       2m59s
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>NAME                        READY   AGE
+</span></span><span class=line><span class=cl>statefulset.apps/influxdb   1/1     49m
+</span></span></code></pre></td></tr></table></div></div><p>Apabila kurang yakin silahkan periksa log dari kedua Pod Telegraf diatas.</p><hr><h2 id=influxdb-ui>InfluxDB UI</h2><p>URL dari InfluxDB dapat kita lihat dari objek Ingress.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>kubectl -n monitoring get ingress
+</span></span></code></pre></td></tr></table></div></div><p>Di sini misalnya akan muncul output seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>NAME       CLASS    HOSTS            ADDRESS         PORTS   AGE
-influxdb   &lt;none&gt;   tick.k8s.local   192.168.39.26   80      55m
-</code></pre></td></tr></table>
-</div>
-</div><p>Kita dapat mengakses <a href=http://tick.k8s.local target=_blank rel="noopener noreffer">http://tick.k8s.local</a> menggunakan web browser dan login menggunakan username dan password yang telah kita definisikan sesuai file <code>influxdb.yaml</code> sebelumnya.</p>
-<p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-ui.png title="InfluxDB UI" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-ui.png data-sub-html="<h2>InfluxDB UI</h2><p>InfluxDB UI</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=influxdb-ui.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/influxdb-ui.png, influxdb-ui.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/influxdb-ui.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-ui.png>
-</a><figcaption class=image-caption>InfluxDB UI</figcaption>
-</figure></p>
-<h3 id=template-boards-kubernetes>Template Boards Kubernetes</h3>
-<p>Tersedia template boards untuk Kubernetes yang bisa kita dapatkan tanpa biaya. Pada InfluxDB UI buka menu <strong>Settings</strong> > <strong>Templates</strong> > <strong>Browse Community Templates</strong>, maka kita akan diarahkan menuju GitHub Repository. Di sana kita dapat mencari sebuah template bernama <strong>Kubernetes Dashboards</strong> yang dikembangkan oleh <a href=http://boonito.io target=_blank rel="noopener noreffer">bonitoo.io</a>. Ikuti saja alur petunjuk pemasangan template, jika berhasil akan muncul tampilan seperti berikut.</p>
-<p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-template-influxdb.png title="Install Kubernetes Template in InfluxDB UI" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-template-influxdb.png data-sub-html="<h2>Kubernetes Template InfluxDB</h2><p>Install Kubernetes Template in InfluxDB UI</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=kubernetes-template-influxdb.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-template-influxdb.png, kubernetes-template-influxdb.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/kubernetes-template-influxdb.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-template-influxdb.png>
-</a><figcaption class=image-caption>Kubernetes Template InfluxDB</figcaption>
-</figure>
-<figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/installed-kubernetes-template-influxdb.png title="Installed Kubernetes Template in InfluxDB UI" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/installed-kubernetes-template-influxdb.png data-sub-html="<h2>Installed Kubernetes Template InfluxDB</h2><p>Installed Kubernetes Template in InfluxDB UI</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=installed-kubernetes-template-influxdb.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/installed-kubernetes-template-influxdb.png, installed-kubernetes-template-influxdb.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/installed-kubernetes-template-influxdb.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/installed-kubernetes-template-influxdb.png>
-</a><figcaption class=image-caption>Installed Kubernetes Template InfluxDB</figcaption>
-</figure></p>
-<p>Selanjutnya jika kita buka menu <strong>Boards</strong> akan muncul dua Dashboard seperti berikut.</p>
-<p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-dashboard-influxdb.png title="Kubernetes Dashboard in InfluxDB UI" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-dashboard-influxdb.png data-sub-html="<h2>Kubernetes Dashboard InfluxDB</h2><p>Kubernetes Dashboard in InfluxDB UI</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=kubernetes-dashboard-influxdb.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-dashboard-influxdb.png, kubernetes-dashboard-influxdb.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/kubernetes-dashboard-influxdb.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-dashboard-influxdb.png>
-</a><figcaption class=image-caption>Kubernetes Dashboard InfluxDB</figcaption>
-</figure></p>
-<p>Silahkan coba buka kedua Dashboard tersebut, namun jangan lupa untuk merubah <strong>Variables</strong> dari <code>_monitoring</code> menjadi <code>demo</code> seperti nama <em>bucket</em> yang telah kita buat pada file <code>influxdb.yaml</code> sebelumnya.</p>
-<p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/variable-dashboard.png title="Variables Dashboard" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/variable-dashboard.png data-sub-html="<h2>Variable Dashboard</h2><p>Variables Dashboard</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=variable-dashboard.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/variable-dashboard.png, variable-dashboard.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/variable-dashboard.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/variable-dashboard.png>
-</a><figcaption class=image-caption>Variable Dashboard</figcaption>
-</figure></p>
-<p>Jika sudah benar, seharusnya akan muncul tampilan dari kedua Dashboard seperti berikut.</p>
-<p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-inventory.png title="Monitor Kubernetes Inventory" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-inventory.png data-sub-html="<h2>Monitor Kubernetes Inventory</h2><p>Monitor Kubernetes Inventory</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=influxdb-kubernetes-inventory.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-inventory.png, influxdb-kubernetes-inventory.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-inventory.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-inventory.png>
-</a><figcaption class=image-caption>Monitor Kubernetes Inventory</figcaption>
-</figure>
-<figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-node-metrics.png title="Monitor Kubernetes Node Metrics" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-node-metrics.png data-sub-html="<h2>Monitor Kubernetes Node Metrics</h2><p>Monitor Kubernetes Node Metrics</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=influxdb-kubernetes-node-metrics.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-node-metrics.png, influxdb-kubernetes-node-metrics.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-node-metrics.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-node-metrics.png>
-</a><figcaption class=image-caption>Monitor Kubernetes Node Metrics</figcaption>
-</figure></p>
-<hr>
-<h2 id=uninstall>Uninstall</h2>
-<p>Jika ingin menghapus objek yang telah kita buat, kita dapat menghapusnya secara bertahap seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>NAME       CLASS    HOSTS            ADDRESS         PORTS   AGE
+</span></span><span class=line><span class=cl>influxdb   &lt;none&gt;   tick.k8s.local   192.168.39.26   80      55m
+</span></span></code></pre></td></tr></table></div></div><p>Kita dapat mengakses <a href=http://tick.k8s.local target=_blank rel="noopener noreffer">http://tick.k8s.local</a> menggunakan web browser dan login menggunakan username dan password yang telah kita definisikan sesuai file <code>influxdb.yaml</code> sebelumnya.</p><p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-ui.png title="InfluxDB UI" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-ui.png data-sub-html="<h2>InfluxDB UI</h2><p>InfluxDB UI</p>"><img class=lazyload src=/svg/loading.min.svg data-src=influxdb-ui.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/influxdb-ui.png, influxdb-ui.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/influxdb-ui.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-ui.png></a><figcaption class=image-caption>InfluxDB UI</figcaption></figure></p><h3 id=template-boards-kubernetes>Template Boards Kubernetes</h3><p>Tersedia template boards untuk Kubernetes yang bisa kita dapatkan tanpa biaya. Pada InfluxDB UI buka menu <strong>Settings</strong> > <strong>Templates</strong> > <strong>Browse Community Templates</strong>, maka kita akan diarahkan menuju GitHub Repository. Di sana kita dapat mencari sebuah template bernama <strong>Kubernetes Dashboards</strong> yang dikembangkan oleh <a href=http://boonito.io target=_blank rel="noopener noreffer">bonitoo.io</a>. Ikuti saja alur petunjuk pemasangan template, jika berhasil akan muncul tampilan seperti berikut.</p><p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-template-influxdb.png title="Install Kubernetes Template in InfluxDB UI" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-template-influxdb.png data-sub-html="<h2>Kubernetes Template InfluxDB</h2><p>Install Kubernetes Template in InfluxDB UI</p>"><img class=lazyload src=/svg/loading.min.svg data-src=kubernetes-template-influxdb.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-template-influxdb.png, kubernetes-template-influxdb.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/kubernetes-template-influxdb.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-template-influxdb.png></a><figcaption class=image-caption>Kubernetes Template InfluxDB</figcaption></figure><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/installed-kubernetes-template-influxdb.png title="Installed Kubernetes Template in InfluxDB UI" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/installed-kubernetes-template-influxdb.png data-sub-html="<h2>Installed Kubernetes Template InfluxDB</h2><p>Installed Kubernetes Template in InfluxDB UI</p>"><img class=lazyload src=/svg/loading.min.svg data-src=installed-kubernetes-template-influxdb.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/installed-kubernetes-template-influxdb.png, installed-kubernetes-template-influxdb.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/installed-kubernetes-template-influxdb.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/installed-kubernetes-template-influxdb.png></a><figcaption class=image-caption>Installed Kubernetes Template InfluxDB</figcaption></figure></p><p>Selanjutnya jika kita buka menu <strong>Boards</strong> akan muncul dua Dashboard seperti berikut.</p><p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-dashboard-influxdb.png title="Kubernetes Dashboard in InfluxDB UI" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-dashboard-influxdb.png data-sub-html="<h2>Kubernetes Dashboard InfluxDB</h2><p>Kubernetes Dashboard in InfluxDB UI</p>"><img class=lazyload src=/svg/loading.min.svg data-src=kubernetes-dashboard-influxdb.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-dashboard-influxdb.png, kubernetes-dashboard-influxdb.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/kubernetes-dashboard-influxdb.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/kubernetes-dashboard-influxdb.png></a><figcaption class=image-caption>Kubernetes Dashboard InfluxDB</figcaption></figure></p><p>Silahkan coba buka kedua Dashboard tersebut, namun jangan lupa untuk merubah <strong>Variables</strong> dari <code>_monitoring</code> menjadi <code>demo</code> seperti nama <em>bucket</em> yang telah kita buat pada file <code>influxdb.yaml</code> sebelumnya.</p><p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/variable-dashboard.png title="Variables Dashboard" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/variable-dashboard.png data-sub-html="<h2>Variable Dashboard</h2><p>Variables Dashboard</p>"><img class=lazyload src=/svg/loading.min.svg data-src=variable-dashboard.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/variable-dashboard.png, variable-dashboard.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/variable-dashboard.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/variable-dashboard.png></a><figcaption class=image-caption>Variable Dashboard</figcaption></figure></p><p>Jika sudah benar, seharusnya akan muncul tampilan dari kedua Dashboard seperti berikut.</p><p><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-inventory.png title="Monitor Kubernetes Inventory" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-inventory.png data-sub-html="<h2>Monitor Kubernetes Inventory</h2><p>Monitor Kubernetes Inventory</p>"><img class=lazyload src=/svg/loading.min.svg data-src=influxdb-kubernetes-inventory.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-inventory.png, influxdb-kubernetes-inventory.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-inventory.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-inventory.png></a><figcaption class=image-caption>Monitor Kubernetes Inventory</figcaption></figure><figure><a class=lightgallery href=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-node-metrics.png title="Monitor Kubernetes Node Metrics" data-thumbnail=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-node-metrics.png data-sub-html="<h2>Monitor Kubernetes Node Metrics</h2><p>Monitor Kubernetes Node Metrics</p>"><img class=lazyload src=/svg/loading.min.svg data-src=influxdb-kubernetes-node-metrics.png data-srcset="/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-node-metrics.png, influxdb-kubernetes-node-metrics.png 1.5x, /monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-node-metrics.png 2x" data-sizes=auto alt=/monitoring-kubernetes-dengan-influxdb-v2/influxdb-kubernetes-node-metrics.png></a><figcaption class=image-caption>Monitor Kubernetes Node Metrics</figcaption></figure></p><hr><h2 id=uninstall>Uninstall</h2><p>Jika ingin menghapus objek yang telah kita buat, kita dapat menghapusnya secara bertahap seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>helm uninstall -n monitoring telegraf-inventory
-helm uninstall -n monitoring telegraf-ds
-kubectl delete -f influxdb.yaml
-</code></pre></td></tr></table>
-</div>
-</div><p>Karena InfluxDB di-deploy sebagai StatefulSet maka PVC tidak akan terhapus secara otomatis, apabila kita ingin menghapusnya kita harus melakukannya secara manual.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>kubectl -n monitoring delete pvc data-influxdb-0
-</code></pre></td></tr></table>
-</div>
-</div><p>Selanjutnya kita hapus bagian terakhir, yaitu namespace.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>kubectl delete namespace monitoring
-</code></pre></td></tr></table>
-</div>
-</div><hr>
-<h2 id=kesimpulan>Kesimpulan</h2>
-<p>InfluxDB dapat kita gunakan sebagai alternatif monitoring dan logging cluster Kubernetes, namun menggunakan versi OSS (Open Source Software) atau Community tidaklah bijak bagi production environment, terutama kita akan kekurangan layanan customer support secara langsung dari InfluxData. Dalam file <code>influxdb.yaml</code> kita perlu melakukan beberapa penyesuaian, misalnya adalah peningkatan kapasitas storage karena saya hanya menulisnya sebanyak <code>1Gi</code> dan retention hanya <code>12h</code>. Masih ada banyak hal yang perlu saya explore terkait InfluxDB, terutama dalam melakukan query terhadap data yang ada dalam bucket.</p>
-<hr>
-<h2 id=referensi>Referensi</h2>
-<ul>
-<li><a href="https://docs.influxdata.com/influxdb/v2.0/install/?t=Kubernetes" target=_blank rel="noopener noreffer">docs.influxdata.com/influxdb/v2.0/install/?t=Kubernetes</a></li>
-<li><a href=https://github.com/influxdata/helm-charts/ target=_blank rel="noopener noreffer">github.com/influxdata/helm-charts</a></li>
-<li><a href=https://github.com/influxdata/telegraf/tree/master/plugins/inputs/kube_inventory target=_blank rel="noopener noreffer">github.com/influxdata/telegraf/tree/master/plugins/inputs/kube_inventory</a></li>
-<li><a href=https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumes-typed-hostpath target=_blank rel="noopener noreffer">kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumes-typed-hostpath</a></li>
-<li><a href=https://github.com/influxdata/community-templates/tree/master/k8s target=_blank rel="noopener noreffer">github.com/influxdata/community-templates/tree/master/k8s</a></li>
-<li><a href=https://kubernetes.github.io/ingress-nginx/deploy/ target=_blank rel="noopener noreffer">kubernetes.github.io/ingress-nginx/deploy</a></li>
-<li><a href=https://helm.sh/docs/intro/using_helm/ target=_blank rel="noopener noreffer">helm.sh/docs/intro/using_helm</a></li>
-<li><a href=https://www.gojek.io/blog/diy-set-up-telegraf-influxdb-grafana-on-kubernetes target=_blank rel="noopener noreffer">www.gojek.io/blog/diy-set-up-telegraf-influxdb-grafana-on-kubernetes</a></li>
-<li><a href=https://www.influxdata.com/blog/introducing-the-next-generation-influxdb-2-0-platform/ target=_blank rel="noopener noreffer">www.influxdata.com/blog/introducing-the-next-generation-influxdb-2-0-platform</a></li>
-</ul></div><div class=post-footer id=post-footer>
-<div class=post-info>
-<div class=post-info-line>
-<div class=post-info-mod>
-<span>Updated on 2021-06-18</span>
-</div>
-<div class=post-info-license></div>
-</div>
-<div class=post-info-line>
-<div class=post-info-md><span>
-<a class=link-to-markdown href=/monitoring-kubernetes-dengan-influxdb-v2/index.md target=_blank>Read Markdown</a>
-</span></div>
-<div class=post-info-share>
-<span></span>
-</div>
-</div>
-</div>
-<div class=post-info-more>
-<section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/influxdb/>InfluxDB</a>,&nbsp;<a href=/tags/tick/>TICK</a>,&nbsp;<a href=/tags/monitoring/>Monitoring</a>,&nbsp;<a href=/tags/kubernetes/>Kubernetes</a></section>
-<section>
-<span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span>
-</section>
-</div>
-<div class=post-nav><a href=/nxrm-untuk-private-image-registry/ class=prev rel=prev title="NXRM untuk Private Image Registry"><i class="fas fa-angle-left fa-fw"></i>NXRM untuk Private Image Registry</a>
-<a href=/virtualisasi-infrastruktur-dengan-ovirt/ class=next rel=next title="Virtualisasi Infrastruktur dengan oVirt">Virtualisasi Infrastruktur dengan oVirt<i class="fas fa-angle-right fa-fw"></i></a></div>
-</div>
-<div id=comments><div id=disqus_thread class=comment></div><noscript>
-Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.
-</noscript></div></article></div>
-</main><footer class=footer>
-<div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div>
-</div>
-</footer></div>
-<div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top">
-<i class="fas fa-arrow-up fa-fw"></i>
-</a><a href=# id=view-comments class=fixed-button title="View Comments">
-<i class="fas fa-comment fa-fw"></i>
-</a>
-</div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body>
-</html>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>helm uninstall -n monitoring telegraf-inventory
+</span></span><span class=line><span class=cl>helm uninstall -n monitoring telegraf-ds
+</span></span><span class=line><span class=cl>kubectl delete -f influxdb.yaml
+</span></span></code></pre></td></tr></table></div></div><p>Karena InfluxDB di-deploy sebagai StatefulSet maka PVC tidak akan terhapus secara otomatis, apabila kita ingin menghapusnya kita harus melakukannya secara manual.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>kubectl -n monitoring delete pvc data-influxdb-0
+</span></span></code></pre></td></tr></table></div></div><p>Selanjutnya kita hapus bagian terakhir, yaitu namespace.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>kubectl delete namespace monitoring
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=kesimpulan>Kesimpulan</h2><p>InfluxDB dapat kita gunakan sebagai alternatif monitoring dan logging cluster Kubernetes, namun menggunakan versi OSS (Open Source Software) atau Community tidaklah bijak bagi production environment, terutama kita akan kekurangan layanan customer support secara langsung dari InfluxData. Dalam file <code>influxdb.yaml</code> kita perlu melakukan beberapa penyesuaian, misalnya adalah peningkatan kapasitas storage karena saya hanya menulisnya sebanyak <code>1Gi</code> dan retention hanya <code>12h</code>. Masih ada banyak hal yang perlu saya explore terkait InfluxDB, terutama dalam melakukan query terhadap data yang ada dalam bucket.</p><hr><h2 id=referensi>Referensi</h2><ul><li><a href="https://docs.influxdata.com/influxdb/v2.0/install/?t=Kubernetes" target=_blank rel="noopener noreffer">docs.influxdata.com/influxdb/v2.0/install/?t=Kubernetes</a></li><li><a href=https://github.com/influxdata/helm-charts/ target=_blank rel="noopener noreffer">github.com/influxdata/helm-charts</a></li><li><a href=https://github.com/influxdata/telegraf/tree/master/plugins/inputs/kube_inventory target=_blank rel="noopener noreffer">github.com/influxdata/telegraf/tree/master/plugins/inputs/kube_inventory</a></li><li><a href=https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumes-typed-hostpath target=_blank rel="noopener noreffer">kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumes-typed-hostpath</a></li><li><a href=https://github.com/influxdata/community-templates/tree/master/k8s target=_blank rel="noopener noreffer">github.com/influxdata/community-templates/tree/master/k8s</a></li><li><a href=https://kubernetes.github.io/ingress-nginx/deploy/ target=_blank rel="noopener noreffer">kubernetes.github.io/ingress-nginx/deploy</a></li><li><a href=https://helm.sh/docs/intro/using_helm/ target=_blank rel="noopener noreffer">helm.sh/docs/intro/using_helm</a></li><li><a href=https://www.gojek.io/blog/diy-set-up-telegraf-influxdb-grafana-on-kubernetes target=_blank rel="noopener noreffer">www.gojek.io/blog/diy-set-up-telegraf-influxdb-grafana-on-kubernetes</a></li><li><a href=https://www.influxdata.com/blog/introducing-the-next-generation-influxdb-2-0-platform/ target=_blank rel="noopener noreffer">www.influxdata.com/blog/introducing-the-next-generation-influxdb-2-0-platform</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2021-06-18</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/monitoring-kubernetes-dengan-influxdb-v2/index.md target=_blank>Read Markdown</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/influxdb/>InfluxDB</a>,&nbsp;<a href=/tags/tick/>TICK</a>,&nbsp;<a href=/tags/monitoring/>Monitoring</a>,&nbsp;<a href=/tags/kubernetes/>Kubernetes</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/nxrm-untuk-private-image-registry/ class=prev rel=prev title="NXRM untuk Private Image Registry"><i class="fas fa-angle-left fa-fw"></i>NXRM untuk Private Image Registry</a>
+<a href=/virtualisasi-infrastruktur-dengan-ovirt/ class=next rel=next title="Virtualisasi Infrastruktur dengan oVirt">Virtualisasi Infrastruktur dengan oVirt<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=disqus_thread class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

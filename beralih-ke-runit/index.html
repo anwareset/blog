@@ -1,150 +1,15 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="noodp">
-<meta http-equiv=x-ua-compatible content="IE=edge, chrome=1">
-<title>Beralih ke Runit - Anwar's Blog</title><meta name=Description content="Beralih menggunakan runit - sebuah UNIX init scheme dengan service supervision."><meta property="og:title" content="Beralih ke Runit">
-<meta property="og:description" content="Beralih menggunakan runit - sebuah UNIX init scheme dengan service supervision.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://init.web.id/beralih-ke-runit/"><meta property="og:image" content="https://init.web.id/beralih-ke-runit/cover.jpg"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2020-12-16T21:38:45+07:00">
-<meta property="article:modified_time" content="2020-12-16T21:38:45+07:00">
-<meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://init.web.id/beralih-ke-runit/cover.jpg">
-<meta name=twitter:title content="Beralih ke Runit">
-<meta name=twitter:description content="Beralih menggunakan runit - sebuah UNIX init scheme dengan service supervision.">
-<meta name=application-name content="Anwar's Blog">
-<meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
-<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/beralih-ke-runit/><link rel=prev href=https://init.web.id/membahas-linux-ricing/><link rel=next href=https://init.web.id/continuous-deployment-hugo-dengan-github-actions/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Beralih ke Runit","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/beralih-ke-runit\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/beralih-ke-runit\/cover.jpg","width":2050,"height":780}],"genre":"posts","keywords":"Environment, Review","wordcount":1917,"url":"https:\/\/init.web.id\/beralih-ke-runit\/","datePublished":"2020-12-16T21:38:45+07:00","dateModified":"2020-12-16T21:38:45+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Beralih menggunakan runit - sebuah UNIX init scheme dengan service supervision."}</script></head>
-<body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'dark'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'dark'==='dark')&&document.body.setAttribute('theme','dark')</script>
-<div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
-<div class=header-wrapper>
-<div class=header-title>
-<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a>
-</div>
-<div class=menu>
-<div class=menu-inner><a class=menu-item href=/posts/> Posts </a><a class=menu-item href=/categories/> Categories </a><a class=menu-item href=/about/> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Beralih ke Runit - Anwar's Blog</title><meta name=Description content="Beralih menggunakan runit - sebuah UNIX init scheme dengan service supervision."><meta property="og:title" content="Beralih ke Runit"><meta property="og:description" content="Beralih menggunakan runit - sebuah UNIX init scheme dengan service supervision."><meta property="og:type" content="article"><meta property="og:url" content="https://init.web.id/beralih-ke-runit/"><meta property="og:image" content="https://init.web.id/beralih-ke-runit/cover.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-12-16T21:38:45+07:00"><meta property="article:modified_time" content="2020-12-16T21:38:45+07:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://init.web.id/beralih-ke-runit/cover.jpg"><meta name=twitter:title content="Beralih ke Runit"><meta name=twitter:description content="Beralih menggunakan runit - sebuah UNIX init scheme dengan service supervision."><meta name=application-name content="Anwar's Blog"><meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/beralih-ke-runit/><link rel=prev href=https://init.web.id/membahas-linux-ricing/><link rel=next href=https://init.web.id/continuous-deployment-hugo-dengan-github-actions/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Beralih ke Runit","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/beralih-ke-runit\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/beralih-ke-runit\/cover.jpg","width":2050,"height":780}],"genre":"posts","keywords":"Environment, Review","wordcount":1917,"url":"https:\/\/init.web.id\/beralih-ke-runit\/","datePublished":"2020-12-16T21:38:45+07:00","dateModified":"2020-12-16T21:38:45+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Beralih menggunakan runit - sebuah UNIX init scheme dengan service supervision."}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"dark"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"dark"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/about/>About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
 <input type=text placeholder="Search titles or contents..." id=search-input-desktop>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search>
-<i class="fas fa-search fa-fw"></i>
-</a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear>
-<i class="fas fa-times-circle fa-fw"></i>
-</a>
-<span class="search-button search-loading" id=search-loading-desktop>
-<i class="fas fa-spinner fa-fw fa-spin"></i>
-</span>
-</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i>
-</a>
-</div>
-</div>
-</div>
-</header><header class=mobile id=header-mobile>
-<div class=header-container>
-<div class=header-wrapper>
-<div class=header-title>
-<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a>
-</div>
-<div class=menu-toggle id=menu-toggle-mobile>
-<span></span><span></span><span></span>
-</div>
-</div>
-<div class=menu id=menu-mobile><div class=search-wrapper>
-<div class="search mobile" id=search-mobile>
-<input type=text placeholder="Search titles or contents..." id=search-input-mobile>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search>
-<i class="fas fa-search fa-fw"></i>
-</a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear>
-<i class="fas fa-times-circle fa-fw"></i>
-</a>
-<span class="search-button search-loading" id=search-loading-mobile>
-<i class="fas fa-spinner fa-fw fa-spin"></i>
-</span>
-</div>
-<a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>
-Cancel
-</a>
-</div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i>
-</a></div>
-</div>
-</header>
-<div class="search-dropdown desktop">
-<div id=search-dropdown-desktop></div>
-</div>
-<div class="search-dropdown mobile">
-<div id=search-dropdown-mobile></div>
-</div>
-<main class=main>
-<div class=container><div class=toc id=toc-auto>
-<h2 class=toc-title>Contents</h2>
-<div class=toc-content id=toc-content-auto></div>
-</div><article class="page single"><h1 class="single-title animated flipInX">Beralih ke Runit</h1><div class=post-meta>
-<div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/gnu/linux/><i class="far fa-folder fa-fw"></i>GNU/Linux</a></span></div>
-<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2020-12-16>2020-12-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1917 words&nbsp;
-<i class="far fa-clock fa-fw"></i>&nbsp;9 minutes&nbsp;</div>
-</div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/beralih-ke-runit/cover.jpg data-srcset="/beralih-ke-runit/cover.jpg, /beralih-ke-runit/cover.jpg 1.5x, /beralih-ke-runit/cover.jpg 2x" data-sizes=auto alt=/beralih-ke-runit/cover.jpg title="Beralih menggunakan runit - sebuah UNIX init scheme dengan service supervision."></div><div class="details toc" id=toc-static kept>
-<div class="details-summary toc-title">
-<span>Contents</span>
-<span><i class="details-icon fas fa-angle-right"></i></span>
-</div>
-<div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents>
-<ul>
-<li><a href=#systemd-vs-runit>Systemd vs Runit</a>
-<ul>
-<li><a href=#kontroversi-systemd>Kontroversi systemd</a></li>
-<li><a href=#runit-sebagai-alternatif>Runit Sebagai Alternatif</a></li>
-</ul>
-</li>
-<li><a href=#beralih-ke-runit>Beralih ke Runit</a>
-<ul>
-<li><a href=#0-prerequisites>0. Prerequisites</a></li>
-<li><a href=#1-membuat-sebuah-_template_>1. Membuat sebuah <em>Template</em></a></li>
-<li><a href=#2-menyiapkan-logging-directory>2. Menyiapkan Logging Directory</a></li>
-<li><a href=#3-membuat-program-ilustrasi>3. Membuat Program Ilustrasi</a></li>
-<li><a href=#4-mengelola-_service_>4. Mengelola <em>Service</em></a>
-<ul>
-<li><a href=#enable-service>Enable service</a></li>
-<li><a href=#memeriksa-status-service>Memeriksa status service</a></li>
-<li><a href=#menghentikan-service>Menghentikan service</a></li>
-<li><a href=#menyalakan-service>Menyalakan service</a></li>
-<li><a href=#melihat-logfile>Melihat logfile</a></li>
-<li><a href=#disable-service>Disable service</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href=#perbandingan-perintah-runit-vs-systemd>Perbandingan Perintah Runit vs Systemd</a></li>
-<li><a href=#manakah-yang-lebih-baik>Manakah yang lebih baik?</a></li>
-<li><a href=#referensi>Referensi</a></li>
-</ul>
-</nav></div>
-</div><div class=content id=content><p>Runit merupakan sebuah UNIX <em>init scheme</em> dengan <em>service supervision</em>. Pada dasarnya hal ini berarti Runit mampu menyediakan <em>automatic starting</em> sebuah services ketika sistem operasi dijalankan untuk pertamakali, serta <em>automatic monitoring and restarting</em> sebuah service jika terjadi sebuah interupsi.</p>
-<h2 id=systemd-vs-runit>Systemd vs Runit</h2>
-<p>Ketika artikel ini diterbitkan, <strong>systemd</strong> nyaris menguasai semua distro sistem operasi GNU/Linux. Misalnya Fedora, Debian, Ubuntu, dan banyak lagi lainnya sudah beralih dari <em>init system</em> sebelumnya lalu menggunakan <em>systemd</em>. Hal ini terjadi karena systemd menawarkan banyak hal yang terintegrasi, hampir segala hal pada sistem operasi akan di-<em>handle</em> olehnya.</p>
-<p><figure><a class=lightgallery href=/beralih-ke-runit/systemd-and-linux.png title="Systemd and GNU/Linux" data-thumbnail=/beralih-ke-runit/systemd-and-linux.png data-sub-html="<h2>Systemd and GNU/Linux</h2><p>Systemd and GNU/Linux</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=systemd-and-linux.png data-srcset="/beralih-ke-runit/systemd-and-linux.png, systemd-and-linux.png 1.5x, /beralih-ke-runit/systemd-and-linux.png 2x" data-sizes=auto alt=/beralih-ke-runit/systemd-and-linux.png>
-</a><figcaption class=image-caption>Systemd and GNU/Linux</figcaption>
-</figure></p>
-<h3 id=kontroversi-systemd>Kontroversi systemd</h3>
-<p><strong>systemd</strong> memang menjadi kontroversi karena beberapa hal. Sebagian orang menganggap bahwa systemd tidak menghormati filosofi Unix. Saya ingat ketika awal sekali mengenal GNU/Linux, bahwa GNU/Linux adalah sistem operasi yang <strong><em>Unix-like</em></strong> dan <strong><em>Unix</em></strong> memiliki filosofi sebagai berikut :</p>
-<ul>
-<li>Tugas sebuah program adalah melakukan satu hal, dan melakukannya dengan baik.</li>
-<li>Sistem yang besar dan kompleks merupakan gabungan dari program-program kecil yang bekerja sama.</li>
-<li>Teks adalah antarmuka yang universal.</li>
-<li>Segala hal di Unix adalah file.</li>
-</ul>
-<p><em>systemd</em> dianggap tidak <em>conform</em> dengan filosofi Unix diatas sehingga banyak yang menolaknya. <em>systemd</em> awalnya dikembangkan oleh <strong>Lennart Pottering</strong>, seorang developer yang saat artikel ini diterbitkan tengah bekerja untuk <strong>Red Hat</strong>. Dia sebelumnya juga membuat program yang tak kalah kontroversial yaitu <em>Avahi</em> dan <em>PulseAudio</em>. Silahkan baca tentang Lennart Pottering di <a href=https://en.wikipedia.org/wiki/Lennart_Poettering target=_blank rel="noopener noreffer">Wikipedia</a>.</p>
-<p>Beberapa kritik lain terhadap <em>systemd</em> misalnya karena <em>systemd</em> tidak hanya menjadi <em>init system</em> tapi <strong>juga mengambil ali banyak fungsi</strong>. Misalnya <em>systemd</em> berusaha mengatur <em>network</em>, <code>cron</code>, <code>fstab</code>, <code>syslog</code> atau <code>rsyslog</code>, <code>ntp</code>, dan banyak lainnya. Artinya <em>systemd</em> bukanlah sebuah program yang melakukan satu hal saja, tapi banyak hal. Kemudian, <em>systemd</em> dikritik karena <em>logging file</em>-nya tidak berbasis teks seperti <em>Unix</em> dan <em>GNU/Linux</em> pada umumnya, melainkan <em>binary log file</em>.</p>
-<h3 id=runit-sebagai-alternatif>Runit Sebagai Alternatif</h3>
-<p>Berbagai penolakan tentu saja terjadi, tidak sedikit developer yang kemudian melakukan <em>fork</em> lalu mengembangkan distro GNU/Linux yang bebas dari <em>systemd</em>. Misalnya <a href=http://artixlinux.org target=_blank rel="noopener noreffer"><strong>Artix Linux</strong></a>, yang merupakan <em>fork</em> dari project <a href=http://archlinux.org target=_blank rel="noopener noreffer"><strong>Arch Linux</strong></a> dengan maksud membebaskan pengguna <em>Arch</em> dari cengkeraman <em>systemd</em>. Artix menawarkan beberapa alternatif sebagai pengganti <em>systemd</em>, misalnya <a href=https://wiki.archlinux.org/index.php/OpenRC target=_blank rel="noopener noreffer"><strong>OpenRC</strong></a>, <a href=https://wiki.gentoo.org/wiki/S6 target=_blank rel="noopener noreffer"><strong>S6</strong></a>, dan tentu saja <a href=http://smarden.org/runit/ target=_blank rel="noopener noreffer"><strong>Runit</strong></a>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">Beralih ke Runit</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/gnu/linux/><i class="far fa-folder fa-fw"></i>GNU/Linux</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2020-12-16>2020-12-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1917 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;9 minutes&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/beralih-ke-runit/cover.jpg data-srcset="/beralih-ke-runit/cover.jpg, /beralih-ke-runit/cover.jpg 1.5x, /beralih-ke-runit/cover.jpg 2x" data-sizes=auto alt=/beralih-ke-runit/cover.jpg title="Beralih menggunakan runit - sebuah UNIX init scheme dengan service supervision."></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#systemd-vs-runit>Systemd vs Runit</a><ul><li><a href=#kontroversi-systemd>Kontroversi systemd</a></li><li><a href=#runit-sebagai-alternatif>Runit Sebagai Alternatif</a></li></ul></li><li><a href=#beralih-ke-runit>Beralih ke Runit</a><ul><li><a href=#0-prerequisites>0. Prerequisites</a></li><li><a href=#1-membuat-sebuah-_template_>1. Membuat sebuah <em>Template</em></a></li><li><a href=#2-menyiapkan-logging-directory>2. Menyiapkan Logging Directory</a></li><li><a href=#3-membuat-program-ilustrasi>3. Membuat Program Ilustrasi</a></li><li><a href=#4-mengelola-_service_>4. Mengelola <em>Service</em></a><ul><li><a href=#enable-service>Enable service</a></li><li><a href=#memeriksa-status-service>Memeriksa status service</a></li><li><a href=#menghentikan-service>Menghentikan service</a></li><li><a href=#menyalakan-service>Menyalakan service</a></li><li><a href=#melihat-logfile>Melihat logfile</a></li><li><a href=#disable-service>Disable service</a></li></ul></li></ul></li><li><a href=#perbandingan-perintah-runit-vs-systemd>Perbandingan Perintah Runit vs Systemd</a></li><li><a href=#manakah-yang-lebih-baik>Manakah yang lebih baik?</a></li><li><a href=#referensi>Referensi</a></li></ul></nav></div></div><div class=content id=content><p>Runit merupakan sebuah UNIX <em>init scheme</em> dengan <em>service supervision</em>. Pada dasarnya hal ini berarti Runit mampu menyediakan <em>automatic starting</em> sebuah services ketika sistem operasi dijalankan untuk pertamakali, serta <em>automatic monitoring and restarting</em> sebuah service jika terjadi sebuah interupsi.</p><h2 id=systemd-vs-runit>Systemd vs Runit</h2><p>Ketika artikel ini diterbitkan, <strong>systemd</strong> nyaris menguasai semua distro sistem operasi GNU/Linux. Misalnya Fedora, Debian, Ubuntu, dan banyak lagi lainnya sudah beralih dari <em>init system</em> sebelumnya lalu menggunakan <em>systemd</em>. Hal ini terjadi karena systemd menawarkan banyak hal yang terintegrasi, hampir segala hal pada sistem operasi akan di-<em>handle</em> olehnya.</p><p><figure><a class=lightgallery href=/beralih-ke-runit/systemd-and-linux.png title="Systemd and GNU/Linux" data-thumbnail=/beralih-ke-runit/systemd-and-linux.png data-sub-html="<h2>Systemd and GNU/Linux</h2><p>Systemd and GNU/Linux</p>"><img class=lazyload src=/svg/loading.min.svg data-src=systemd-and-linux.png data-srcset="/beralih-ke-runit/systemd-and-linux.png, systemd-and-linux.png 1.5x, /beralih-ke-runit/systemd-and-linux.png 2x" data-sizes=auto alt=/beralih-ke-runit/systemd-and-linux.png></a><figcaption class=image-caption>Systemd and GNU/Linux</figcaption></figure></p><h3 id=kontroversi-systemd>Kontroversi systemd</h3><p><strong>systemd</strong> memang menjadi kontroversi karena beberapa hal. Sebagian orang menganggap bahwa systemd tidak menghormati filosofi Unix. Saya ingat ketika awal sekali mengenal GNU/Linux, bahwa GNU/Linux adalah sistem operasi yang <strong><em>Unix-like</em></strong> dan <strong><em>Unix</em></strong> memiliki filosofi sebagai berikut :</p><ul><li>Tugas sebuah program adalah melakukan satu hal, dan melakukannya dengan baik.</li><li>Sistem yang besar dan kompleks merupakan gabungan dari program-program kecil yang bekerja sama.</li><li>Teks adalah antarmuka yang universal.</li><li>Segala hal di Unix adalah file.</li></ul><p><em>systemd</em> dianggap tidak <em>conform</em> dengan filosofi Unix diatas sehingga banyak yang menolaknya. <em>systemd</em> awalnya dikembangkan oleh <strong>Lennart Pottering</strong>, seorang developer yang saat artikel ini diterbitkan tengah bekerja untuk <strong>Red Hat</strong>. Dia sebelumnya juga membuat program yang tak kalah kontroversial yaitu <em>Avahi</em> dan <em>PulseAudio</em>. Silahkan baca tentang Lennart Pottering di <a href=https://en.wikipedia.org/wiki/Lennart_Poettering target=_blank rel="noopener noreffer">Wikipedia</a>.</p><p>Beberapa kritik lain terhadap <em>systemd</em> misalnya karena <em>systemd</em> tidak hanya menjadi <em>init system</em> tapi <strong>juga mengambil ali banyak fungsi</strong>. Misalnya <em>systemd</em> berusaha mengatur <em>network</em>, <code>cron</code>, <code>fstab</code>, <code>syslog</code> atau <code>rsyslog</code>, <code>ntp</code>, dan banyak lainnya. Artinya <em>systemd</em> bukanlah sebuah program yang melakukan satu hal saja, tapi banyak hal. Kemudian, <em>systemd</em> dikritik karena <em>logging file</em>-nya tidak berbasis teks seperti <em>Unix</em> dan <em>GNU/Linux</em> pada umumnya, melainkan <em>binary log file</em>.</p><h3 id=runit-sebagai-alternatif>Runit Sebagai Alternatif</h3><p>Berbagai penolakan tentu saja terjadi, tidak sedikit developer yang kemudian melakukan <em>fork</em> lalu mengembangkan distro GNU/Linux yang bebas dari <em>systemd</em>. Misalnya <a href=http://artixlinux.org target=_blank rel="noopener noreffer"><strong>Artix Linux</strong></a>, yang merupakan <em>fork</em> dari project <a href=http://archlinux.org target=_blank rel="noopener noreffer"><strong>Arch Linux</strong></a> dengan maksud membebaskan pengguna <em>Arch</em> dari cengkeraman <em>systemd</em>. Artix menawarkan beberapa alternatif sebagai pengganti <em>systemd</em>, misalnya <a href=https://wiki.archlinux.org/index.php/OpenRC target=_blank rel="noopener noreffer"><strong>OpenRC</strong></a>, <a href=https://wiki.gentoo.org/wiki/S6 target=_blank rel="noopener noreffer"><strong>S6</strong></a>, dan tentu saja <a href=http://smarden.org/runit/ target=_blank rel="noopener noreffer"><strong>Runit</strong></a>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -162,175 +27,55 @@ Cancel
 </span><span class=lnt>16
 </span><span class=lnt>17
 </span><span class=lnt>18
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>/etc/runit/sv/foo</span>
-<span class=na>├── log</span>
-<span class=na>│   ├── run</span>
-<span class=na>│   └── supervise</span>
-<span class=na>│       ├── control</span>
-<span class=na>│       ├── lock</span>
-<span class=na>│       ├── ok</span>
-<span class=na>│       ├── pid</span>
-<span class=na>│       ├── stat</span>
-<span class=na>│       └── status</span>
-<span class=na>├── run</span>
-<span class=na>└── supervise</span>
-    <span class=na>├── control</span>
-    <span class=na>├── lock</span>
-    <span class=na>├── ok</span>
-    <span class=na>├── pid</span>
-    <span class=na>├── stat</span>
-    <span class=na>└── status</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Pada distro <em>Artix</em>, biasanya direktori sebuah <em>service</em> akan terlihat seperti di atas. Anggaplah <code>/etc/runit/sv</code> adalah <em>templatedir</em>, dan <code>/etc/runit/sv/foo</code> adalah direktori konfigurasi <em>service</em>. Maka kelak <em>service</em> yang berjalan akan bernama sebagai <code>foo</code> juga. Dalam direktori <code>foo</code> biasanya kita hanya diwajibkan untuk membuat sebuah file <em>executable</em> bernama <code>run</code>, berisikan baris perintah untuk mengeksekusi program yang akan dijadikan sebagai sebuah <em>service</em>. Namun jika kita membutuhkan <em>logging</em>, kita dapat memanfaatkan <code>svlogd</code> dengan membuat sebuah direktori bernama <code>log</code> di dalam <code>/etc/runit/sv/foo</code>, kemudian buat lagi sebuah file bernama <code>run</code> di dalam direktori <code>log</code> tersebut. Isi dari file-file <code>run</code> tersebut akan kita bahas dibawah.</p>
-<hr>
-<h2 id=beralih-ke-runit>Beralih ke Runit</h2>
-<p>Dalam dokumentasi ini kita akan belajar tentang :</p>
-<ol>
-<li>Membuat sebuah <em>runit template</em> untuk untuk konfigurasi <em>monitored service</em>.</li>
-<li>Konfigurasi <em>monitored service</em> untuk pertamakali.</li>
-<li>Mengelola <em>monitored service</em> secara manual.</li>
-</ol>
-<p><figure><a class=lightgallery href=/beralih-ke-runit/runit-sv.png title="runit sv" data-thumbnail=/beralih-ke-runit/runit-sv.png data-sub-html="<h2>runit sv</h2><p>runit sv</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=runit-sv.png data-srcset="/beralih-ke-runit/runit-sv.png, runit-sv.png 1.5x, /beralih-ke-runit/runit-sv.png 2x" data-sizes=auto alt=/beralih-ke-runit/runit-sv.png>
-</a><figcaption class=image-caption>runit sv</figcaption>
-</figure></p>
-<h3 id=0-prerequisites>0. Prerequisites</h3>
-<p>Pastikan paket dari <code>runit</code> sudah terpasang pada sistem. Sebagian besar distro GNU/Linux biasanya memiliki paket tersebut pada <em>repository</em> mereka. Misalnya, jika kita menggunakan sebuah distro <em>Arch-based</em> maka kita dapat memasang paket dengan perintah berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo pacman -Sy runit
-</code></pre></td></tr></table>
-</div>
-</div><div class="details admonition warning open">
-<div class="details-summary admonition-title">
-<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
-</div>
-<div class=details-content>
-<div class=admonition-content>Pada distro <a href=https://artixlinux.org target=_blank rel="noopener noreffer"><strong>Artix</strong></a> biasanya kita tidak perlu melakukan pemasangan paket <em>Runit</em>. Kita diperkenankan memilih <em>init system</em> apa yang akan digunakan pada waktu mengunduh berkas ISO installer.</div>
-</div>
-</div>
-<p>Periksa apakah <em>runit</em> telah terpasang pada sistem, dengan mencari sebuah <em>process</em> bernama <code>runsvdir</code> dengan perintah.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo ps -ef <span class=p>|</span> grep runsvdir
-</code></pre></td></tr></table>
-</div>
-</div><p>Jika <em>runit</em> telah terpasang, harusnya akan keluar <em>output</em> seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>root      1090     1  0 Dec15 ?        00:00:00 runsvdir -P /run/runit/service log:..............</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Di sini <code>runsvdir</code> merupakan hal paling pertama dari beberapa lainnya yang akan kita pahami. <em>runit</em> memang diarancang untuk mengambil pendekatan yang terasa sangat <strong>Unixy</strong>, yaitu dengan cara memecah fungsionalitas utama menjadi beberapa <em>utilities</em> kecil yang masing-masing unitnya bertanggung jawab menjalankan sebuah tugas. Pendekatan tersebut membuat komponen-komponen kecilnya mampu dibentuk dengan beberapa metode sesuai dengan yang kita butuhkan. <em>Core unit</em> yang terdapat pada <em>runit</em> beberapa diantaranya adalah <code>runsvdir</code>, <code>runsv</code>, <code>chpst</code>, <code>svlogd</code>, dan <code>sv</code>. Nantinya, dalam dokumentasi ini kita akan mengkombinasikan beberapa hal diatas untuk kofigurasi <em>runit</em> dan menjalankan sebuah <em>managed service</em>.</p>
-<h3 id=1-membuat-sebuah-_template_>1. Membuat sebuah <em>Template</em></h3>
-<p>Hal pertama yang perlu kita lakukan adalah memperhatikan lebih dalam apa yang sebenarnya terjadi pada output <code>runsvdir -P /run/runit/service log:.....</code>. Pada dasarnya, dalam output tersebut terdapat sebuah perintah yang mengawasi direktori <code>/run/runit/service</code>, karena di dalamnya terdapat file konfigurasi dari <em>monitored service</em>. Sebuah <em>monitored service</em> dikonfigurasi dengan menambahkan sebuah subdirektori ke dalam <code>/run/runit/service</code> berisikan sebuah berkas script <code>run</code> di dalamnya. Ketika <code>runsvdir</code> menemukan sebuah konfigurasi baru, maka ia akan menjalankan <em>process</em> <code>runsv</code>baru untuk mengelola <em>service</em>. Ingat, bahwa salah satu <em>Filosofi Unix</em> berbunyi <strong>tugas sebuah program adalah melakukan satu hal, dan melakukannya dengan baik.</strong></p>
-<p>Pastikan bahwa direktori <code>/etc/runit/sv/</code> ada. Di dalamnya kita akan membuat direktori baru bernama <code>foo</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo mkdir -p /etc/runit/sv/foo
-</code></pre></td></tr></table>
-</div>
-</div><p>Lalu di dalam direktori tersebut kita buat sebuah file <em>template</em> bernama <code>run</code> untuk ilustrasi.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>/etc/runit/sv/foo</span>
+</span></span><span class=line><span class=cl><span class=na>├── log</span>
+</span></span><span class=line><span class=cl><span class=na>│   ├── run</span>
+</span></span><span class=line><span class=cl><span class=na>│   └── supervise</span>
+</span></span><span class=line><span class=cl><span class=na>│       ├── control</span>
+</span></span><span class=line><span class=cl><span class=na>│       ├── lock</span>
+</span></span><span class=line><span class=cl><span class=na>│       ├── ok</span>
+</span></span><span class=line><span class=cl><span class=na>│       ├── pid</span>
+</span></span><span class=line><span class=cl><span class=na>│       ├── stat</span>
+</span></span><span class=line><span class=cl><span class=na>│       └── status</span>
+</span></span><span class=line><span class=cl><span class=na>├── run</span>
+</span></span><span class=line><span class=cl><span class=na>└── supervise</span>
+</span></span><span class=line><span class=cl>    <span class=na>├── control</span>
+</span></span><span class=line><span class=cl>    <span class=na>├── lock</span>
+</span></span><span class=line><span class=cl>    <span class=na>├── ok</span>
+</span></span><span class=line><span class=cl>    <span class=na>├── pid</span>
+</span></span><span class=line><span class=cl>    <span class=na>├── stat</span>
+</span></span><span class=line><span class=cl>    <span class=na>└── status</span>
+</span></span></code></pre></td></tr></table></div></div><p>Pada distro <em>Artix</em>, biasanya direktori sebuah <em>service</em> akan terlihat seperti di atas. Anggaplah <code>/etc/runit/sv</code> adalah <em>templatedir</em>, dan <code>/etc/runit/sv/foo</code> adalah direktori konfigurasi <em>service</em>. Maka kelak <em>service</em> yang berjalan akan bernama sebagai <code>foo</code> juga. Dalam direktori <code>foo</code> biasanya kita hanya diwajibkan untuk membuat sebuah file <em>executable</em> bernama <code>run</code>, berisikan baris perintah untuk mengeksekusi program yang akan dijadikan sebagai sebuah <em>service</em>. Namun jika kita membutuhkan <em>logging</em>, kita dapat memanfaatkan <code>svlogd</code> dengan membuat sebuah direktori bernama <code>log</code> di dalam <code>/etc/runit/sv/foo</code>, kemudian buat lagi sebuah file bernama <code>run</code> di dalam direktori <code>log</code> tersebut. Isi dari file-file <code>run</code> tersebut akan kita bahas dibawah.</p><hr><h2 id=beralih-ke-runit>Beralih ke Runit</h2><p>Dalam dokumentasi ini kita akan belajar tentang :</p><ol><li>Membuat sebuah <em>runit template</em> untuk untuk konfigurasi <em>monitored service</em>.</li><li>Konfigurasi <em>monitored service</em> untuk pertamakali.</li><li>Mengelola <em>monitored service</em> secara manual.</li></ol><p><figure><a class=lightgallery href=/beralih-ke-runit/runit-sv.png title="runit sv" data-thumbnail=/beralih-ke-runit/runit-sv.png data-sub-html="<h2>runit sv</h2><p>runit sv</p>"><img class=lazyload src=/svg/loading.min.svg data-src=runit-sv.png data-srcset="/beralih-ke-runit/runit-sv.png, runit-sv.png 1.5x, /beralih-ke-runit/runit-sv.png 2x" data-sizes=auto alt=/beralih-ke-runit/runit-sv.png></a><figcaption class=image-caption>runit sv</figcaption></figure></p><h3 id=0-prerequisites>0. Prerequisites</h3><p>Pastikan paket dari <code>runit</code> sudah terpasang pada sistem. Sebagian besar distro GNU/Linux biasanya memiliki paket tersebut pada <em>repository</em> mereka. Misalnya, jika kita menggunakan sebuah distro <em>Arch-based</em> maka kita dapat memasang paket dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo pacman -Sy runit
+</span></span></code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Pada distro <a href=https://artixlinux.org target=_blank rel="noopener noreffer"><strong>Artix</strong></a> biasanya kita tidak perlu melakukan pemasangan paket <em>Runit</em>. Kita diperkenankan memilih <em>init system</em> apa yang akan digunakan pada waktu mengunduh berkas ISO installer.</div></div></div><p>Periksa apakah <em>runit</em> telah terpasang pada sistem, dengan mencari sebuah <em>process</em> bernama <code>runsvdir</code> dengan perintah.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo ps -ef <span class=p>|</span> grep runsvdir
+</span></span></code></pre></td></tr></table></div></div><p>Jika <em>runit</em> telah terpasang, harusnya akan keluar <em>output</em> seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>root      1090     1  0 Dec15 ?        00:00:00 runsvdir -P /run/runit/service log:..............</span>
+</span></span></code></pre></td></tr></table></div></div><p>Di sini <code>runsvdir</code> merupakan hal paling pertama dari beberapa lainnya yang akan kita pahami. <em>runit</em> memang diarancang untuk mengambil pendekatan yang terasa sangat <strong>Unixy</strong>, yaitu dengan cara memecah fungsionalitas utama menjadi beberapa <em>utilities</em> kecil yang masing-masing unitnya bertanggung jawab menjalankan sebuah tugas. Pendekatan tersebut membuat komponen-komponen kecilnya mampu dibentuk dengan beberapa metode sesuai dengan yang kita butuhkan. <em>Core unit</em> yang terdapat pada <em>runit</em> beberapa diantaranya adalah <code>runsvdir</code>, <code>runsv</code>, <code>chpst</code>, <code>svlogd</code>, dan <code>sv</code>. Nantinya, dalam dokumentasi ini kita akan mengkombinasikan beberapa hal diatas untuk kofigurasi <em>runit</em> dan menjalankan sebuah <em>managed service</em>.</p><h3 id=1-membuat-sebuah-_template_>1. Membuat sebuah <em>Template</em></h3><p>Hal pertama yang perlu kita lakukan adalah memperhatikan lebih dalam apa yang sebenarnya terjadi pada output <code>runsvdir -P /run/runit/service log:.....</code>. Pada dasarnya, dalam output tersebut terdapat sebuah perintah yang mengawasi direktori <code>/run/runit/service</code>, karena di dalamnya terdapat file konfigurasi dari <em>monitored service</em>. Sebuah <em>monitored service</em> dikonfigurasi dengan menambahkan sebuah subdirektori ke dalam <code>/run/runit/service</code> berisikan sebuah berkas script <code>run</code> di dalamnya. Ketika <code>runsvdir</code> menemukan sebuah konfigurasi baru, maka ia akan menjalankan <em>process</em> <code>runsv</code>baru untuk mengelola <em>service</em>. Ingat, bahwa salah satu <em>Filosofi Unix</em> berbunyi <strong>tugas sebuah program adalah melakukan satu hal, dan melakukannya dengan baik.</strong></p><p>Pastikan bahwa direktori <code>/etc/runit/sv/</code> ada. Di dalamnya kita akan membuat direktori baru bernama <code>foo</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo mkdir -p /etc/runit/sv/foo
+</span></span></code></pre></td></tr></table></div></div><p>Lalu di dalam direktori tersebut kita buat sebuah file <em>template</em> bernama <code>run</code> untuk ilustrasi.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=c1>#!/bin/sh</span>
-<span class=na>exec 2&gt;&amp;1</span>
-<span class=na>exec chpst -u foo /opt/example/foo-service.sh</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Jangan lupa file <code>run</code> harus menjadi <em>executable</em> dengan cara berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo chmod +x /etc/runit/sv/foo/run
-</code></pre></td></tr></table>
-</div>
-</div><p>Script <code>run</code> di atas akan mengeksekusi script <code>foo-service.sh</code> yang nantinya akan kita buat di dalam direktori <code>/opt/example</code>. Terdapat juga <code>chpst</code> yang berfungsi agar nantinya eksekusi akan dijalankan oleh user bernama <code>foo</code>, kita akan buat juga usernya nanti.</p>
-<p>Runit menawarkan <code>svlogd</code> untuk mengelola <em>logfile</em> dari sebuah <em>service</em>, kita akan mencoba membuatnya juga. Mari buat direktori baru bernama <code>log</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo mkdir /etc/runit/sv/foo/log
-</code></pre></td></tr></table>
-</div>
-</div><p>Di dalam direktori tersebut, kita akan membuat file baru lagi bernama <code>run</code> berisikan script berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=c1>#!/bin/sh</span>
+</span></span><span class=line><span class=cl><span class=na>exec 2&gt;&amp;1</span>
+</span></span><span class=line><span class=cl><span class=na>exec chpst -u foo /opt/example/foo-service.sh</span>
+</span></span></code></pre></td></tr></table></div></div><p>Jangan lupa file <code>run</code> harus menjadi <em>executable</em> dengan cara berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo chmod +x /etc/runit/sv/foo/run
+</span></span></code></pre></td></tr></table></div></div><p>Script <code>run</code> di atas akan mengeksekusi script <code>foo-service.sh</code> yang nantinya akan kita buat di dalam direktori <code>/opt/example</code>. Terdapat juga <code>chpst</code> yang berfungsi agar nantinya eksekusi akan dijalankan oleh user bernama <code>foo</code>, kita akan buat juga usernya nanti.</p><p>Runit menawarkan <code>svlogd</code> untuk mengelola <em>logfile</em> dari sebuah <em>service</em>, kita akan mencoba membuatnya juga. Mari buat direktori baru bernama <code>log</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo mkdir /etc/runit/sv/foo/log
+</span></span></code></pre></td></tr></table></div></div><p>Di dalam direktori tersebut, kita akan membuat file baru lagi bernama <code>run</code> berisikan script berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=c1>#!/bin/sh</span>
-<span class=na>exec chpst -u foo svlogd -tt /var/log/foo</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Pada script diatas <code>svlogd</code> akan menghasilkan output dari <em>template</em> yang sebelumnya kita buat. Output yang muncul akan ditampung pada direktori <code>/var/log/foo</code> yang kita buat nanti.</p>
-<h3 id=2-menyiapkan-logging-directory>2. Menyiapkan Logging Directory</h3>
-<p>Buat sebuah direktori untuk menampung log dari service.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo mkdir -p /var/log/foo
-</code></pre></td></tr></table>
-</div>
-</div><p>Lalu kita membutuhkan user baru bernama <code>foo</code> sebagai ilustrasi.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo useradd foo
-</code></pre></td></tr></table>
-</div>
-</div><p>Direktori log seharusnya menjadi milik user <code>foo</code> supaya user tersebut mampu menulis di dalamnya, sehingga kita perlu merubah kepemilikannya dengan perintah berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo chown foo:foo /var/log/foo
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=3-membuat-program-ilustrasi>3. Membuat Program Ilustrasi</h3>
-<p>Buat sebuah direktori baru untuk meletakkan file program ilustrasi.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo mkdir -p /opt/example
-</code></pre></td></tr></table>
-</div>
-</div><p>Dari sini kita akan melanjutkan dengan membuat program sebagai ilustrasi bernama <code>foo-service.sh</code> yang terletak pada direktori <code>/opt/example</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=c1>#!/bin/sh</span>
+</span></span><span class=line><span class=cl><span class=na>exec chpst -u foo svlogd -tt /var/log/foo</span>
+</span></span></code></pre></td></tr></table></div></div><p>Pada script diatas <code>svlogd</code> akan menghasilkan output dari <em>template</em> yang sebelumnya kita buat. Output yang muncul akan ditampung pada direktori <code>/var/log/foo</code> yang kita buat nanti.</p><h3 id=2-menyiapkan-logging-directory>2. Menyiapkan Logging Directory</h3><p>Buat sebuah direktori untuk menampung log dari service.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo mkdir -p /var/log/foo
+</span></span></code></pre></td></tr></table></div></div><p>Lalu kita membutuhkan user baru bernama <code>foo</code> sebagai ilustrasi.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo useradd foo
+</span></span></code></pre></td></tr></table></div></div><p>Direktori log seharusnya menjadi milik user <code>foo</code> supaya user tersebut mampu menulis di dalamnya, sehingga kita perlu merubah kepemilikannya dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo chown foo:foo /var/log/foo
+</span></span></code></pre></td></tr></table></div></div><h3 id=3-membuat-program-ilustrasi>3. Membuat Program Ilustrasi</h3><p>Buat sebuah direktori baru untuk meletakkan file program ilustrasi.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo mkdir -p /opt/example
+</span></span></code></pre></td></tr></table></div></div><p>Dari sini kita akan melanjutkan dengan membuat program sebagai ilustrasi bernama <code>foo-service.sh</code> yang terletak pada direktori <code>/opt/example</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
@@ -339,123 +84,38 @@ Cancel
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=c1>#!/bin/bash</span>
-<span class=na>echo &#34;Menjalankan service...&#34;</span>
-<span class=na>for i in {1..30}</span>
-<span class=na>do</span>
-    <span class=na>echo &#34;Melakukan sesuatu...&#34;</span>
-    <span class=na>sleep 1</span>
-<span class=na>done</span>
-<span class=na>echo &#34;Oh tidak, program crash!&#34; &gt;&amp;2</span>
-<span class=na>exit 1</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Jangan lupa untuk menjadikan file tersebut <em>executable</em> seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo chmod +x /opt/example/foo-script.sh
-</code></pre></td></tr></table>
-</div>
-</div><p>Kemudian jadikan direktori serta file di dalamnya menjadi milik user <code>foo</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo chown -R foo:foo /opt/example
-</code></pre></td></tr></table>
-</div>
-</div><p>Program <code>foo-script.sh</code> akan mensimulasikan sebuah <em>process</em> yang dieksekusi menggunakan <em>runit</em> sesuai dengan <em>template</em> yang sebelumnya telah kita buat. <code>foo-script.sh</code> akan <em>crash</em> setiap 30 detik, dan setiap output nya akan dicatat ke dalam log.</p>
-<h3 id=4-mengelola-_service_>4. Mengelola <em>Service</em></h3>
-<p>Kita tiba pada tahap menggunakan <em>sv</em> untuk pengelolaan <em>service</em> dari ilustrasi yang telah kita buat sebelumnya. Untuk menjalankan <em>service</em> kita perlu melakukan <em>symlink</em> direktori <em>template</em> ke dalam direktori <em>runsvdir</em>.</p>
-<h4 id=enable-service>Enable service</h4>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo ln -s /etc/runit/sv/foo /run/runit/service
-</code></pre></td></tr></table>
-</div>
-</div><p>Ketika melakukan perintah <code>ln -s</code> diatas, direktori <em>template</em> dari <em>service</em> tersebut (<code>/etc/runit/sv/foo</code>) akan dijadikan sebagai titik <em>link</em> yang ditambahkan ke dalam direktori <code>runsvdir</code> pada <code>/run/runit/service</code>. Lalu <code>runsvdir</code> terus melakukan pengawasan pada <em>service</em> yang baru saja kita tambahkan. Sehingga pada saat <em>process</em> terinterupsi (misalnya oleh <em>reboot</em> atau <em>kill</em>) maka <em>service</em> tersebut akan kembali dinyalakan secara otomatis. <strong>Itulah yang dimaksud dengan <em>supervision</em> di dalam sebuah sistem <em>init</em></strong>.</p>
-<h4 id=memeriksa-status-service>Memeriksa status service</h4>
-<p>Kemudian lakukan pemeriksaan, apakah service berhasil dijalankan.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo sv status /run/runit/service/foo
-</code></pre></td></tr></table>
-</div>
-</div><p>Jika berhasil, seharusnya akan keluar output seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>run: foo: (pid 16998) 3s; run: log: (pid 16997) 3s</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id=menghentikan-service>Menghentikan service</h4>
-<p>Coba hentikan <em>service</em> dengan perintah berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo sv down /run/runit/service/foo
-</code></pre></td></tr></table>
-</div>
-</div><p>Jika berhasil dihentikan, maka akan keluar output seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>ok: down: example: 1s, normally up</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id=menyalakan-service>Menyalakan service</h4>
-<p>Nyalakan lagi kemudian periksa lagi statusnya dengan perintah seperti berikut ini.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=c1>#!/bin/bash</span>
+</span></span><span class=line><span class=cl><span class=na>echo &#34;Menjalankan service...&#34;</span>
+</span></span><span class=line><span class=cl><span class=na>for i in {1..30}</span>
+</span></span><span class=line><span class=cl><span class=na>do</span>
+</span></span><span class=line><span class=cl>    <span class=na>echo &#34;Melakukan sesuatu...&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=na>sleep 1</span>
+</span></span><span class=line><span class=cl><span class=na>done</span>
+</span></span><span class=line><span class=cl><span class=na>echo &#34;Oh tidak, program crash!&#34; &gt;&amp;2</span>
+</span></span><span class=line><span class=cl><span class=na>exit 1</span>
+</span></span></code></pre></td></tr></table></div></div><p>Jangan lupa untuk menjadikan file tersebut <em>executable</em> seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo chmod +x /opt/example/foo-script.sh
+</span></span></code></pre></td></tr></table></div></div><p>Kemudian jadikan direktori serta file di dalamnya menjadi milik user <code>foo</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo chown -R foo:foo /opt/example
+</span></span></code></pre></td></tr></table></div></div><p>Program <code>foo-script.sh</code> akan mensimulasikan sebuah <em>process</em> yang dieksekusi menggunakan <em>runit</em> sesuai dengan <em>template</em> yang sebelumnya telah kita buat. <code>foo-script.sh</code> akan <em>crash</em> setiap 30 detik, dan setiap output nya akan dicatat ke dalam log.</p><h3 id=4-mengelola-_service_>4. Mengelola <em>Service</em></h3><p>Kita tiba pada tahap menggunakan <em>sv</em> untuk pengelolaan <em>service</em> dari ilustrasi yang telah kita buat sebelumnya. Untuk menjalankan <em>service</em> kita perlu melakukan <em>symlink</em> direktori <em>template</em> ke dalam direktori <em>runsvdir</em>.</p><h4 id=enable-service>Enable service</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo ln -s /etc/runit/sv/foo /run/runit/service
+</span></span></code></pre></td></tr></table></div></div><p>Ketika melakukan perintah <code>ln -s</code> diatas, direktori <em>template</em> dari <em>service</em> tersebut (<code>/etc/runit/sv/foo</code>) akan dijadikan sebagai titik <em>link</em> yang ditambahkan ke dalam direktori <code>runsvdir</code> pada <code>/run/runit/service</code>. Lalu <code>runsvdir</code> terus melakukan pengawasan pada <em>service</em> yang baru saja kita tambahkan. Sehingga pada saat <em>process</em> terinterupsi (misalnya oleh <em>reboot</em> atau <em>kill</em>) maka <em>service</em> tersebut akan kembali dinyalakan secara otomatis. <strong>Itulah yang dimaksud dengan <em>supervision</em> di dalam sebuah sistem <em>init</em></strong>.</p><h4 id=memeriksa-status-service>Memeriksa status service</h4><p>Kemudian lakukan pemeriksaan, apakah service berhasil dijalankan.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo sv status /run/runit/service/foo
+</span></span></code></pre></td></tr></table></div></div><p>Jika berhasil, seharusnya akan keluar output seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>run: foo: (pid 16998) 3s; run: log: (pid 16997) 3s</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=menghentikan-service>Menghentikan service</h4><p>Coba hentikan <em>service</em> dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo sv down /run/runit/service/foo
+</span></span></code></pre></td></tr></table></div></div><p>Jika berhasil dihentikan, maka akan keluar output seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>ok: down: example: 1s, normally up</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=menyalakan-service>Menyalakan service</h4><p>Nyalakan lagi kemudian periksa lagi statusnya dengan perintah seperti berikut ini.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo sv up /run/runit/service/foo
-$ sudo sv status /run/runit/service/foo
-</code></pre></td></tr></table>
-</div>
-</div><p>Jika berhasil berjalan, maka akan muncul output sebagai berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>run: foo: (pid 18146) 16s; run: log: (pid 16997) 250s</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id=melihat-logfile>Melihat logfile</h4>
-<p>Sekarang kita akan coba melihat apakah <em>logging</em> berhasil dilakukan.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo tail -f /var/log/foo/current
-</code></pre></td></tr></table>
-</div>
-</div><p><code>svlogd</code> akan membuat sebuah file baru bernama <code>current</code> dalam direktori log yang sudah kita siapkan. Nantinya file tersebut akan menampung tiap output dari <em>service</em> yang sedang berjalan. Apabila berhasil, seharusnya akan muncul output seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo sv up /run/runit/service/foo
+</span></span><span class=line><span class=cl>$ sudo sv status /run/runit/service/foo
+</span></span></code></pre></td></tr></table></div></div><p>Jika berhasil berjalan, maka akan muncul output sebagai berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>run: foo: (pid 18146) 16s; run: log: (pid 16997) 250s</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=melihat-logfile>Melihat logfile</h4><p>Sekarang kita akan coba melihat apakah <em>logging</em> berhasil dilakukan.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo tail -f /var/log/foo/current
+</span></span></code></pre></td></tr></table></div></div><p><code>svlogd</code> akan membuat sebuah file baru bernama <code>current</code> dalam direktori log yang sudah kita siapkan. Nantinya file tersebut akan menampung tiap output dari <em>service</em> yang sedang berjalan. Apabila berhasil, seharusnya akan muncul output seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
@@ -463,125 +123,16 @@ $ sudo sv status /run/runit/service/foo
 </span><span class=lnt>6
 </span><span class=lnt>7
 </span><span class=lnt>8
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>2020-12-16_17:38:43.31313 Melakukan sesuatu...</span>
-<span class=na>2020-12-16_17:38:44.31422 Melakukan sesuatu...</span>
-<span class=na>2020-12-16_17:38:45.31513 Melakukan sesuatu...</span>
-<span class=na>2020-12-16_17:39:13.34046 Oh tidak, program crash!</span>
-<span class=na>2020-12-16_17:39:13.34372 Menjalankan service...</span>
-<span class=na>2020-12-16_17:39:13.34375 Melakukan sesuatu...</span>
-<span class=na>2020-12-16_17:39:14.34453 Melakukan sesuatu...</span>
-<span class=na>2020-12-16_17:39:15.34541 Melakukan sesuatu...</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Terlihat seperti diatas, bahwa program <code>foo-script.sh</code> berhasil dijalankan, berhenti setiap 30 detik, kemudian <em>runit</em> akan berusaha menyalakannya lagi. Tidak terbatas seperti <code>tail -f</code> saja, namun <code>svlogd</code> mampu melakukan <em>log rotation</em> otomatis layaknya <code>logrotate</code>, bahkan <code>svlogd</code> mampu melakukannya tanpa perlu mematikan <em>service</em> terlebih dahulu.</p>
-<h4 id=disable-service>Disable service</h4>
-<p>Untuk menghilangkan sebuah <em>service</em> dari <code>runsvdir</code> kita perlu menghapus symlink yang sebelumnya kita buat.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo unlink /run/runit/service/example
-</code></pre></td></tr></table>
-</div>
-</div><p>Setelah dihapus, maka <em>service</em> akan berhenti seketika dan tidak akan dimuat ketika sistem operasi booting.</p>
-<hr>
-<h2 id=perbandingan-perintah-runit-vs-systemd>Perbandingan Perintah Runit vs Systemd</h2>
-<p><strong>Systemd</strong> memang memiliki lebih banyak perintah daripada <strong>Runit</strong>, namun jika dibandingkan maka berikut ini adalah beberapa perintah yang umum digunakan dalam mengelola <em>service</em> dari kedua <em>init system</em> tersebut.</p>
-<table>
-<thead>
-<tr>
-<th>Usage</th>
-<th style=text-align:center>Systemd</th>
-<th style=text-align:center>Runit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Menjalankan <em>service</em></td>
-<td style=text-align:center>systemctl start &lt;service></td>
-<td style=text-align:center>sv up &lt;service></td>
-</tr>
-<tr>
-<td>Mematikan <em>service</em></td>
-<td style=text-align:center>systemctl stop &lt;service></td>
-<td style=text-align:center>sv down &lt;service></td>
-</tr>
-<tr>
-<td>Menyalakan ulang <em>service</em></td>
-<td style=text-align:center>systemctl restart &lt;service></td>
-<td style=text-align:center>sv restart &lt;service></td>
-</tr>
-<tr>
-<td><em>Enable service at boot</em></td>
-<td style=text-align:center>systemctl enable &lt;service></td>
-<td style=text-align:center>ln -s /etc/runit/sv/&lt;template dir> /run/runit/&lt;runsvdir></td>
-</tr>
-<tr>
-<td><em>Disable service from boot</em></td>
-<td style=text-align:center>systemctl disable &lt;service></td>
-<td style=text-align:center>unlink /run/runit/&lt;runsvdir>/&lt;service></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id=manakah-yang-lebih-baik>Manakah yang lebih baik?</h2>
-<ul>
-<li>
-<p><strong>Dalam pekerjaan, <em>systemd</em> tetap digunakan pada server-server <em>customer</em> yang saya jumpai</strong>. Tidak ada masalah bagi saya, karena itulah prosedur yang diterapkan di perusahaan-perusaahan tersebut. Tentu sebuah server yang berada dalam skala <em>production</em> membutuhkan stabilitas tinggi, nyaris semua yang saya kelola menggunakan berbagai platform dari Red Hat. Dan RHEL (Red Hat Enterprise Linux) sendiri adalah salah satu distro GNU/Linux yang paling bergantung pada <em>systemd</em>. Saya mengakui bahwa <em>systemd</em> adalah sistem yang modern. Yang menurut saya kurang adalah sistem <em>logging</em> dengan <code>journald</code>, file log yang dihasilkan bukanlah <em>textfile</em>. Sebelumnya, dengan <code>rsyslog</code> kita bebas memakai beragam tool seperti <code>cat</code>, <code>grep</code>, <code>tail</code>, atau <code>head</code>. Tetapi dengan <code>journald</code> kita dibatasi hanya bisa menggunakan satu tool yaitu <code>journalctl</code>.</p>
-</li>
-<li>
-<p><strong>Untuk pemakaian di komputer pribadi, tentu saja saya lebih <em>prefer</em> menggunakan <em>Runit</em></strong>. Bukan tanpa alasan, <em>runit</em> mengkonsumsi resouce (seperti RAM dan CPU) yang relatif lebih sedikit daripada systemd. <em>Dependency</em> yang digunakan oleh <em>runit</em> juga tidak sebanyak <em>systemd</em>, berarti <em>runit</em> juga lebih ramah dalam urusan penggunaan storage. Untuk kecepatan, saya berani mengadu kecepatan antara <em>runit</em> melawan <em>systemd</em>, karena telah memiliki pengalaman pribadi bahwa <em>runit</em> menang telak! <em>Runit</em> membuat sistem operasi saya booting lebih cepat daripada <em>systemd</em>. Terlepas dari semua itu, saya juga belum membutuhkan <em>systemd</em> dengan segala <del><em>bloated features</em></del> nya untuk urusan pribadi (itu terlalu berlebihan, saya bahkan tidak pernah menggunakan itu semua secara keseluruhan), yang saya perlukan pada komputer pribadi adalah program dapat berjalan sesuai dengan yang saya kehendaki. Sehingga saya menyimpulkan bahwa <em>runit</em> layak dijadikan sebagai alternatif.</p>
-</li>
-</ul>
-<hr>
-<h2 id=referensi>Referensi</h2>
-<ul>
-<li><a href=http://smarden.org/runit/ target=_blank rel="noopener noreffer">smarden.org/runit</a></li>
-<li><a href=https://devnull.web.id/debian/pengenalan-systemd.html target=_blank rel="noopener noreffer">devnull.web.id/debian/pengenalan-systemd.html</a></li>
-<li><a href=https://kchard.github.io/runit-quickstart/ target=_blank rel="noopener noreffer">kchard.github.io/runit-quickstart</a></li>
-<li><a href=https://ihatesystemd.com/ target=_blank rel="noopener noreffer">ihatesystemd.com</a></li>
-<li><a href=https://wiki.gentoo.org/wiki/Comparison_of_init_systems target=_blank rel="noopener noreffer">wiki.gentoo.org/wiki/Comparison_of_init_systems</a></li>
-<li><a href=https://wiki.archlinux.org/index.php/init target=_blank rel="noopener noreffer">wiki.archlinux.org/index.php/init</a></li>
-</ul></div><div class=post-footer id=post-footer>
-<div class=post-info>
-<div class=post-info-line>
-<div class=post-info-mod>
-<span>Updated on 2020-12-16</span>
-</div>
-<div class=post-info-license></div>
-</div>
-<div class=post-info-line>
-<div class=post-info-md><span>
-<a class=link-to-markdown href=/beralih-ke-runit/index.md target=_blank>Read Markdown</a>
-</span></div>
-<div class=post-info-share>
-<span></span>
-</div>
-</div>
-</div>
-<div class=post-info-more>
-<section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/environment/>Environment</a>,&nbsp;<a href=/tags/review/>Review</a></section>
-<section>
-<span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span>
-</section>
-</div>
-<div class=post-nav><a href=/membahas-linux-ricing/ class=prev rel=prev title="Membahas Linux Ricing"><i class="fas fa-angle-left fa-fw"></i>Membahas Linux Ricing</a>
-<a href=/continuous-deployment-hugo-dengan-github-actions/ class=next rel=next title="Continuous Deployment Hugo dengan Github Actions">Continuous Deployment Hugo dengan Github Actions<i class="fas fa-angle-right fa-fw"></i></a></div>
-</div>
-<div id=comments><div id=disqus_thread class=comment></div><noscript>
-Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.
-</noscript></div></article></div>
-</main><footer class=footer>
-<div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div>
-</div>
-</footer></div>
-<div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top">
-<i class="fas fa-arrow-up fa-fw"></i>
-</a><a href=# id=view-comments class=fixed-button title="View Comments">
-<i class="fas fa-comment fa-fw"></i>
-</a>
-</div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body>
-</html>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>2020-12-16_17:38:43.31313 Melakukan sesuatu...</span>
+</span></span><span class=line><span class=cl><span class=na>2020-12-16_17:38:44.31422 Melakukan sesuatu...</span>
+</span></span><span class=line><span class=cl><span class=na>2020-12-16_17:38:45.31513 Melakukan sesuatu...</span>
+</span></span><span class=line><span class=cl><span class=na>2020-12-16_17:39:13.34046 Oh tidak, program crash!</span>
+</span></span><span class=line><span class=cl><span class=na>2020-12-16_17:39:13.34372 Menjalankan service...</span>
+</span></span><span class=line><span class=cl><span class=na>2020-12-16_17:39:13.34375 Melakukan sesuatu...</span>
+</span></span><span class=line><span class=cl><span class=na>2020-12-16_17:39:14.34453 Melakukan sesuatu...</span>
+</span></span><span class=line><span class=cl><span class=na>2020-12-16_17:39:15.34541 Melakukan sesuatu...</span>
+</span></span></code></pre></td></tr></table></div></div><p>Terlihat seperti diatas, bahwa program <code>foo-script.sh</code> berhasil dijalankan, berhenti setiap 30 detik, kemudian <em>runit</em> akan berusaha menyalakannya lagi. Tidak terbatas seperti <code>tail -f</code> saja, namun <code>svlogd</code> mampu melakukan <em>log rotation</em> otomatis layaknya <code>logrotate</code>, bahkan <code>svlogd</code> mampu melakukannya tanpa perlu mematikan <em>service</em> terlebih dahulu.</p><h4 id=disable-service>Disable service</h4><p>Untuk menghilangkan sebuah <em>service</em> dari <code>runsvdir</code> kita perlu menghapus symlink yang sebelumnya kita buat.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo unlink /run/runit/service/example
+</span></span></code></pre></td></tr></table></div></div><p>Setelah dihapus, maka <em>service</em> akan berhenti seketika dan tidak akan dimuat ketika sistem operasi booting.</p><hr><h2 id=perbandingan-perintah-runit-vs-systemd>Perbandingan Perintah Runit vs Systemd</h2><p><strong>Systemd</strong> memang memiliki lebih banyak perintah daripada <strong>Runit</strong>, namun jika dibandingkan maka berikut ini adalah beberapa perintah yang umum digunakan dalam mengelola <em>service</em> dari kedua <em>init system</em> tersebut.</p><table><thead><tr><th>Usage</th><th style=text-align:center>Systemd</th><th style=text-align:center>Runit</th></tr></thead><tbody><tr><td>Menjalankan <em>service</em></td><td style=text-align:center>systemctl start &lt;service></td><td style=text-align:center>sv up &lt;service></td></tr><tr><td>Mematikan <em>service</em></td><td style=text-align:center>systemctl stop &lt;service></td><td style=text-align:center>sv down &lt;service></td></tr><tr><td>Menyalakan ulang <em>service</em></td><td style=text-align:center>systemctl restart &lt;service></td><td style=text-align:center>sv restart &lt;service></td></tr><tr><td><em>Enable service at boot</em></td><td style=text-align:center>systemctl enable &lt;service></td><td style=text-align:center>ln -s /etc/runit/sv/&lt;template dir> /run/runit/&lt;runsvdir></td></tr><tr><td><em>Disable service from boot</em></td><td style=text-align:center>systemctl disable &lt;service></td><td style=text-align:center>unlink /run/runit/&lt;runsvdir>/&lt;service></td></tr></tbody></table><hr><h2 id=manakah-yang-lebih-baik>Manakah yang lebih baik?</h2><ul><li><p><strong>Dalam pekerjaan, <em>systemd</em> tetap digunakan pada server-server <em>customer</em> yang saya jumpai</strong>. Tidak ada masalah bagi saya, karena itulah prosedur yang diterapkan di perusahaan-perusaahan tersebut. Tentu sebuah server yang berada dalam skala <em>production</em> membutuhkan stabilitas tinggi, nyaris semua yang saya kelola menggunakan berbagai platform dari Red Hat. Dan RHEL (Red Hat Enterprise Linux) sendiri adalah salah satu distro GNU/Linux yang paling bergantung pada <em>systemd</em>. Saya mengakui bahwa <em>systemd</em> adalah sistem yang modern. Yang menurut saya kurang adalah sistem <em>logging</em> dengan <code>journald</code>, file log yang dihasilkan bukanlah <em>textfile</em>. Sebelumnya, dengan <code>rsyslog</code> kita bebas memakai beragam tool seperti <code>cat</code>, <code>grep</code>, <code>tail</code>, atau <code>head</code>. Tetapi dengan <code>journald</code> kita dibatasi hanya bisa menggunakan satu tool yaitu <code>journalctl</code>.</p></li><li><p><strong>Untuk pemakaian di komputer pribadi, tentu saja saya lebih <em>prefer</em> menggunakan <em>Runit</em></strong>. Bukan tanpa alasan, <em>runit</em> mengkonsumsi resouce (seperti RAM dan CPU) yang relatif lebih sedikit daripada systemd. <em>Dependency</em> yang digunakan oleh <em>runit</em> juga tidak sebanyak <em>systemd</em>, berarti <em>runit</em> juga lebih ramah dalam urusan penggunaan storage. Untuk kecepatan, saya berani mengadu kecepatan antara <em>runit</em> melawan <em>systemd</em>, karena telah memiliki pengalaman pribadi bahwa <em>runit</em> menang telak! <em>Runit</em> membuat sistem operasi saya booting lebih cepat daripada <em>systemd</em>. Terlepas dari semua itu, saya juga belum membutuhkan <em>systemd</em> dengan segala <del><em>bloated features</em></del> nya untuk urusan pribadi (itu terlalu berlebihan, saya bahkan tidak pernah menggunakan itu semua secara keseluruhan), yang saya perlukan pada komputer pribadi adalah program dapat berjalan sesuai dengan yang saya kehendaki. Sehingga saya menyimpulkan bahwa <em>runit</em> layak dijadikan sebagai alternatif.</p></li></ul><hr><h2 id=referensi>Referensi</h2><ul><li><a href=http://smarden.org/runit/ target=_blank rel="noopener noreffer">smarden.org/runit</a></li><li><a href=https://devnull.web.id/debian/pengenalan-systemd.html target=_blank rel="noopener noreffer">devnull.web.id/debian/pengenalan-systemd.html</a></li><li><a href=https://kchard.github.io/runit-quickstart/ target=_blank rel="noopener noreffer">kchard.github.io/runit-quickstart</a></li><li><a href=https://ihatesystemd.com/ target=_blank rel="noopener noreffer">ihatesystemd.com</a></li><li><a href=https://wiki.gentoo.org/wiki/Comparison_of_init_systems target=_blank rel="noopener noreffer">wiki.gentoo.org/wiki/Comparison_of_init_systems</a></li><li><a href=https://wiki.archlinux.org/index.php/init target=_blank rel="noopener noreffer">wiki.archlinux.org/index.php/init</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2020-12-16</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/beralih-ke-runit/index.md target=_blank>Read Markdown</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/environment/>Environment</a>,&nbsp;<a href=/tags/review/>Review</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/membahas-linux-ricing/ class=prev rel=prev title="Membahas Linux Ricing"><i class="fas fa-angle-left fa-fw"></i>Membahas Linux Ricing</a>
+<a href=/continuous-deployment-hugo-dengan-github-actions/ class=next rel=next title="Continuous Deployment Hugo dengan Github Actions">Continuous Deployment Hugo dengan Github Actions<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=disqus_thread class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

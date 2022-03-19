@@ -1,468 +1,88 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="noodp">
-<meta http-equiv=x-ua-compatible content="IE=edge, chrome=1">
-<title>Deploy Ansible AWX di CentOS - Anwar's Blog</title><meta name=Description content="Deploy Ansible AWS di CentOS 8 sebagai alternatif Ansible Tower"><meta property="og:title" content="Deploy Ansible AWX di CentOS">
-<meta property="og:description" content="Deploy Ansible AWS di CentOS 8 sebagai alternatif Ansible Tower">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://init.web.id/deploy-ansible-awx-di-centos/"><meta property="og:image" content="https://init.web.id/deploy-ansible-awx-di-centos/cover.png"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2021-02-04T10:25:03+07:00">
-<meta property="article:modified_time" content="2021-02-04T18:06:03+07:00">
-<meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://init.web.id/deploy-ansible-awx-di-centos/cover.png">
-<meta name=twitter:title content="Deploy Ansible AWX di CentOS">
-<meta name=twitter:description content="Deploy Ansible AWS di CentOS 8 sebagai alternatif Ansible Tower">
-<meta name=application-name content="Anwar's Blog">
-<meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
-<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/deploy-ansible-awx-di-centos/><link rel=prev href=https://init.web.id/integrasi-github-pages-dengan-cloudflare-cdn/><link rel=next href=https://init.web.id/linux-dan-elitisme/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Deploy Ansible AWX di CentOS","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/deploy-ansible-awx-di-centos\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/deploy-ansible-awx-di-centos\/cover.png","width":800,"height":320}],"genre":"posts","keywords":"Ansible, AWX, Automation, CentOS","wordcount":1042,"url":"https:\/\/init.web.id\/deploy-ansible-awx-di-centos\/","datePublished":"2021-02-04T10:25:03+07:00","dateModified":"2021-02-04T18:06:03+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Deploy Ansible AWS di CentOS 8 sebagai alternatif Ansible Tower"}</script></head>
-<body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'dark'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'dark'==='dark')&&document.body.setAttribute('theme','dark')</script>
-<div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
-<div class=header-wrapper>
-<div class=header-title>
-<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a>
-</div>
-<div class=menu>
-<div class=menu-inner><a class=menu-item href=/posts/> Posts </a><a class=menu-item href=/categories/> Categories </a><a class=menu-item href=/about/> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Deploy Ansible AWX di CentOS - Anwar's Blog</title><meta name=Description content="Deploy Ansible AWS di CentOS 8 sebagai alternatif Ansible Tower"><meta property="og:title" content="Deploy Ansible AWX di CentOS"><meta property="og:description" content="Deploy Ansible AWS di CentOS 8 sebagai alternatif Ansible Tower"><meta property="og:type" content="article"><meta property="og:url" content="https://init.web.id/deploy-ansible-awx-di-centos/"><meta property="og:image" content="https://init.web.id/deploy-ansible-awx-di-centos/cover.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-02-04T10:25:03+07:00"><meta property="article:modified_time" content="2021-02-04T18:06:03+07:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://init.web.id/deploy-ansible-awx-di-centos/cover.png"><meta name=twitter:title content="Deploy Ansible AWX di CentOS"><meta name=twitter:description content="Deploy Ansible AWS di CentOS 8 sebagai alternatif Ansible Tower"><meta name=application-name content="Anwar's Blog"><meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/deploy-ansible-awx-di-centos/><link rel=prev href=https://init.web.id/integrasi-github-pages-dengan-cloudflare-cdn/><link rel=next href=https://init.web.id/linux-dan-elitisme/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Deploy Ansible AWX di CentOS","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/deploy-ansible-awx-di-centos\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/deploy-ansible-awx-di-centos\/cover.png","width":800,"height":320}],"genre":"posts","keywords":"Ansible, AWX, Automation, CentOS","wordcount":1042,"url":"https:\/\/init.web.id\/deploy-ansible-awx-di-centos\/","datePublished":"2021-02-04T10:25:03+07:00","dateModified":"2021-02-04T18:06:03+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Deploy Ansible AWS di CentOS 8 sebagai alternatif Ansible Tower"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"dark"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"dark"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/about/>About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
 <input type=text placeholder="Search titles or contents..." id=search-input-desktop>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search>
-<i class="fas fa-search fa-fw"></i>
-</a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear>
-<i class="fas fa-times-circle fa-fw"></i>
-</a>
-<span class="search-button search-loading" id=search-loading-desktop>
-<i class="fas fa-spinner fa-fw fa-spin"></i>
-</span>
-</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i>
-</a>
-</div>
-</div>
-</div>
-</header><header class=mobile id=header-mobile>
-<div class=header-container>
-<div class=header-wrapper>
-<div class=header-title>
-<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a>
-</div>
-<div class=menu-toggle id=menu-toggle-mobile>
-<span></span><span></span><span></span>
-</div>
-</div>
-<div class=menu id=menu-mobile><div class=search-wrapper>
-<div class="search mobile" id=search-mobile>
-<input type=text placeholder="Search titles or contents..." id=search-input-mobile>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search>
-<i class="fas fa-search fa-fw"></i>
-</a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear>
-<i class="fas fa-times-circle fa-fw"></i>
-</a>
-<span class="search-button search-loading" id=search-loading-mobile>
-<i class="fas fa-spinner fa-fw fa-spin"></i>
-</span>
-</div>
-<a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>
-Cancel
-</a>
-</div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i>
-</a></div>
-</div>
-</header>
-<div class="search-dropdown desktop">
-<div id=search-dropdown-desktop></div>
-</div>
-<div class="search-dropdown mobile">
-<div id=search-dropdown-mobile></div>
-</div>
-<main class=main>
-<div class=container><div class=toc id=toc-auto>
-<h2 class=toc-title>Contents</h2>
-<div class=toc-content id=toc-content-auto></div>
-</div><article class="page single"><h1 class="single-title animated flipInX">Deploy Ansible AWX di CentOS</h1><div class=post-meta>
-<div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/tools/><i class="far fa-folder fa-fw"></i>Tools</a></span></div>
-<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-02-04>2021-02-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1042 words&nbsp;
-<i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
-</div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/deploy-ansible-awx-di-centos/cover.png data-srcset="/deploy-ansible-awx-di-centos/cover.png, /deploy-ansible-awx-di-centos/cover.png 1.5x, /deploy-ansible-awx-di-centos/cover.png 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/cover.png title="Deploy Ansible AWS di CentOS 8 sebagai alternatif Ansible Tower"></div><div class="details toc" id=toc-static kept>
-<div class="details-summary toc-title">
-<span>Contents</span>
-<span><i class="details-icon fas fa-angle-right"></i></span>
-</div>
-<div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents>
-<ul>
-<li><a href=#ansible>Ansible</a>
-<ul>
-<li><a href=#contoh-kasus>Contoh Kasus</a></li>
-</ul>
-</li>
-<li><a href=#prerequisites>Prerequisites</a>
-<ul>
-<li><a href=#system-requirements>System Requirements</a></li>
-<li><a href=#disable-selinux>Disable SELinux</a></li>
-<li><a href=#epel-dan-extra-packages>EPEL dan Extra Packages</a></li>
-<li><a href=#instalasi-ansible>Instalasi Ansible</a></li>
-<li><a href=#paket-tambahan>Paket Tambahan</a></li>
-<li><a href=#development-tools>Development Tools</a></li>
-<li><a href=#docker-dan-docker-compose>Docker dan Docker Compose</a></li>
-</ul>
-</li>
-<li><a href=#deploy-awx>Deploy AWX</a>
-<ul>
-<li><a href=#clone-repository>Clone Repository</a></li>
-<li><a href=#generate-secret-key>Generate Secret Key</a></li>
-<li><a href=#edit-inventory>Edit Inventory</a></li>
-<li><a href=#membuat-direktori-project>Membuat Direktori Project</a></li>
-<li><a href=#konfigurasi-firewall>Konfigurasi Firewall</a></li>
-<li><a href=#deployment>Deployment</a></li>
-<li><a href=#post-deployment>Post-Deployment</a></li>
-</ul>
-</li>
-<li><a href=#pengujian>Pengujian</a></li>
-<li><a href=#kesimpulan>Kesimpulan</a></li>
-<li><a href=#referensi>Referensi</a></li>
-</ul>
-</nav></div>
-</div><div class=content id=content><p>AWX adalah perangkat lunak berbasis web yang digunakan sebagai <em>user interface</em> dan penyedia REST API untuk engine Ansible. AWX merupakan versi <em>upstream</em> dari Ansible Tower, sama seperti biasanya Red Hat selalu mewujudkan representatif layanan berbayarnya dengan project - project open source sebagai <em>development version</em>. Jika Ansible Tower membutuhkan biaya untuk subscription, maka AWX sama sekali tidak dipungut biaya.</p>
-<h2 id=ansible>Ansible</h2>
-<p><figure><a class=lightgallery href=/deploy-ansible-awx-di-centos/ansible.jpg title=Ansible data-thumbnail=/deploy-ansible-awx-di-centos/ansible.jpg data-sub-html="<h2>Ansible</h2><p>Ansible</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=ansible.jpg data-srcset="/deploy-ansible-awx-di-centos/ansible.jpg, ansible.jpg 1.5x, /deploy-ansible-awx-di-centos/ansible.jpg 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/ansible.jpg>
-</a><figcaption class=image-caption>Ansible</figcaption>
-</figure>
-<strong>Ansible</strong> adalah perangkat lunak <em>open source</em> yang digunakan untuk melakukan <em>software provisioning</em>, <em>configuration management</em>, dan <em>application deployment</em> terhadap infrastruktur. Sederhananya, Ansible merupakan bentuk dari Infrastructure as Code, yang pakai untuk melakukan konfigurasi infrastruktur secara otomatis. Dalam pengoperasiannya, sering kali digunakan sebuah <em>markup script</em> YAML yang disebut sebagai Playbook atau dapat juga langsung dieksekusi sebagai Ad-Hoc saja. Semua hal tersebut pada umumnya dilakukan dalam perintah berbasis teks (CLI). Ansible juga terkenal karena <em>agentless</em>, artinya kita tidak perlu melakukan instalasi <em>agent</em> atau program apapun di perangkat infrastruktur yang akan dikelola. Untuk informasi lebih lanjut terkait Ansible silahkan baca di <a href=https://docs.ansible.com/ansible/latest/user_guide/intro_getting_started.html target=_blank rel="noopener noreffer"><strong>docs.ansible.com</strong></a>.</p>
-<h3 id=contoh-kasus>Contoh Kasus</h3>
-<p>Sebagai contoh misalkan kita memiliki tugas untuk mengganti nameserver menjadi <code>8.8.8.8</code> pada puluhan hingga ratusan server. Pada proses tradisional, kita akan melakukan login (misalnya melalui SSH) kemudian memanipulasi file <code>/etc/resolv.conf</code> pada masing - masing server, tentu saja mengulang-ulang tugas yang sama adalah hal membosankan. Mungkin kita bisa berusaha membuat sebuah shell script (misalnya <code>bash</code>) yang dijalankan sebagai program untuk melakukan itu semua, tapi tidak semua orang mau melakukan <em>effort</em> tersebut. Maka kita dapat menggunakan Ansible sebagai solusi, cukup install Ansible pada <em>Control Node</em> yang dapat terkoneksi dengan list server. Kemudian memasukkan seluruh list hostname atau alamat IP server ke dalam file <em>inventory</em>, dan menjalankan Ansible Ad-Hoc berisi instruksi perintah untuk mengganti isi file <code>/etc/resolv.conf</code> lalu masalah terselesaikan. Sedangkan untuk tugas yang lebih rumit kita dapat menulisnya ke dalam script YAML untuk kemudian dieksekusi dengan Ansible Playbook.
-<figure><a class=lightgallery href=/deploy-ansible-awx-di-centos/ansible-playbook.png title="Ansible Playbook" data-thumbnail=/deploy-ansible-awx-di-centos/ansible-playbook.png data-sub-html="<h2>Ansible Playbook</h2><p>Ansible Playbook</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=ansible-playbook.png data-srcset="/deploy-ansible-awx-di-centos/ansible-playbook.png, ansible-playbook.png 1.5x, /deploy-ansible-awx-di-centos/ansible-playbook.png 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/ansible-playbook.png>
-</a><figcaption class=image-caption>Ansible Playbook</figcaption>
-</figure></p>
-<hr>
-<h2 id=prerequisites>Prerequisites</h2>
-<p>Sebelum melanjutkan lebih jauh, pastikan sudah memenuhi beberapa prasyarat berikut.</p>
-<h3 id=system-requirements>System Requirements</h3>
-<p>Untuk mendapatkan performa yang baik saat pertama kali melakukan deployment, setidaknya dibutuhkan spesifikasi seperti berikut.</p>
-<ul>
-<li>4 GB Memory</li>
-<li>2 Core CPU</li>
-<li>20 GB Storage</li>
-</ul>
-<p>Saya akan menggunakan VM Guest CentOS 8 sebagai Control Node. Namun jika ingin menggunakan CentOS 7 setidaknya gunakan CentOS 7.7 atau versi lebih baru.
-<div class="details admonition warning open">
-<div class="details-summary admonition-title">
-<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
-</div>
-<div class=details-content>
-<div class=admonition-content>Dalam artikel ini saya akan mengeksekusi seluruh perintah dengan menggunakan user <code>root</code>.</div>
-</div>
-</div></p>
-<h3 id=disable-selinux>Disable SELinux</h3>
-<p>Untuk sementara saya merubah SELinux menjadi <code>permissive</code> agar proses deployment berjalan lancar.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">Deploy Ansible AWX di CentOS</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/tools/><i class="far fa-folder fa-fw"></i>Tools</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-02-04>2021-02-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1042 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/deploy-ansible-awx-di-centos/cover.png data-srcset="/deploy-ansible-awx-di-centos/cover.png, /deploy-ansible-awx-di-centos/cover.png 1.5x, /deploy-ansible-awx-di-centos/cover.png 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/cover.png title="Deploy Ansible AWS di CentOS 8 sebagai alternatif Ansible Tower"></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#ansible>Ansible</a><ul><li><a href=#contoh-kasus>Contoh Kasus</a></li></ul></li><li><a href=#prerequisites>Prerequisites</a><ul><li><a href=#system-requirements>System Requirements</a></li><li><a href=#disable-selinux>Disable SELinux</a></li><li><a href=#epel-dan-extra-packages>EPEL dan Extra Packages</a></li><li><a href=#instalasi-ansible>Instalasi Ansible</a></li><li><a href=#paket-tambahan>Paket Tambahan</a></li><li><a href=#development-tools>Development Tools</a></li><li><a href=#docker-dan-docker-compose>Docker dan Docker Compose</a></li></ul></li><li><a href=#deploy-awx>Deploy AWX</a><ul><li><a href=#clone-repository>Clone Repository</a></li><li><a href=#generate-secret-key>Generate Secret Key</a></li><li><a href=#edit-inventory>Edit Inventory</a></li><li><a href=#membuat-direktori-project>Membuat Direktori Project</a></li><li><a href=#konfigurasi-firewall>Konfigurasi Firewall</a></li><li><a href=#deployment>Deployment</a></li><li><a href=#post-deployment>Post-Deployment</a></li></ul></li><li><a href=#pengujian>Pengujian</a></li><li><a href=#kesimpulan>Kesimpulan</a></li><li><a href=#referensi>Referensi</a></li></ul></nav></div></div><div class=content id=content><p>AWX adalah perangkat lunak berbasis web yang digunakan sebagai <em>user interface</em> dan penyedia REST API untuk engine Ansible. AWX merupakan versi <em>upstream</em> dari Ansible Tower, sama seperti biasanya Red Hat selalu mewujudkan representatif layanan berbayarnya dengan project - project open source sebagai <em>development version</em>. Jika Ansible Tower membutuhkan biaya untuk subscription, maka AWX sama sekali tidak dipungut biaya.</p><h2 id=ansible>Ansible</h2><p><figure><a class=lightgallery href=/deploy-ansible-awx-di-centos/ansible.jpg title=Ansible data-thumbnail=/deploy-ansible-awx-di-centos/ansible.jpg data-sub-html="<h2>Ansible</h2><p>Ansible</p>"><img class=lazyload src=/svg/loading.min.svg data-src=ansible.jpg data-srcset="/deploy-ansible-awx-di-centos/ansible.jpg, ansible.jpg 1.5x, /deploy-ansible-awx-di-centos/ansible.jpg 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/ansible.jpg></a><figcaption class=image-caption>Ansible</figcaption></figure><strong>Ansible</strong> adalah perangkat lunak <em>open source</em> yang digunakan untuk melakukan <em>software provisioning</em>, <em>configuration management</em>, dan <em>application deployment</em> terhadap infrastruktur. Sederhananya, Ansible merupakan bentuk dari Infrastructure as Code, yang pakai untuk melakukan konfigurasi infrastruktur secara otomatis. Dalam pengoperasiannya, sering kali digunakan sebuah <em>markup script</em> YAML yang disebut sebagai Playbook atau dapat juga langsung dieksekusi sebagai Ad-Hoc saja. Semua hal tersebut pada umumnya dilakukan dalam perintah berbasis teks (CLI). Ansible juga terkenal karena <em>agentless</em>, artinya kita tidak perlu melakukan instalasi <em>agent</em> atau program apapun di perangkat infrastruktur yang akan dikelola. Untuk informasi lebih lanjut terkait Ansible silahkan baca di <a href=https://docs.ansible.com/ansible/latest/user_guide/intro_getting_started.html target=_blank rel="noopener noreffer"><strong>docs.ansible.com</strong></a>.</p><h3 id=contoh-kasus>Contoh Kasus</h3><p>Sebagai contoh misalkan kita memiliki tugas untuk mengganti nameserver menjadi <code>8.8.8.8</code> pada puluhan hingga ratusan server. Pada proses tradisional, kita akan melakukan login (misalnya melalui SSH) kemudian memanipulasi file <code>/etc/resolv.conf</code> pada masing - masing server, tentu saja mengulang-ulang tugas yang sama adalah hal membosankan. Mungkin kita bisa berusaha membuat sebuah shell script (misalnya <code>bash</code>) yang dijalankan sebagai program untuk melakukan itu semua, tapi tidak semua orang mau melakukan <em>effort</em> tersebut. Maka kita dapat menggunakan Ansible sebagai solusi, cukup install Ansible pada <em>Control Node</em> yang dapat terkoneksi dengan list server. Kemudian memasukkan seluruh list hostname atau alamat IP server ke dalam file <em>inventory</em>, dan menjalankan Ansible Ad-Hoc berisi instruksi perintah untuk mengganti isi file <code>/etc/resolv.conf</code> lalu masalah terselesaikan. Sedangkan untuk tugas yang lebih rumit kita dapat menulisnya ke dalam script YAML untuk kemudian dieksekusi dengan Ansible Playbook.<figure><a class=lightgallery href=/deploy-ansible-awx-di-centos/ansible-playbook.png title="Ansible Playbook" data-thumbnail=/deploy-ansible-awx-di-centos/ansible-playbook.png data-sub-html="<h2>Ansible Playbook</h2><p>Ansible Playbook</p>"><img class=lazyload src=/svg/loading.min.svg data-src=ansible-playbook.png data-srcset="/deploy-ansible-awx-di-centos/ansible-playbook.png, ansible-playbook.png 1.5x, /deploy-ansible-awx-di-centos/ansible-playbook.png 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/ansible-playbook.png></a><figcaption class=image-caption>Ansible Playbook</figcaption></figure></p><hr><h2 id=prerequisites>Prerequisites</h2><p>Sebelum melanjutkan lebih jauh, pastikan sudah memenuhi beberapa prasyarat berikut.</p><h3 id=system-requirements>System Requirements</h3><p>Untuk mendapatkan performa yang baik saat pertama kali melakukan deployment, setidaknya dibutuhkan spesifikasi seperti berikut.</p><ul><li>4 GB Memory</li><li>2 Core CPU</li><li>20 GB Storage</li></ul><p>Saya akan menggunakan VM Guest CentOS 8 sebagai Control Node. Namun jika ingin menggunakan CentOS 7 setidaknya gunakan CentOS 7.7 atau versi lebih baru.<div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Dalam artikel ini saya akan mengeksekusi seluruh perintah dengan menggunakan user <code>root</code>.</div></div></div></p><h3 id=disable-selinux>Disable SELinux</h3><p>Untuk sementara saya merubah SELinux menjadi <code>permissive</code> agar proses deployment berjalan lancar.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>sed -i <span class=s1>&#39;s/^SELINUX=.*/SELINUX=permissive/g&#39;</span> /etc/selinux/config
-setenforce permissive
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=epel-dan-extra-packages>EPEL dan Extra Packages</h3>
-<p>Jalankan perintah berikut ini.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=instalasi-ansible>Instalasi Ansible</h3>
-<p>Kita membutuhkan Ansible Engine versi 2.8 atau lebih baru. Jalankan perintah berikut ini.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>dnf install ansible
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=paket-tambahan>Paket Tambahan</h3>
-<p>Jalankan perintah berikut ini untuk memasang beberapa paket tambahan.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sed -i <span class=s1>&#39;s/^SELINUX=.*/SELINUX=permissive/g&#39;</span> /etc/selinux/config
+</span></span><span class=line><span class=cl>setenforce permissive
+</span></span></code></pre></td></tr></table></div></div><h3 id=epel-dan-extra-packages>EPEL dan Extra Packages</h3><p>Jalankan perintah berikut ini.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+</span></span></code></pre></td></tr></table></div></div><h3 id=instalasi-ansible>Instalasi Ansible</h3><p>Kita membutuhkan Ansible Engine versi 2.8 atau lebih baru. Jalankan perintah berikut ini.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>dnf install ansible
+</span></span></code></pre></td></tr></table></div></div><h3 id=paket-tambahan>Paket Tambahan</h3><p>Jalankan perintah berikut ini untuk memasang beberapa paket tambahan.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>dnf install git python3-pip curl <span class=se>\
-</span><span class=se></span>    wget nodejs gettext lvm2 <span class=se>\
-</span><span class=se></span>    device-mapper-persistent-data bzip2
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=development-tools>Development Tools</h3>
-<p>AWX membutuhkan beberapa paket lain dari group Development Tools untuk GNU Make.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>dnf group install <span class=s2>&#34;Development Tools&#34;</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=docker-dan-docker-compose>Docker dan Docker Compose</h3>
-<p>Karena AWX akan dijalankan di container, <em>by-default</em> AWX menyarankan untuk memakai Docker CE.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>dnf install git python3-pip curl <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    wget nodejs gettext lvm2 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    device-mapper-persistent-data bzip2
+</span></span></code></pre></td></tr></table></div></div><h3 id=development-tools>Development Tools</h3><p>AWX membutuhkan beberapa paket lain dari group Development Tools untuk GNU Make.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>dnf group install <span class=s2>&#34;Development Tools&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=docker-dan-docker-compose>Docker dan Docker Compose</h3><p>Karena AWX akan dijalankan di container, <em>by-default</em> AWX menyarankan untuk memakai Docker CE.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>dnf config-manager <span class=se>\
-</span><span class=se></span>    --add-repo <span class=se>\
-</span><span class=se></span>    https://download.docker.com/linux/centos/docker-ce.repo
-dnf install docker-ce docker-ce-cli containerd.io
-systemctl <span class=nb>enable</span> --now docker
-</code></pre></td></tr></table>
-</div>
-</div><p>Lalu pasang <code>docker-compose</code> menggunakan <code>pip3</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>pip3 install docker-compose
-</code></pre></td></tr></table>
-</div>
-</div><div class="details admonition warning open">
-<div class="details-summary admonition-title">
-<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
-</div>
-<div class=details-content>
-<div class=admonition-content>Jika tidak menggunakan user <code>root</code> maka tambahkan user tersebut ke dalam group <code>docker</code> kemudian logout dan login kembali. Menambahkan user ke dalam suatu grup dapat dilakukan dengan perintah <code>sudo usermod -aG docker user</code></div>
-</div>
-</div>
-<hr>
-<h2 id=deploy-awx>Deploy AWX</h2>
-<h3 id=clone-repository>Clone Repository</h3>
-<p>Periksa terlebih dahulu release yang tersedia dari remote repository AWX pada halaman <a href=https://github.com/ansible/awx/releases target=_blank rel="noopener noreffer">releases</a>. Kemudian jalankan clone dengan perintah berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>git clone -b x.y.z https://github.com/ansible/awx.git
-</code></pre></td></tr></table>
-</div>
-</div><div class="details admonition warning open">
-<div class="details-summary admonition-title">
-<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
-</div>
-<div class=details-content>
-<div class=admonition-content>Untuk <code>x.y.z</code> adalah versi yang akan digunakan, misalnya pada halaman <strong>release</strong> terdapat versi <code>17.0.1</code>. Melakukan clone tanpa definisi versi branch akan diarahkan langsung menuju branch <code>HEAD</code> yang berisi versi development, hal tersebut tidak disarankan karena sangat tidak stabil.</div>
-</div>
-</div>
-<h3 id=generate-secret-key>Generate Secret Key</h3>
-<p>Biasanya AWX membutuhkan Secret Key, kita dapat membuatnya menggunakan <code>openssl</code> yang sudah tersedia di CentOS 8.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>openssl rand -hex <span class=m>32</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Catat output yang dihasilkan dari perintah diatas.</p>
-<h3 id=edit-inventory>Edit Inventory</h3>
-<p>Buka file inventory yang terdapat dalam direktori instaler AWX misalnya menggunakan <code>vi</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>dnf config-manager <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --add-repo <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    https://download.docker.com/linux/centos/docker-ce.repo
+</span></span><span class=line><span class=cl>dnf install docker-ce docker-ce-cli containerd.io
+</span></span><span class=line><span class=cl>systemctl <span class=nb>enable</span> --now docker
+</span></span></code></pre></td></tr></table></div></div><p>Lalu pasang <code>docker-compose</code> menggunakan <code>pip3</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>pip3 install docker-compose
+</span></span></code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Jika tidak menggunakan user <code>root</code> maka tambahkan user tersebut ke dalam group <code>docker</code> kemudian logout dan login kembali. Menambahkan user ke dalam suatu grup dapat dilakukan dengan perintah <code>sudo usermod -aG docker user</code></div></div></div><hr><h2 id=deploy-awx>Deploy AWX</h2><h3 id=clone-repository>Clone Repository</h3><p>Periksa terlebih dahulu release yang tersedia dari remote repository AWX pada halaman <a href=https://github.com/ansible/awx/releases target=_blank rel="noopener noreffer">releases</a>. Kemudian jalankan clone dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>git clone -b x.y.z https://github.com/ansible/awx.git
+</span></span></code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Untuk <code>x.y.z</code> adalah versi yang akan digunakan, misalnya pada halaman <strong>release</strong> terdapat versi <code>17.0.1</code>. Melakukan clone tanpa definisi versi branch akan diarahkan langsung menuju branch <code>HEAD</code> yang berisi versi development, hal tersebut tidak disarankan karena sangat tidak stabil.</div></div></div><h3 id=generate-secret-key>Generate Secret Key</h3><p>Biasanya AWX membutuhkan Secret Key, kita dapat membuatnya menggunakan <code>openssl</code> yang sudah tersedia di CentOS 8.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>openssl rand -hex <span class=m>32</span>
+</span></span></code></pre></td></tr></table></div></div><p>Catat output yang dihasilkan dari perintah diatas.</p><h3 id=edit-inventory>Edit Inventory</h3><p>Buka file inventory yang terdapat dalam direktori instaler AWX misalnya menggunakan <code>vi</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=nb>cd</span> awx/installer
-vi inventory
-</code></pre></td></tr></table>
-</div>
-</div><p>Cari dan edit beberapa baris yang ada seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>cd</span> awx/installer
+</span></span><span class=line><span class=cl>vi inventory
+</span></span></code></pre></td></tr></table></div></div><p>Cari dan edit beberapa baris yang ada seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>secret_key</span><span class=o>=</span><span class=s>&lt;SECRET_KEY&gt;</span>
-<span class=na>admin_password</span><span class=o>=</span><span class=s>&lt;PASSWORD_AWX&gt;</span>
-<span class=na>project_data_dir</span><span class=o>=</span><span class=s>/var/lib/awx/projects</span>
-<span class=na>awx_official</span><span class=o>=</span><span class=s>true</span>
-<span class=na>awx_alternate_dns_servers</span><span class=o>=</span><span class=s>&#34;8.8.8.8,8.8.4.4&#34;</span>
-</code></pre></td></tr></table>
-</div>
-</div><div class="details admonition warning open">
-<div class="details-summary admonition-title">
-<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
-</div>
-<div class=details-content>
-<div class=admonition-content>Ganti <code>SECRET_KEY</code> dengan output yang tadi dihasilkan oleh <code>openssl</code>, dan ganti <code>PASSWORD_AWX</code> dengan password untuk login ke dalam user interface.</div>
-</div>
-</div>
-<h3 id=membuat-direktori-project>Membuat Direktori Project</h3>
-<p>Karena kita mengaktifkan variabel <code>project_data_dir</code> maka kita perlu membuat direktorinya juga.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>mkdir -p /var/lib/awx/projects
-</code></pre></td></tr></table>
-</div>
-</div><p>Direktori tersebut nantinya akan berisi project yang akan kita gunakan dalam AWX.</p>
-<h3 id=konfigurasi-firewall>Konfigurasi Firewall</h3>
-<p>Supaya AWX dapat diakses dari luar VM maka kita perlu melakukan beberapa konfigurasi firewall.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>secret_key</span><span class=o>=</span><span class=s>&lt;SECRET_KEY&gt;</span>
+</span></span><span class=line><span class=cl><span class=na>admin_password</span><span class=o>=</span><span class=s>&lt;PASSWORD_AWX&gt;</span>
+</span></span><span class=line><span class=cl><span class=na>project_data_dir</span><span class=o>=</span><span class=s>/var/lib/awx/projects</span>
+</span></span><span class=line><span class=cl><span class=na>awx_official</span><span class=o>=</span><span class=s>true</span>
+</span></span><span class=line><span class=cl><span class=na>awx_alternate_dns_servers</span><span class=o>=</span><span class=s>&#34;8.8.8.8,8.8.4.4&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Ganti <code>SECRET_KEY</code> dengan output yang tadi dihasilkan oleh <code>openssl</code>, dan ganti <code>PASSWORD_AWX</code> dengan password untuk login ke dalam user interface.</div></div></div><h3 id=membuat-direktori-project>Membuat Direktori Project</h3><p>Karena kita mengaktifkan variabel <code>project_data_dir</code> maka kita perlu membuat direktorinya juga.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir -p /var/lib/awx/projects
+</span></span></code></pre></td></tr></table></div></div><p>Direktori tersebut nantinya akan berisi project yang akan kita gunakan dalam AWX.</p><h3 id=konfigurasi-firewall>Konfigurasi Firewall</h3><p>Supaya AWX dapat diakses dari luar VM maka kita perlu melakukan beberapa konfigurasi firewall.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>firewall-cmd --zone<span class=o>=</span>public --add-masquerade --permanent
-firewall-cmd --add-service<span class=o>=</span>http --add-service<span class=o>=</span>https --permanent
-firewall-cmd --reload
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=deployment>Deployment</h3>
-<p>Eksekusi file YAML bernama <code>install.yml</code> menggunakan <code>ansible-playbook</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>ansible-playbook -i inventory install.yml
-</code></pre></td></tr></table>
-</div>
-</div><p>Proses akan memakan waktu cukup lama hingga akhirnya selesai. Apabila tidak ada kendala maka akan muncul tampilan seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>firewall-cmd --zone<span class=o>=</span>public --add-masquerade --permanent
+</span></span><span class=line><span class=cl>firewall-cmd --add-service<span class=o>=</span>http --add-service<span class=o>=</span>https --permanent
+</span></span><span class=line><span class=cl>firewall-cmd --reload
+</span></span></code></pre></td></tr></table></div></div><h3 id=deployment>Deployment</h3><p>Eksekusi file YAML bernama <code>install.yml</code> menggunakan <code>ansible-playbook</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ansible-playbook -i inventory install.yml
+</span></span></code></pre></td></tr></table></div></div><p>Proses akan memakan waktu cukup lama hingga akhirnya selesai. Apabila tidak ada kendala maka akan muncul tampilan seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>PLAY RECAP ****************************************************************************************</span>
-<span class=na>localhost   : ok</span><span class=o>=</span><span class=s>21   changed=8    unreachable=0    failed=0    skipped=73   rescued=0    ignored=1   </span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=post-deployment>Post-Deployment</h3>
-<p>Jangan lupa untuk mengembalikan kondisi SELinux menjadi <code>enforcing</code> dari yang tadinya telah kita manipulasi menjadi <code>permissive</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>PLAY RECAP ****************************************************************************************</span>
+</span></span><span class=line><span class=cl><span class=na>localhost   : ok</span><span class=o>=</span><span class=s>21   changed=8    unreachable=0    failed=0    skipped=73   rescued=0    ignored=1   </span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=post-deployment>Post-Deployment</h3><p>Jangan lupa untuk mengembalikan kondisi SELinux menjadi <code>enforcing</code> dari yang tadinya telah kita manipulasi menjadi <code>permissive</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>sed -i <span class=s1>&#39;s/^SELINUX=.*/SELINUX=enforcing/g&#39;</span> /etc/selinux/config
-setenforce enforcing
-</code></pre></td></tr></table>
-</div>
-</div><hr>
-<h2 id=pengujian>Pengujian</h2>
-<p>Periksa apakah ada container yang berjalan.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>docker ps
-</code></pre></td></tr></table>
-</div>
-</div><p>Jika berhasil maka akan ada 4 container yang dalam status <code>Up</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sed -i <span class=s1>&#39;s/^SELINUX=.*/SELINUX=enforcing/g&#39;</span> /etc/selinux/config
+</span></span><span class=line><span class=cl>setenforce enforcing
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=pengujian>Pengujian</h2><p>Periksa apakah ada container yang berjalan.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>docker ps
+</span></span></code></pre></td></tr></table></div></div><p>Jika berhasil maka akan ada 4 container yang dalam status <code>Up</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>003389b920b6   ansible/awx:17.0.1   &#34;/usr/bin/tini -- /u...&#34;   7 minutes ago   Up 7 minutes   8052/tcp               awx_task</span>
-<span class=na>42d2ff79f8e1   ansible/awx:17.0.1   &#34;/usr/bin/tini -- /b...&#34;   7 minutes ago   Up 7 minutes   0.0.0.0:80-&gt;8052/tcp   awx_web</span>
-<span class=na>3e73bd538074   postgres:12          &#34;docker-entrypoint.s...&#34;   7 minutes ago   Up 7 minutes   5432/tcp               awx_postgres</span>
-<span class=na>94ee8bb7949b   redis                &#34;docker-entrypoint.s...&#34;   7 minutes ago   Up 7 minutes   6379/tcp               awx_redis</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Sekarang coba buka user interface AWX di Web Browser menggunakan alamat IP milik VM. Jika berhasil kita dapat melakukan login memakai username dan password yang sebelumnya telah kita isi pada file <code>inventory</code>.
-<figure><a class=lightgallery href=/deploy-ansible-awx-di-centos/login-awx.png title="Login AWX" data-thumbnail=/deploy-ansible-awx-di-centos/login-awx.png data-sub-html="<h2>Login AWX</h2><p>Login AWX</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=login-awx.png data-srcset="/deploy-ansible-awx-di-centos/login-awx.png, login-awx.png 1.5x, /deploy-ansible-awx-di-centos/login-awx.png 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/login-awx.png>
-</a><figcaption class=image-caption>Login AWX</figcaption>
-</figure>
-<figure><a class=lightgallery href=/deploy-ansible-awx-di-centos/dashboard-awx.png title="Dashboard AWX" data-thumbnail=/deploy-ansible-awx-di-centos/dashboard-awx.png data-sub-html="<h2>Dashboard AWX</h2><p>Dashboard AWX</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=dashboard-awx.png data-srcset="/deploy-ansible-awx-di-centos/dashboard-awx.png, dashboard-awx.png 1.5x, /deploy-ansible-awx-di-centos/dashboard-awx.png 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/dashboard-awx.png>
-</a><figcaption class=image-caption>Dashboard AWX</figcaption>
-</figure>
-<figure><a class=lightgallery href=/deploy-ansible-awx-di-centos/awx-about.png title="AWX About" data-thumbnail=/deploy-ansible-awx-di-centos/awx-about.png data-sub-html="<h2>AWX About</h2><p>AWX About</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=awx-about.png data-srcset="/deploy-ansible-awx-di-centos/awx-about.png, awx-about.png 1.5x, /deploy-ansible-awx-di-centos/awx-about.png 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/awx-about.png>
-</a><figcaption class=image-caption>AWX About</figcaption>
-</figure></p>
-<hr>
-<h2 id=kesimpulan>Kesimpulan</h2>
-<p>Berdasarkan FAQ (Frequently Asked Questions) dikatakan bahwa AWX sangat tidak dianjurkan untuk dipakai di production, namun jika untuk sekedar mempelajari fitur-fitur yang ada saya rasa AWX sudah cukup. Jika sudah terbiasa mengoperasikan AWX, kita bisa saja beralih untuk berlangganan Ansible Tower di production environment. Selama saya mencoba melakukan deployment AWX, saya melihat banyak sekali <em>issue</em> masih dalam status <em>Open</em> di repositori Github milik AWX.</p>
-<hr>
-<h2 id=referensi>Referensi</h2>
-<ul>
-<li><a href=https://docs.ansible.com/ansible/latest/user_guide/intro_getting_started.html target=_blank rel="noopener noreffer">docs.ansible.com/ansible/latest/user_guide/intro_getting_started.html</a></li>
-<li><a href=https://github.com/ansible/awx/ target=_blank rel="noopener noreffer">github.com/ansible/awx/</a></li>
-<li><a href=https://www.ansible.com/overview/how-ansible-works target=_blank rel="noopener noreffer">www.ansible.com/overview/how-ansible-works</a></li>
-<li><a href=https://www.ansible.com/community/awx-project target=_blank rel="noopener noreffer">www.ansible.com/community/awx-project</a></li>
-<li><a href=https://www.ansible.com/products/awx-project/faq target=_blank rel="noopener noreffer">www.ansible.com/products/awx-project/faq</a></li>
-<li><a href=https://www.redhat.com/en/resources/awx-and-ansible-tower-datasheet target=_blank rel="noopener noreffer">www.redhat.com/en/resources/awx-and-ansible-tower-datasheet</a></li>
-</ul></div><div class=post-footer id=post-footer>
-<div class=post-info>
-<div class=post-info-line>
-<div class=post-info-mod>
-<span>Updated on 2021-02-04</span>
-</div>
-<div class=post-info-license></div>
-</div>
-<div class=post-info-line>
-<div class=post-info-md><span>
-<a class=link-to-markdown href=/deploy-ansible-awx-di-centos/index.md target=_blank>Read Markdown</a>
-</span></div>
-<div class=post-info-share>
-<span></span>
-</div>
-</div>
-</div>
-<div class=post-info-more>
-<section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/ansible/>Ansible</a>,&nbsp;<a href=/tags/awx/>AWX</a>,&nbsp;<a href=/tags/automation/>Automation</a>,&nbsp;<a href=/tags/centos/>CentOS</a></section>
-<section>
-<span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span>
-</section>
-</div>
-<div class=post-nav><a href=/integrasi-github-pages-dengan-cloudflare-cdn/ class=prev rel=prev title="Integrasi Github Pages dengan Cloudflare CDN"><i class="fas fa-angle-left fa-fw"></i>Integrasi Github Pages dengan Cloudflare CDN</a>
-<a href=/linux-dan-elitisme/ class=next rel=next title="Linux dan Elitisme">Linux dan Elitisme<i class="fas fa-angle-right fa-fw"></i></a></div>
-</div>
-<div id=comments><div id=disqus_thread class=comment></div><noscript>
-Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.
-</noscript></div></article></div>
-</main><footer class=footer>
-<div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div>
-</div>
-</footer></div>
-<div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top">
-<i class="fas fa-arrow-up fa-fw"></i>
-</a><a href=# id=view-comments class=fixed-button title="View Comments">
-<i class="fas fa-comment fa-fw"></i>
-</a>
-</div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body>
-</html>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>003389b920b6   ansible/awx:17.0.1   &#34;/usr/bin/tini -- /u...&#34;   7 minutes ago   Up 7 minutes   8052/tcp               awx_task</span>
+</span></span><span class=line><span class=cl><span class=na>42d2ff79f8e1   ansible/awx:17.0.1   &#34;/usr/bin/tini -- /b...&#34;   7 minutes ago   Up 7 minutes   0.0.0.0:80-&gt;8052/tcp   awx_web</span>
+</span></span><span class=line><span class=cl><span class=na>3e73bd538074   postgres:12          &#34;docker-entrypoint.s...&#34;   7 minutes ago   Up 7 minutes   5432/tcp               awx_postgres</span>
+</span></span><span class=line><span class=cl><span class=na>94ee8bb7949b   redis                &#34;docker-entrypoint.s...&#34;   7 minutes ago   Up 7 minutes   6379/tcp               awx_redis</span>
+</span></span></code></pre></td></tr></table></div></div><p>Sekarang coba buka user interface AWX di Web Browser menggunakan alamat IP milik VM. Jika berhasil kita dapat melakukan login memakai username dan password yang sebelumnya telah kita isi pada file <code>inventory</code>.<figure><a class=lightgallery href=/deploy-ansible-awx-di-centos/login-awx.png title="Login AWX" data-thumbnail=/deploy-ansible-awx-di-centos/login-awx.png data-sub-html="<h2>Login AWX</h2><p>Login AWX</p>"><img class=lazyload src=/svg/loading.min.svg data-src=login-awx.png data-srcset="/deploy-ansible-awx-di-centos/login-awx.png, login-awx.png 1.5x, /deploy-ansible-awx-di-centos/login-awx.png 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/login-awx.png></a><figcaption class=image-caption>Login AWX</figcaption></figure><figure><a class=lightgallery href=/deploy-ansible-awx-di-centos/dashboard-awx.png title="Dashboard AWX" data-thumbnail=/deploy-ansible-awx-di-centos/dashboard-awx.png data-sub-html="<h2>Dashboard AWX</h2><p>Dashboard AWX</p>"><img class=lazyload src=/svg/loading.min.svg data-src=dashboard-awx.png data-srcset="/deploy-ansible-awx-di-centos/dashboard-awx.png, dashboard-awx.png 1.5x, /deploy-ansible-awx-di-centos/dashboard-awx.png 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/dashboard-awx.png></a><figcaption class=image-caption>Dashboard AWX</figcaption></figure><figure><a class=lightgallery href=/deploy-ansible-awx-di-centos/awx-about.png title="AWX About" data-thumbnail=/deploy-ansible-awx-di-centos/awx-about.png data-sub-html="<h2>AWX About</h2><p>AWX About</p>"><img class=lazyload src=/svg/loading.min.svg data-src=awx-about.png data-srcset="/deploy-ansible-awx-di-centos/awx-about.png, awx-about.png 1.5x, /deploy-ansible-awx-di-centos/awx-about.png 2x" data-sizes=auto alt=/deploy-ansible-awx-di-centos/awx-about.png></a><figcaption class=image-caption>AWX About</figcaption></figure></p><hr><h2 id=kesimpulan>Kesimpulan</h2><p>Berdasarkan FAQ (Frequently Asked Questions) dikatakan bahwa AWX sangat tidak dianjurkan untuk dipakai di production, namun jika untuk sekedar mempelajari fitur-fitur yang ada saya rasa AWX sudah cukup. Jika sudah terbiasa mengoperasikan AWX, kita bisa saja beralih untuk berlangganan Ansible Tower di production environment. Selama saya mencoba melakukan deployment AWX, saya melihat banyak sekali <em>issue</em> masih dalam status <em>Open</em> di repositori Github milik AWX.</p><hr><h2 id=referensi>Referensi</h2><ul><li><a href=https://docs.ansible.com/ansible/latest/user_guide/intro_getting_started.html target=_blank rel="noopener noreffer">docs.ansible.com/ansible/latest/user_guide/intro_getting_started.html</a></li><li><a href=https://github.com/ansible/awx/ target=_blank rel="noopener noreffer">github.com/ansible/awx/</a></li><li><a href=https://www.ansible.com/overview/how-ansible-works target=_blank rel="noopener noreffer">www.ansible.com/overview/how-ansible-works</a></li><li><a href=https://www.ansible.com/community/awx-project target=_blank rel="noopener noreffer">www.ansible.com/community/awx-project</a></li><li><a href=https://www.ansible.com/products/awx-project/faq target=_blank rel="noopener noreffer">www.ansible.com/products/awx-project/faq</a></li><li><a href=https://www.redhat.com/en/resources/awx-and-ansible-tower-datasheet target=_blank rel="noopener noreffer">www.redhat.com/en/resources/awx-and-ansible-tower-datasheet</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2021-02-04</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/deploy-ansible-awx-di-centos/index.md target=_blank>Read Markdown</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/ansible/>Ansible</a>,&nbsp;<a href=/tags/awx/>AWX</a>,&nbsp;<a href=/tags/automation/>Automation</a>,&nbsp;<a href=/tags/centos/>CentOS</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/integrasi-github-pages-dengan-cloudflare-cdn/ class=prev rel=prev title="Integrasi Github Pages dengan Cloudflare CDN"><i class="fas fa-angle-left fa-fw"></i>Integrasi Github Pages dengan Cloudflare CDN</a>
+<a href=/linux-dan-elitisme/ class=next rel=next title="Linux dan Elitisme">Linux dan Elitisme<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=disqus_thread class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

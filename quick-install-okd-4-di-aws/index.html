@@ -1,532 +1,99 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="noodp">
-<meta http-equiv=x-ua-compatible content="IE=edge, chrome=1">
-<title>Quick Install OKD 4 di AWS - Anwar's Blog</title><meta name=Description content="Membangun Cluster OKD 4 di AWS dengan Installer-Provisioned Infrastructure"><meta property="og:title" content="Quick Install OKD 4 di AWS">
-<meta property="og:description" content="Membangun Cluster OKD 4 di AWS dengan Installer-Provisioned Infrastructure">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://init.web.id/quick-install-okd-4-di-aws/"><meta property="og:image" content="https://init.web.id/quick-install-okd-4-di-aws/cover.png"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2021-01-09T08:58:23+07:00">
-<meta property="article:modified_time" content="2021-01-09T08:58:23+07:00">
-<meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://init.web.id/quick-install-okd-4-di-aws/cover.png">
-<meta name=twitter:title content="Quick Install OKD 4 di AWS">
-<meta name=twitter:description content="Membangun Cluster OKD 4 di AWS dengan Installer-Provisioned Infrastructure">
-<meta name=application-name content="Anwar's Blog">
-<meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico>
-<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/quick-install-okd-4-di-aws/><link rel=prev href=https://init.web.id/instalasi-lokal-minishift-okd/><link rel=next href=https://init.web.id/integrasi-sysdig-monitor-di-openshift/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Quick Install OKD 4 di AWS","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/quick-install-okd-4-di-aws\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/quick-install-okd-4-di-aws\/cover.png","width":1e3,"height":420}],"genre":"posts","keywords":"OpenShift, OKD, AWS, PaaS","wordcount":1278,"url":"https:\/\/init.web.id\/quick-install-okd-4-di-aws\/","datePublished":"2021-01-09T08:58:23+07:00","dateModified":"2021-01-09T08:58:23+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Membangun Cluster OKD 4 di AWS dengan Installer-Provisioned Infrastructure"}</script></head>
-<body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem('theme')?localStorage.getItem('theme')==='dark':'dark'==='auto'?window.matchMedia('(prefers-color-scheme: dark)').matches:'dark'==='dark')&&document.body.setAttribute('theme','dark')</script>
-<div id=mask></div><div class=wrapper><header class=desktop id=header-desktop>
-<div class=header-wrapper>
-<div class=header-title>
-<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a>
-</div>
-<div class=menu>
-<div class=menu-inner><a class=menu-item href=/posts/> Posts </a><a class=menu-item href=/categories/> Categories </a><a class=menu-item href=/about/> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Quick Install OKD 4 di AWS - Anwar's Blog</title><meta name=Description content="Membangun Cluster OKD 4 di AWS dengan Installer-Provisioned Infrastructure"><meta property="og:title" content="Quick Install OKD 4 di AWS"><meta property="og:description" content="Membangun Cluster OKD 4 di AWS dengan Installer-Provisioned Infrastructure"><meta property="og:type" content="article"><meta property="og:url" content="https://init.web.id/quick-install-okd-4-di-aws/"><meta property="og:image" content="https://init.web.id/quick-install-okd-4-di-aws/cover.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-01-09T08:58:23+07:00"><meta property="article:modified_time" content="2021-01-09T08:58:23+07:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://init.web.id/quick-install-okd-4-di-aws/cover.png"><meta name=twitter:title content="Quick Install OKD 4 di AWS"><meta name=twitter:description content="Membangun Cluster OKD 4 di AWS dengan Installer-Provisioned Infrastructure"><meta name=application-name content="Anwar's Blog"><meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/quick-install-okd-4-di-aws/><link rel=prev href=https://init.web.id/instalasi-lokal-minishift-okd/><link rel=next href=https://init.web.id/integrasi-sysdig-monitor-di-openshift/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Quick Install OKD 4 di AWS","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/quick-install-okd-4-di-aws\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/quick-install-okd-4-di-aws\/cover.png","width":1e3,"height":420}],"genre":"posts","keywords":"OpenShift, OKD, AWS, PaaS","wordcount":1278,"url":"https:\/\/init.web.id\/quick-install-okd-4-di-aws\/","datePublished":"2021-01-09T08:58:23+07:00","dateModified":"2021-01-09T08:58:23+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Membangun Cluster OKD 4 di AWS dengan Installer-Provisioned Infrastructure"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"dark"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"dark"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/about/>About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
 <input type=text placeholder="Search titles or contents..." id=search-input-desktop>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search>
-<i class="fas fa-search fa-fw"></i>
-</a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear>
-<i class="fas fa-times-circle fa-fw"></i>
-</a>
-<span class="search-button search-loading" id=search-loading-desktop>
-<i class="fas fa-spinner fa-fw fa-spin"></i>
-</span>
-</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i>
-</a>
-</div>
-</div>
-</div>
-</header><header class=mobile id=header-mobile>
-<div class=header-container>
-<div class=header-wrapper>
-<div class=header-title>
-<a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a>
-</div>
-<div class=menu-toggle id=menu-toggle-mobile>
-<span></span><span></span><span></span>
-</div>
-</div>
-<div class=menu id=menu-mobile><div class=search-wrapper>
-<div class="search mobile" id=search-mobile>
-<input type=text placeholder="Search titles or contents..." id=search-input-mobile>
-<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search>
-<i class="fas fa-search fa-fw"></i>
-</a>
-<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear>
-<i class="fas fa-times-circle fa-fw"></i>
-</a>
-<span class="search-button search-loading" id=search-loading-mobile>
-<i class="fas fa-spinner fa-fw fa-spin"></i>
-</span>
-</div>
-<a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>
-Cancel
-</a>
-</div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
-<i class="fas fa-adjust fa-fw"></i>
-</a></div>
-</div>
-</header>
-<div class="search-dropdown desktop">
-<div id=search-dropdown-desktop></div>
-</div>
-<div class="search-dropdown mobile">
-<div id=search-dropdown-mobile></div>
-</div>
-<main class=main>
-<div class=container><div class=toc id=toc-auto>
-<h2 class=toc-title>Contents</h2>
-<div class=toc-content id=toc-content-auto></div>
-</div><article class="page single"><h1 class="single-title animated flipInX">Quick Install OKD 4 di AWS</h1><div class=post-meta>
-<div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/platform/><i class="far fa-folder fa-fw"></i>Platform</a></span></div>
-<div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-01-09>2021-01-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1278 words&nbsp;
-<i class="far fa-clock fa-fw"></i>&nbsp;6 minutes&nbsp;</div>
-</div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/quick-install-okd-4-di-aws/cover.png data-srcset="/quick-install-okd-4-di-aws/cover.png, /quick-install-okd-4-di-aws/cover.png 1.5x, /quick-install-okd-4-di-aws/cover.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/cover.png title="Membangun Cluster OKD 4 di AWS dengan Installer-Provisioned Infrastructure"></div><div class="details toc" id=toc-static kept>
-<div class="details-summary toc-title">
-<span>Contents</span>
-<span><i class="details-icon fas fa-angle-right"></i></span>
-</div>
-<div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents>
-<ul>
-<li><a href=#okd-4>OKD 4</a>
-<ul>
-<li><a href=#jenis-instalasi>Jenis Instalasi</a></li>
-</ul>
-</li>
-<li><a href=#installation-workflow>Installation Workflow</a></li>
-<li><a href=#minimum-requirements>Minimum Requirements</a></li>
-<li><a href=#prerequisites>Prerequisites</a>
-<ul>
-<li><a href=#akses-aws>Akses AWS</a></li>
-<li><a href=#ssh-private-key>SSH Private Key</a></li>
-<li><a href=#unduh-installer>Unduh Installer</a></li>
-</ul>
-</li>
-<li><a href=#instalasi>Instalasi</a>
-<ul>
-<li><a href=#hasil>Hasil</a></li>
-</ul>
-</li>
-<li><a href=#pengujian>Pengujian</a>
-<ul>
-<li><a href=#login-sebagai-system-admin>Login sebagai System Admin</a></li>
-<li><a href=#periksa-nodes>Periksa Nodes</a></li>
-<li><a href=#scaling-machineset>Scaling MachineSet</a></li>
-<li><a href=#web-console-okd>Web Console OKD</a></li>
-<li><a href=#destroy-cluster>Destroy Cluster</a></li>
-</ul>
-</li>
-<li><a href=#kesimpulan>Kesimpulan</a></li>
-<li><a href=#referensi>Referensi</a></li>
-</ul>
-</nav></div>
-</div><div class=content id=content><p>OKD 4 memiliki <em>installer</em> yang menawarkan fleksibilitas dan kemudahan bagi pengguna. Proses instalasi hanya akan memakan waktu sekitar 40 menit hingga cluster OKD sudah dapat berjalan dan siap untuk dikelola.</p>
-<h2 id=okd-4>OKD 4</h2>
-<p><strong>OKD</strong> adalah distribusi dari <strong>Kubernetes</strong> yang menjadi <em>upstream</em> dari pengembangan <strong>OpenShift</strong>. OKD merupakan versi <em>community</em> dari OpenShift, yang dapat digunakan tanpa biaya <em>subscription</em>. Kode sumbernya dipublikasikan pada <a href=https://github.com/openshift/okd target=_blank rel="noopener noreffer">repositori Github</a>, dan semua orang dapat berkontribusi untuk mengembangkannya. Silahkan lihat perbandingan antara OKD 4 dengan OKD 3 pada <a href=https://docs.okd.io/latest/migration/migrating_3_4/planning-migration-3-to-4.html#migration-comparing-ocp-3-4 target=_blank rel="noopener noreffer">dokumentasi resmi OKD</a>.</p>
-<h3 id=jenis-instalasi>Jenis Instalasi</h3>
-<p>Pada umumnya terdapat 2 macam instalasi OKD 4 seperti berikut.</p>
-<ol>
-<li>
-<p><strong>IPI (Installer-Provisioned Infrastructure)</strong>.
-Dengan metode IPI, installer akan bertindak sepenuhnya dalam proses instalasi cluster. Setiap <em>machine</em> harus mampu mengakses internet untuk menarik <em>images</em> yang diperlukan untuk inisialisasi ketika <em>deployment</em> cluster. IPI merupakan cara paling cepat untuk membangun cluster OKD yang dapat kita implementasikan pada <a href=https://aws.amazon.com/id/ target=_blank rel="noopener noreffer">AWS (Amazon Web Service)</a>, <a href=https://cloud.google.com/ target=_blank rel="noopener noreffer">GCP (Google Cloud Platform)</a>, <a href=https://azure.microsoft.com/en-us/ target=_blank rel="noopener noreffer">Azure</a>, hingga <em>baremetal</em>. Dalam artikel ini saya akan menggunakan IPI sebagai metode instalasi.</p>
-</li>
-<li>
-<p><strong>UPI (User-Provisioned Infrastructure)</strong>.
-Mirip dengan IPI, namun lebih <em>advanced</em>, di mana kita dapat menggunakan metode UPI jika benar-benar <em>concern</em> terhadap keamanan. Biasanya cluster akan membutuhkan sebuah <em>proxy</em> dan akses ke internet akan lebih dibatasi. Karena akses ke internet yang lebih ketat, maka cluster juga memerlukan <em>mirror registry</em> yang lebih spesifik. UPI cenderung lebih rumit, namun memiliki pilihan konfigurasi yang sangat beragam dibandingkan metode IPI, misalnya seperti mengganti sistem operasi <em>machine</em> dengan RHCOS (Red Hat Enterprise Linux CoreOS).</p>
-</li>
-</ol>
-<hr>
-<h2 id=installation-workflow>Installation Workflow</h2>
-<p>OKD menggunakan sebuah <em>bootstrap machine</em> temporer pada saat inisialisasi konfigurasi guna menyediakan informasi yang diperlukan bagi <em>control plane</em>. <em>Bootstrap machine</em> dihidupkan dengan sebuah file konfigurasi bernama <em>Ignition</em> yang mendeskripsikan bagaimana proses pembangunan cluster akan dilakukan. <em>Bootstrap machine</em> akan membuat sebuah <em>master machine</em> yang digunakan sebagai <em>control plane</em>. Dan <em>control plane</em> kemudian akan membuat <em>compute machine</em> atau yang biasa disebut sebagai <em>worker machine</em>.</p>
-<p><figure><a class=lightgallery href=/quick-install-okd-4-di-aws/proses-bootstraping.png title="Proses Bootstraping" data-thumbnail=/quick-install-okd-4-di-aws/proses-bootstraping.png data-sub-html="<h2>Proses Bootstraping</h2><p>Proses Bootstraping</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=proses-bootstraping.png data-srcset="/quick-install-okd-4-di-aws/proses-bootstraping.png, proses-bootstraping.png 1.5x, /quick-install-okd-4-di-aws/proses-bootstraping.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/proses-bootstraping.png>
-</a><figcaption class=image-caption>Proses Bootstraping</figcaption>
-</figure></p>
-<p>Setelah semua <em>machine</em> pada cluster di-inisialisasi, maka <em>bootstrap machine</em> akan di-<em>destroy</em>. Jika menggunakan metode UPI, kita perlu melakukan beberapa proses di atas secara manual.</p>
-<hr>
-<h2 id=minimum-requirements>Minimum Requirements</h2>
-<p>OKD 4 memiliki syarat minimum spesifikasi sistem yang cenderung mirip dengan OKD 3. Berikut ini adalah spesifikasi singkat sebagai gambarannya.</p>
-<table>
-<thead>
-<tr>
-<th style=text-align:center>Host</th>
-<th style=text-align:center>Specs</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style=text-align:center>Masters</td>
-<td style=text-align:center>4 vCPUs dan 16 GB RAM</td>
-</tr>
-<tr>
-<td style=text-align:center>Nodes</td>
-<td style=text-align:center>1 vCPUs dan 8 GB RAM</td>
-</tr>
-</tbody>
-</table>
-<p>Jika menggunakan AWS sebagai <em>host</em>, maka <em>by-default</em> OKD installer akan membuat instance dengan tipe <code>m5.xlarge</code> sebagai master dan tipe <code>m5.large</code> sebagai worker.
-Untuk lebih lengkapnya silahkan baca spesifikasi minimum di <a href=https://docs.okd.io/3.11/install/prerequisites.html#hardware target=_blank rel="noopener noreffer">dokumentas resmi OKD</a> dan jenis-jenis dari <a href=https://aws.amazon.com/id/ec2/instance-types/ target=_blank rel="noopener noreffer">instance AWS EC2</a>.</p>
-<hr>
-<h2 id=prerequisites>Prerequisites</h2>
-<p>Sebelum melakukan instalasi lebih lanjut, pastikan beberapa hal berikut sudah terpenuhi.</p>
-<h3 id=akses-aws>Akses AWS</h3>
-<p>Pasang paket <code>aws-cli</code> pada komputer lokal.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ sudo pacman -Sy aws-cli
-</code></pre></td></tr></table>
-</div>
-</div><div class="details admonition warning open">
-<div class="details-summary admonition-title">
-<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
-</div>
-<div class=details-content>
-<div class=admonition-content>Dalam artikel ini saya akan menggunakan <strong>AWS Programmatic Access</strong> sebagai <em>credentials</em> untuk mengelola AWS menggunakan <code>aws-cli</code>. Untuk informasi lebih lanjut silahkan baca <a href=https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html target=_blank rel="noopener noreffer">dokumentasi AWS CLI</a>.</div>
-</div>
-</div>
-<p>Saya memiliki AWS Programmatic Access yang terdiri dari <code>aws_access_key_id</code> dan <code>aws_secret_access_key</code>. Masukkan kedua key tersebut ke dalam konfigurasi <em>aws cli</em>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">Quick Install OKD 4 di AWS</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/platform/><i class="far fa-folder fa-fw"></i>Platform</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2021-01-09>2021-01-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1278 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;6 minutes&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/quick-install-okd-4-di-aws/cover.png data-srcset="/quick-install-okd-4-di-aws/cover.png, /quick-install-okd-4-di-aws/cover.png 1.5x, /quick-install-okd-4-di-aws/cover.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/cover.png title="Membangun Cluster OKD 4 di AWS dengan Installer-Provisioned Infrastructure"></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#okd-4>OKD 4</a><ul><li><a href=#jenis-instalasi>Jenis Instalasi</a></li></ul></li><li><a href=#installation-workflow>Installation Workflow</a></li><li><a href=#minimum-requirements>Minimum Requirements</a></li><li><a href=#prerequisites>Prerequisites</a><ul><li><a href=#akses-aws>Akses AWS</a></li><li><a href=#ssh-private-key>SSH Private Key</a></li><li><a href=#unduh-installer>Unduh Installer</a></li></ul></li><li><a href=#instalasi>Instalasi</a><ul><li><a href=#hasil>Hasil</a></li></ul></li><li><a href=#pengujian>Pengujian</a><ul><li><a href=#login-sebagai-system-admin>Login sebagai System Admin</a></li><li><a href=#periksa-nodes>Periksa Nodes</a></li><li><a href=#scaling-machineset>Scaling MachineSet</a></li><li><a href=#web-console-okd>Web Console OKD</a></li><li><a href=#destroy-cluster>Destroy Cluster</a></li></ul></li><li><a href=#kesimpulan>Kesimpulan</a></li><li><a href=#referensi>Referensi</a></li></ul></nav></div></div><div class=content id=content><p>OKD 4 memiliki <em>installer</em> yang menawarkan fleksibilitas dan kemudahan bagi pengguna. Proses instalasi hanya akan memakan waktu sekitar 40 menit hingga cluster OKD sudah dapat berjalan dan siap untuk dikelola.</p><h2 id=okd-4>OKD 4</h2><p><strong>OKD</strong> adalah distribusi dari <strong>Kubernetes</strong> yang menjadi <em>upstream</em> dari pengembangan <strong>OpenShift</strong>. OKD merupakan versi <em>community</em> dari OpenShift, yang dapat digunakan tanpa biaya <em>subscription</em>. Kode sumbernya dipublikasikan pada <a href=https://github.com/openshift/okd target=_blank rel="noopener noreffer">repositori Github</a>, dan semua orang dapat berkontribusi untuk mengembangkannya. Silahkan lihat perbandingan antara OKD 4 dengan OKD 3 pada <a href=https://docs.okd.io/latest/migration/migrating_3_4/planning-migration-3-to-4.html#migration-comparing-ocp-3-4 target=_blank rel="noopener noreffer">dokumentasi resmi OKD</a>.</p><h3 id=jenis-instalasi>Jenis Instalasi</h3><p>Pada umumnya terdapat 2 macam instalasi OKD 4 seperti berikut.</p><ol><li><p><strong>IPI (Installer-Provisioned Infrastructure)</strong>.
+Dengan metode IPI, installer akan bertindak sepenuhnya dalam proses instalasi cluster. Setiap <em>machine</em> harus mampu mengakses internet untuk menarik <em>images</em> yang diperlukan untuk inisialisasi ketika <em>deployment</em> cluster. IPI merupakan cara paling cepat untuk membangun cluster OKD yang dapat kita implementasikan pada <a href=https://aws.amazon.com/id/ target=_blank rel="noopener noreffer">AWS (Amazon Web Service)</a>, <a href=https://cloud.google.com/ target=_blank rel="noopener noreffer">GCP (Google Cloud Platform)</a>, <a href=https://azure.microsoft.com/en-us/ target=_blank rel="noopener noreffer">Azure</a>, hingga <em>baremetal</em>. Dalam artikel ini saya akan menggunakan IPI sebagai metode instalasi.</p></li><li><p><strong>UPI (User-Provisioned Infrastructure)</strong>.
+Mirip dengan IPI, namun lebih <em>advanced</em>, di mana kita dapat menggunakan metode UPI jika benar-benar <em>concern</em> terhadap keamanan. Biasanya cluster akan membutuhkan sebuah <em>proxy</em> dan akses ke internet akan lebih dibatasi. Karena akses ke internet yang lebih ketat, maka cluster juga memerlukan <em>mirror registry</em> yang lebih spesifik. UPI cenderung lebih rumit, namun memiliki pilihan konfigurasi yang sangat beragam dibandingkan metode IPI, misalnya seperti mengganti sistem operasi <em>machine</em> dengan RHCOS (Red Hat Enterprise Linux CoreOS).</p></li></ol><hr><h2 id=installation-workflow>Installation Workflow</h2><p>OKD menggunakan sebuah <em>bootstrap machine</em> temporer pada saat inisialisasi konfigurasi guna menyediakan informasi yang diperlukan bagi <em>control plane</em>. <em>Bootstrap machine</em> dihidupkan dengan sebuah file konfigurasi bernama <em>Ignition</em> yang mendeskripsikan bagaimana proses pembangunan cluster akan dilakukan. <em>Bootstrap machine</em> akan membuat sebuah <em>master machine</em> yang digunakan sebagai <em>control plane</em>. Dan <em>control plane</em> kemudian akan membuat <em>compute machine</em> atau yang biasa disebut sebagai <em>worker machine</em>.</p><p><figure><a class=lightgallery href=/quick-install-okd-4-di-aws/proses-bootstraping.png title="Proses Bootstraping" data-thumbnail=/quick-install-okd-4-di-aws/proses-bootstraping.png data-sub-html="<h2>Proses Bootstraping</h2><p>Proses Bootstraping</p>"><img class=lazyload src=/svg/loading.min.svg data-src=proses-bootstraping.png data-srcset="/quick-install-okd-4-di-aws/proses-bootstraping.png, proses-bootstraping.png 1.5x, /quick-install-okd-4-di-aws/proses-bootstraping.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/proses-bootstraping.png></a><figcaption class=image-caption>Proses Bootstraping</figcaption></figure></p><p>Setelah semua <em>machine</em> pada cluster di-inisialisasi, maka <em>bootstrap machine</em> akan di-<em>destroy</em>. Jika menggunakan metode UPI, kita perlu melakukan beberapa proses di atas secara manual.</p><hr><h2 id=minimum-requirements>Minimum Requirements</h2><p>OKD 4 memiliki syarat minimum spesifikasi sistem yang cenderung mirip dengan OKD 3. Berikut ini adalah spesifikasi singkat sebagai gambarannya.</p><table><thead><tr><th style=text-align:center>Host</th><th style=text-align:center>Specs</th></tr></thead><tbody><tr><td style=text-align:center>Masters</td><td style=text-align:center>4 vCPUs dan 16 GB RAM</td></tr><tr><td style=text-align:center>Nodes</td><td style=text-align:center>1 vCPUs dan 8 GB RAM</td></tr></tbody></table><p>Jika menggunakan AWS sebagai <em>host</em>, maka <em>by-default</em> OKD installer akan membuat instance dengan tipe <code>m5.xlarge</code> sebagai master dan tipe <code>m5.large</code> sebagai worker.
+Untuk lebih lengkapnya silahkan baca spesifikasi minimum di <a href=https://docs.okd.io/3.11/install/prerequisites.html#hardware target=_blank rel="noopener noreffer">dokumentas resmi OKD</a> dan jenis-jenis dari <a href=https://aws.amazon.com/id/ec2/instance-types/ target=_blank rel="noopener noreffer">instance AWS EC2</a>.</p><hr><h2 id=prerequisites>Prerequisites</h2><p>Sebelum melakukan instalasi lebih lanjut, pastikan beberapa hal berikut sudah terpenuhi.</p><h3 id=akses-aws>Akses AWS</h3><p>Pasang paket <code>aws-cli</code> pada komputer lokal.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ sudo pacman -Sy aws-cli
+</span></span></code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Dalam artikel ini saya akan menggunakan <strong>AWS Programmatic Access</strong> sebagai <em>credentials</em> untuk mengelola AWS menggunakan <code>aws-cli</code>. Untuk informasi lebih lanjut silahkan baca <a href=https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html target=_blank rel="noopener noreffer">dokumentasi AWS CLI</a>.</div></div></div><p>Saya memiliki AWS Programmatic Access yang terdiri dari <code>aws_access_key_id</code> dan <code>aws_secret_access_key</code>. Masukkan kedua key tersebut ke dalam konfigurasi <em>aws cli</em>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ mkdir -p ~/.aws
-$ vim ~/.aws/credentials
-</code></pre></td></tr></table>
-</div>
-</div><p>Isi file <code>credentials</code> dengan kedua key yang kita meliki, sehingga kurang lebih akan manjadi seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ mkdir -p ~/.aws
+</span></span><span class=line><span class=cl>$ vim ~/.aws/credentials
+</span></span></code></pre></td></tr></table></div></div><p>Isi file <code>credentials</code> dengan kedua key yang kita meliki, sehingga kurang lebih akan manjadi seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=k>[default]</span>
-<span class=na>aws_access_key_id</span><span class=o>=</span><span class=s>AKIA3ANXUSNAUAXXXXXX</span>
-<span class=na>aws_secret_access_key</span><span class=o>=</span><span class=s>+JDR1HWw4vrcFrLqbf+ewv/nJL/L6TlVAhXXXXXX</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=ssh-private-key>SSH Private Key</h3>
-<p>Kita perlu menambahkan SSH key ke <em>agent</em> dan installer untuk menampilkan informasi ketika proses instalasi berjalan, atau untuk melakukan pengelolaan lebih lanjut terhadap cluster menggunakan installer. Di sini saya sudah memiliki SSH key seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=k>[default]</span>
+</span></span><span class=line><span class=cl><span class=na>aws_access_key_id</span><span class=o>=</span><span class=s>AKIA3ANXUSNAUAXXXXXX</span>
+</span></span><span class=line><span class=cl><span class=na>aws_secret_access_key</span><span class=o>=</span><span class=s>+JDR1HWw4vrcFrLqbf+ewv/nJL/L6TlVAhXXXXXX</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=ssh-private-key>SSH Private Key</h3><p>Kita perlu menambahkan SSH key ke <em>agent</em> dan installer untuk menampilkan informasi ketika proses instalasi berjalan, atau untuk melakukan pengelolaan lebih lanjut terhadap cluster menggunakan installer. Di sini saya sudah memiliki SSH key seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>/home/pwn3r/.ssh</span>
-<span class=na>├── id_rsa</span>
-<span class=na>├── id_rsa.pub</span>
-<span class=na>└── known_hosts</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Jika belum memiliki SSH key kita dapat membuatnya dengan <code>ssh-keygen</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ ssh-keygen -t rsa -b <span class=m>4096</span> -N <span class=s1>&#39;&#39;</span> -f ~/.ssh/id_rsa 
-</code></pre></td></tr></table>
-</div>
-</div><p>Kemudian jalankan <code>ssh-agent</code> di <em>background</em>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ <span class=nb>eval</span> <span class=s2>&#34;</span><span class=k>$(</span>ssh-agent -s<span class=k>)</span><span class=s2>&#34;</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Lalu tambahkan SSH key ke <code>ssh-agent</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ ssh-add ~/.ssh/id_rsa
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=unduh-installer>Unduh Installer</h3>
-<p>Program installer dapat diunduh dari <a href=https://github.com/openshift/okd/releases target=_blank rel="noopener noreffer"><strong>https://github.com/openshift/okd/releases</strong></a>.</p>
-<p><figure><a class=lightgallery href=/quick-install-okd-4-di-aws/openshift-installer.png title="Installer OKD 4" data-thumbnail=/quick-install-okd-4-di-aws/openshift-installer.png data-sub-html="<h2>Installer OKD 4</h2><p>Installer OKD 4</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=openshift-installer.png data-srcset="/quick-install-okd-4-di-aws/openshift-installer.png, openshift-installer.png 1.5x, /quick-install-okd-4-di-aws/openshift-installer.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/openshift-installer.png>
-</a><figcaption class=image-caption>Installer OKD 4</figcaption>
-</figure></p>
-<p>Untuk lebih mudahnya saya akan membuat sebuah direktori baru bernama <code>okd</code> pada <em>home directory</em> dan mengunduh installer ke dalam direktori tersebut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>/home/pwn3r/.ssh</span>
+</span></span><span class=line><span class=cl><span class=na>├── id_rsa</span>
+</span></span><span class=line><span class=cl><span class=na>├── id_rsa.pub</span>
+</span></span><span class=line><span class=cl><span class=na>└── known_hosts</span>
+</span></span></code></pre></td></tr></table></div></div><p>Jika belum memiliki SSH key kita dapat membuatnya dengan <code>ssh-keygen</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ ssh-keygen -t rsa -b <span class=m>4096</span> -N <span class=s1>&#39;&#39;</span> -f ~/.ssh/id_rsa 
+</span></span></code></pre></td></tr></table></div></div><p>Kemudian jalankan <code>ssh-agent</code> di <em>background</em>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ <span class=nb>eval</span> <span class=s2>&#34;</span><span class=k>$(</span>ssh-agent -s<span class=k>)</span><span class=s2>&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>Lalu tambahkan SSH key ke <code>ssh-agent</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ ssh-add ~/.ssh/id_rsa
+</span></span></code></pre></td></tr></table></div></div><h3 id=unduh-installer>Unduh Installer</h3><p>Program installer dapat diunduh dari <a href=https://github.com/openshift/okd/releases target=_blank rel="noopener noreffer"><strong>https://github.com/openshift/okd/releases</strong></a>.</p><p><figure><a class=lightgallery href=/quick-install-okd-4-di-aws/openshift-installer.png title="Installer OKD 4" data-thumbnail=/quick-install-okd-4-di-aws/openshift-installer.png data-sub-html="<h2>Installer OKD 4</h2><p>Installer OKD 4</p>"><img class=lazyload src=/svg/loading.min.svg data-src=openshift-installer.png data-srcset="/quick-install-okd-4-di-aws/openshift-installer.png, openshift-installer.png 1.5x, /quick-install-okd-4-di-aws/openshift-installer.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/openshift-installer.png></a><figcaption class=image-caption>Installer OKD 4</figcaption></figure></p><p>Untuk lebih mudahnya saya akan membuat sebuah direktori baru bernama <code>okd</code> pada <em>home directory</em> dan mengunduh installer ke dalam direktori tersebut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ mkdir ~/okd
-$ <span class=nb>cd</span> ~/okd
-$ wget https://github.com/openshift/okd/releases/download/4.6.0-0.okd-2020-12-12-135354/openshift-install-linux-4.6.0-0.okd-2020-12-12-135354.tar.gz
-</code></pre></td></tr></table>
-</div>
-</div><div class="details admonition warning open">
-<div class="details-summary admonition-title">
-<i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i>
-</div>
-<div class=details-content>
-<div class=admonition-content>Pastikan URL installer untuk perintah <code>wget</code> di atas sesuai dengan versi yang benar. Pada saat artikel ini diterbitkan, OKD terbaru berada pada versi 4.6.</div>
-</div>
-</div>
-<p>Ekstrak file <code>tar.gz</code> dengan perintah berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ tar -xvf openshift-install*.tar.gz
-</code></pre></td></tr></table>
-</div>
-</div><p>Kita akan memiliki sebuah file bernama <code>openshift-install</code>, jadikan file tersebut menjadi <em>executable</em>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ chmod +x openshift-install
-</code></pre></td></tr></table>
-</div>
-</div><hr>
-<h2 id=instalasi>Instalasi</h2>
-<p>Untuk melakukan instalasi kita cukup menjalankan satu perintah seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ ./openshift-install create cluster --log-level<span class=o>=</span>info 
-</code></pre></td></tr></table>
-</div>
-</div><p>Selanjutnya installer akan meminta beberapa informasi yang dibutuhkan, silahkan pilih atau isi sesuai dengan kebutuhan. <strong>Pull Secret</strong> bisa diperoleh dari situs <a href=https://cloud.redhat.com/openshift/install/pull-secret target=_blank rel="noopener noreffer">Red Hat OpenShift Cluster Manager</a>. Cukup tekan <em>Copy pull secret</em> dan paste pada terminal ketika installer memintanya.</p>
-<p><figure><a class=lightgallery href=/quick-install-okd-4-di-aws/pull-secret.png title="Pull Secret" data-thumbnail=/quick-install-okd-4-di-aws/pull-secret.png data-sub-html="<h2>Pull Secret</h2><p>Pull Secret</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=pull-secret.png data-srcset="/quick-install-okd-4-di-aws/pull-secret.png, pull-secret.png 1.5x, /quick-install-okd-4-di-aws/pull-secret.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/pull-secret.png>
-</a><figcaption class=image-caption>Pull Secret</figcaption>
-</figure></p>
-<h3 id=hasil>Hasil</h3>
-<p>Proses akan berlangsung sedemikian rupa secara otomatis. Pada umumnya intalasi cluster OKD dengan konfigurasi <em>default</em> akan berlangsung sekitar 40 menit. Jika berhasil kurang lebih akan muncul tampilan seperti berikut.</p>
-<p><figure><a class=lightgallery href=/quick-install-okd-4-di-aws/proses-instalasi.png title="Proses Instalasi" data-thumbnail=/quick-install-okd-4-di-aws/proses-instalasi.png data-sub-html="<h2>Proses Instalasi</h2><p>Proses Instalasi</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=proses-instalasi.png data-srcset="/quick-install-okd-4-di-aws/proses-instalasi.png, proses-instalasi.png 1.5x, /quick-install-okd-4-di-aws/proses-instalasi.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/proses-instalasi.png>
-</a><figcaption class=image-caption>Proses Instalasi</figcaption>
-</figure></p>
-<hr>
-<h2 id=pengujian>Pengujian</h2>
-<p>Kita akan melakukan beberapa pemeriksaan terhadap cluster OKD 4. Selain lewat web browser, kita dapat menggunakan <code>oc</code> atau <code>origin-client</code>. Jika belum memilikinya maka lakukan pemasangan paket pada komputer lokal seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ yay -Sy origin-client
-</code></pre></td></tr></table>
-</div>
-</div><div class="details admonition info open">
-<div class="details-summary admonition-title">
-<i class="icon fas fa-info-circle fa-fw"></i>Info<i class="details-icon fas fa-angle-right fa-fw"></i>
-</div>
-<div class=details-content>
-<div class=admonition-content>Pada distro Arch-based, <code>origin-client</code> tersedia pada <strong>AUR</strong> (Arch User Repository). Untuk melakukan instalasi paket dari AUR, saya menggunakan <em>AUR Helper</em> bernama <code>yay</code>.</div>
-</div>
-</div>
-<h3 id=login-sebagai-system-admin>Login sebagai System Admin</h3>
-<p>Untuk bertindak sebagai sistem admin melalui perintah <code>oc</code>, kita me-<em>export</em> variabel <em>environment</em> seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ <span class=nb>export</span> <span class=nv>KUBECONFIG</span><span class=o>=</span>/home/pwn3r/okd/auth/kubeconfig
-</code></pre></td></tr></table>
-</div>
-</div><p>Kemudian jalankan periksa user yang sedang berjalan di sesi <code>oc</code> saat ini.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ oc whoami
-</code></pre></td></tr></table>
-</div>
-</div><p>Harusnya akan muncuk tampilan seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>system:admin</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=periksa-nodes>Periksa Nodes</h3>
-<p>Coba periksa apakah semua node sudah dalam keadaan berjalan dengan <code>oc</code>.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ oc get nodes
-</code></pre></td></tr></table>
-</div>
-</div><p>Kurang lebih akan muncul tampilan seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ mkdir ~/okd
+</span></span><span class=line><span class=cl>$ <span class=nb>cd</span> ~/okd
+</span></span><span class=line><span class=cl>$ wget https://github.com/openshift/okd/releases/download/4.6.0-0.okd-2020-12-12-135354/openshift-install-linux-4.6.0-0.okd-2020-12-12-135354.tar.gz
+</span></span></code></pre></td></tr></table></div></div><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fw"></i>Perhatian<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Pastikan URL installer untuk perintah <code>wget</code> di atas sesuai dengan versi yang benar. Pada saat artikel ini diterbitkan, OKD terbaru berada pada versi 4.6.</div></div></div><p>Ekstrak file <code>tar.gz</code> dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ tar -xvf openshift-install*.tar.gz
+</span></span></code></pre></td></tr></table></div></div><p>Kita akan memiliki sebuah file bernama <code>openshift-install</code>, jadikan file tersebut menjadi <em>executable</em>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ chmod +x openshift-install
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=instalasi>Instalasi</h2><p>Untuk melakukan instalasi kita cukup menjalankan satu perintah seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ ./openshift-install create cluster --log-level<span class=o>=</span>info 
+</span></span></code></pre></td></tr></table></div></div><p>Selanjutnya installer akan meminta beberapa informasi yang dibutuhkan, silahkan pilih atau isi sesuai dengan kebutuhan. <strong>Pull Secret</strong> bisa diperoleh dari situs <a href=https://cloud.redhat.com/openshift/install/pull-secret target=_blank rel="noopener noreffer">Red Hat OpenShift Cluster Manager</a>. Cukup tekan <em>Copy pull secret</em> dan paste pada terminal ketika installer memintanya.</p><p><figure><a class=lightgallery href=/quick-install-okd-4-di-aws/pull-secret.png title="Pull Secret" data-thumbnail=/quick-install-okd-4-di-aws/pull-secret.png data-sub-html="<h2>Pull Secret</h2><p>Pull Secret</p>"><img class=lazyload src=/svg/loading.min.svg data-src=pull-secret.png data-srcset="/quick-install-okd-4-di-aws/pull-secret.png, pull-secret.png 1.5x, /quick-install-okd-4-di-aws/pull-secret.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/pull-secret.png></a><figcaption class=image-caption>Pull Secret</figcaption></figure></p><h3 id=hasil>Hasil</h3><p>Proses akan berlangsung sedemikian rupa secara otomatis. Pada umumnya intalasi cluster OKD dengan konfigurasi <em>default</em> akan berlangsung sekitar 40 menit. Jika berhasil kurang lebih akan muncul tampilan seperti berikut.</p><p><figure><a class=lightgallery href=/quick-install-okd-4-di-aws/proses-instalasi.png title="Proses Instalasi" data-thumbnail=/quick-install-okd-4-di-aws/proses-instalasi.png data-sub-html="<h2>Proses Instalasi</h2><p>Proses Instalasi</p>"><img class=lazyload src=/svg/loading.min.svg data-src=proses-instalasi.png data-srcset="/quick-install-okd-4-di-aws/proses-instalasi.png, proses-instalasi.png 1.5x, /quick-install-okd-4-di-aws/proses-instalasi.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/proses-instalasi.png></a><figcaption class=image-caption>Proses Instalasi</figcaption></figure></p><hr><h2 id=pengujian>Pengujian</h2><p>Kita akan melakukan beberapa pemeriksaan terhadap cluster OKD 4. Selain lewat web browser, kita dapat menggunakan <code>oc</code> atau <code>origin-client</code>. Jika belum memilikinya maka lakukan pemasangan paket pada komputer lokal seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ yay -Sy origin-client
+</span></span></code></pre></td></tr></table></div></div><div class="details admonition info open"><div class="details-summary admonition-title"><i class="icon fas fa-info-circle fa-fw"></i>Info<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>Pada distro Arch-based, <code>origin-client</code> tersedia pada <strong>AUR</strong> (Arch User Repository). Untuk melakukan instalasi paket dari AUR, saya menggunakan <em>AUR Helper</em> bernama <code>yay</code>.</div></div></div><h3 id=login-sebagai-system-admin>Login sebagai System Admin</h3><p>Untuk bertindak sebagai sistem admin melalui perintah <code>oc</code>, kita me-<em>export</em> variabel <em>environment</em> seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ <span class=nb>export</span> <span class=nv>KUBECONFIG</span><span class=o>=</span>/home/pwn3r/okd/auth/kubeconfig
+</span></span></code></pre></td></tr></table></div></div><p>Kemudian jalankan periksa user yang sedang berjalan di sesi <code>oc</code> saat ini.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ oc whoami
+</span></span></code></pre></td></tr></table></div></div><p>Harusnya akan muncuk tampilan seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>system:admin</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=periksa-nodes>Periksa Nodes</h3><p>Coba periksa apakah semua node sudah dalam keadaan berjalan dengan <code>oc</code>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ oc get nodes
+</span></span></code></pre></td></tr></table></div></div><p>Kurang lebih akan muncul tampilan seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span><span class=lnt>6
 </span><span class=lnt>7
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>NAME                                         STATUS   ROLES    AGE     VERSION</span>
-<span class=na>ip-10-0-130-52.us-west-1.compute.internal    Ready    master   5h41m   v1.19.2+7070803-1008</span>
-<span class=na>ip-10-0-132-253.us-west-1.compute.internal   Ready    master   5h41m   v1.19.2+7070803-1008</span>
-<span class=na>ip-10-0-155-103.us-west-1.compute.internal   Ready    worker   5h31m   v1.19.2+7070803-1008</span>
-<span class=na>ip-10-0-166-37.us-west-1.compute.internal    Ready    worker   5h32m   v1.19.2+7070803-1008</span>
-<span class=na>ip-10-0-225-80.us-west-1.compute.internal    Ready    master   5h41m   v1.19.2+7070803-1008</span>
-<span class=na>ip-10-0-240-130.us-west-1.compute.internal   Ready    worker   5h32m   v1.19.2+7070803-1008</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Terlihat bahwa terdapat 3 node yang bertindak sebagai <em>master</em>, dan 3 node lain sebagai <em>worker</em>.</p>
-<h3 id=scaling-machineset>Scaling MachineSet</h3>
-<p>Periksa <em>machineset</em> yang ada dengan perintah berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ oc get machineset -n openshift-machine-api
-</code></pre></td></tr></table>
-</div>
-</div><p>Maka akan tampil <em>machineset</em> yang ada pada OKD.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>NAME                                         STATUS   ROLES    AGE     VERSION</span>
+</span></span><span class=line><span class=cl><span class=na>ip-10-0-130-52.us-west-1.compute.internal    Ready    master   5h41m   v1.19.2+7070803-1008</span>
+</span></span><span class=line><span class=cl><span class=na>ip-10-0-132-253.us-west-1.compute.internal   Ready    master   5h41m   v1.19.2+7070803-1008</span>
+</span></span><span class=line><span class=cl><span class=na>ip-10-0-155-103.us-west-1.compute.internal   Ready    worker   5h31m   v1.19.2+7070803-1008</span>
+</span></span><span class=line><span class=cl><span class=na>ip-10-0-166-37.us-west-1.compute.internal    Ready    worker   5h32m   v1.19.2+7070803-1008</span>
+</span></span><span class=line><span class=cl><span class=na>ip-10-0-225-80.us-west-1.compute.internal    Ready    master   5h41m   v1.19.2+7070803-1008</span>
+</span></span><span class=line><span class=cl><span class=na>ip-10-0-240-130.us-west-1.compute.internal   Ready    worker   5h32m   v1.19.2+7070803-1008</span>
+</span></span></code></pre></td></tr></table></div></div><p>Terlihat bahwa terdapat 3 node yang bertindak sebagai <em>master</em>, dan 3 node lain sebagai <em>worker</em>.</p><h3 id=scaling-machineset>Scaling MachineSet</h3><p>Periksa <em>machineset</em> yang ada dengan perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ oc get machineset -n openshift-machine-api
+</span></span></code></pre></td></tr></table></div></div><p>Maka akan tampil <em>machineset</em> yang ada pada OKD.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>NAME                             DESIRED   CURRENT   READY   AVAILABLE   AGE</span>
-<span class=na>itglab-f2l75-worker-us-west-1a   2         2         2       2           5h48m</span>
-<span class=na>itglab-f2l75-worker-us-west-1b   1         1         1       1           5h48m</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Artinya <em>machineset</em> <code>itglab-f2l75-worker-us-west-1a</code> memiliki replika sebanyak 2 buah. Sedangkan <code>itglab-f2l75-worker-us-west-1b</code> hanya memiliki 1 replika. Sekarang coba lakukan <em>scaling</em> supaya <em>machineset</em> memiliki 2 buah replikasi.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ oc scale --replicas<span class=o>=</span><span class=m>2</span> machinesets itglab-f2l75-worker-us-west-1b -n openshift-machine-api
-</code></pre></td></tr></table>
-</div>
-</div><p>Biasanya kita perlu menunggu beberapa saat supaya <em>machine</em> berjalan dan kemudian bergabung pada <em>machineset</em> <code>itglab-f2l75-worker-us-west-1b</code>. Lama durasi tergantung pada spesifikasi sistem yang kita gunakan di AWS. Periksa apakah <em>scaling</em> berhasil dilakukan dengan menjalankan kembali perintah berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ oc get machineset -n openshift-machine-api
-</code></pre></td></tr></table>
-</div>
-</div><p>Jika berhasil maka semua <em>machineset</em> akan menjadi seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>NAME                             DESIRED   CURRENT   READY   AVAILABLE   AGE</span>
+</span></span><span class=line><span class=cl><span class=na>itglab-f2l75-worker-us-west-1a   2         2         2       2           5h48m</span>
+</span></span><span class=line><span class=cl><span class=na>itglab-f2l75-worker-us-west-1b   1         1         1       1           5h48m</span>
+</span></span></code></pre></td></tr></table></div></div><p>Artinya <em>machineset</em> <code>itglab-f2l75-worker-us-west-1a</code> memiliki replika sebanyak 2 buah. Sedangkan <code>itglab-f2l75-worker-us-west-1b</code> hanya memiliki 1 replika. Sekarang coba lakukan <em>scaling</em> supaya <em>machineset</em> memiliki 2 buah replikasi.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ oc scale --replicas<span class=o>=</span><span class=m>2</span> machinesets itglab-f2l75-worker-us-west-1b -n openshift-machine-api
+</span></span></code></pre></td></tr></table></div></div><p>Biasanya kita perlu menunggu beberapa saat supaya <em>machine</em> berjalan dan kemudian bergabung pada <em>machineset</em> <code>itglab-f2l75-worker-us-west-1b</code>. Lama durasi tergantung pada spesifikasi sistem yang kita gunakan di AWS. Periksa apakah <em>scaling</em> berhasil dilakukan dengan menjalankan kembali perintah berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ oc get machineset -n openshift-machine-api
+</span></span></code></pre></td></tr></table></div></div><p>Jika berhasil maka semua <em>machineset</em> akan menjadi seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=na>NAME                             DESIRED   CURRENT   READY   AVAILABLE   AGE</span>
-<span class=na>itglab-f2l75-worker-us-west-1a   2         2         2       2           5h58m</span>
-<span class=na>itglab-f2l75-worker-us-west-1b   2         2         2       2           5h58m</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=web-console-okd>Web Console OKD</h3>
-<p>Sekarang coba akses OKD Console melalui web browser dengan alamat dan kata sandi seperti yang terlihat <a href=#hasil rel>sebelumnya</a> menggunakan username <code>kubeadmin</code>.</p>
-<p><figure><a class=lightgallery href=/quick-install-okd-4-di-aws/okd-web-console.png title="OKD Web Console" data-thumbnail=/quick-install-okd-4-di-aws/okd-web-console.png data-sub-html="<h2>OKD Web Console</h2><p>OKD Web Console</p>">
-<img class=lazyload src=/svg/loading.min.svg data-src=okd-web-console.png data-srcset="/quick-install-okd-4-di-aws/okd-web-console.png, okd-web-console.png 1.5x, /quick-install-okd-4-di-aws/okd-web-console.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/okd-web-console.png>
-</a><figcaption class=image-caption>OKD Web Console</figcaption>
-</figure></p>
-<h3 id=destroy-cluster>Destroy Cluster</h3>
-<p>Installer OKD 4 juga memiliki fitur untuk menghapus semua resource yang telah dibuat sehingga saya tidak perlu repot-repot membersihkan satu region di AWS Console. <em>Destroy cluster</em> dapat dijalankan dengan perintah seperti berikut.</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>$ ./openshift-install destroy cluster --log-level<span class=o>=</span>info
-</code></pre></td></tr></table>
-</div>
-</div><hr>
-<h2 id=kesimpulan>Kesimpulan</h2>
-<p>OKD 4 memiliki installer yang tergolong mudah untuk diimplementasikan (pada AWS). Setiap node OKD 4 berjalan dengan sistem operasi FCOS (Fedora Core OS), namun jika kita menggunakan OpenShift maka yang digunakan adalah RHCOS (Red Hat Enterprise Linux CoreOS). OKD 4 menggunakan <a href=https://prometheus.io/ target=_blank rel="noopener noreffer">Prometheus</a> untuk mendapatkan <em>metric</em> yang berguna untuk monitoring. Container Runtime yang dipakai oleh OKD 4 adalah <a href=http://cri-o.io/ target=_blank rel="noopener noreffer">CRI-O</a>.</p>
-<hr>
-<h2 id=referensi>Referensi</h2>
-<ul>
-<li><a href=https://docs.okd.io/latest/architecture/architecture-installation.html target=_blank rel="noopener noreffer">docs.okd.io/latest/architecture/architecture-installation.html</a></li>
-<li><a href=https://docs.okd.io/latest/installing/installing_aws/installing-aws-default.html target=_blank rel="noopener noreffer">docs.okd.io/latest/installing/installing_aws/installing-aws-default.html</a></li>
-<li><a href=https://wiki.archlinux.org/index.php/OpenShift target=_blank rel="noopener noreffer">wiki.archlinux.org/index.php/OpenShift</a></li>
-<li><a href=https://github.com/openshift/okd#getting-started target=_blank rel="noopener noreffer">github.com/openshift/okd#getting-started</a></li>
-<li><a href=https://github.com/openshift/okd/blob/master/FAQ.md target=_blank rel="noopener noreffer">github.com/openshift/okd/blob/master/FAQ.md</a></li>
-<li><a href=https://github.com/openshift/okd/releases target=_blank rel="noopener noreffer">github.com/openshift/okd/releases</a></li>
-<li><a href=https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html target=_blank rel="noopener noreffer">docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html</a></li>
-<li><a href=https://aws.amazon.com/ec2/instance-types/ target=_blank rel="noopener noreffer">aws.amazon.com/ec2/instance-types/</a></li>
-</ul></div><div class=post-footer id=post-footer>
-<div class=post-info>
-<div class=post-info-line>
-<div class=post-info-mod>
-<span>Updated on 2021-01-09</span>
-</div>
-<div class=post-info-license></div>
-</div>
-<div class=post-info-line>
-<div class=post-info-md><span>
-<a class=link-to-markdown href=/quick-install-okd-4-di-aws/index.md target=_blank>Read Markdown</a>
-</span></div>
-<div class=post-info-share>
-<span></span>
-</div>
-</div>
-</div>
-<div class=post-info-more>
-<section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/openshift/>OpenShift</a>,&nbsp;<a href=/tags/okd/>OKD</a>,&nbsp;<a href=/tags/aws/>AWS</a>,&nbsp;<a href=/tags/paas/>PaaS</a></section>
-<section>
-<span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span>
-</section>
-</div>
-<div class=post-nav><a href=/instalasi-lokal-minishift-okd/ class=prev rel=prev title="Instalasi Lokal Minishift OKD"><i class="fas fa-angle-left fa-fw"></i>Instalasi Lokal Minishift OKD</a>
-<a href=/integrasi-sysdig-monitor-di-openshift/ class=next rel=next title="Integrasi Sysdig Monitor di OpenShift">Integrasi Sysdig Monitor di OpenShift<i class="fas fa-angle-right fa-fw"></i></a></div>
-</div>
-<div id=comments><div id=disqus_thread class=comment></div><noscript>
-Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.
-</noscript></div></article></div>
-</main><footer class=footer>
-<div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div>
-</div>
-</footer></div>
-<div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top">
-<i class="fas fa-arrow-up fa-fw"></i>
-</a><a href=# id=view-comments class=fixed-button title="View Comments">
-<i class="fas fa-comment fa-fw"></i>
-</a>
-</div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body>
-</html>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cfg data-lang=cfg><span class=line><span class=cl><span class=na>NAME                             DESIRED   CURRENT   READY   AVAILABLE   AGE</span>
+</span></span><span class=line><span class=cl><span class=na>itglab-f2l75-worker-us-west-1a   2         2         2       2           5h58m</span>
+</span></span><span class=line><span class=cl><span class=na>itglab-f2l75-worker-us-west-1b   2         2         2       2           5h58m</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=web-console-okd>Web Console OKD</h3><p>Sekarang coba akses OKD Console melalui web browser dengan alamat dan kata sandi seperti yang terlihat <a href=#hasil rel>sebelumnya</a> menggunakan username <code>kubeadmin</code>.</p><p><figure><a class=lightgallery href=/quick-install-okd-4-di-aws/okd-web-console.png title="OKD Web Console" data-thumbnail=/quick-install-okd-4-di-aws/okd-web-console.png data-sub-html="<h2>OKD Web Console</h2><p>OKD Web Console</p>"><img class=lazyload src=/svg/loading.min.svg data-src=okd-web-console.png data-srcset="/quick-install-okd-4-di-aws/okd-web-console.png, okd-web-console.png 1.5x, /quick-install-okd-4-di-aws/okd-web-console.png 2x" data-sizes=auto alt=/quick-install-okd-4-di-aws/okd-web-console.png></a><figcaption class=image-caption>OKD Web Console</figcaption></figure></p><h3 id=destroy-cluster>Destroy Cluster</h3><p>Installer OKD 4 juga memiliki fitur untuk menghapus semua resource yang telah dibuat sehingga saya tidak perlu repot-repot membersihkan satu region di AWS Console. <em>Destroy cluster</em> dapat dijalankan dengan perintah seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ ./openshift-install destroy cluster --log-level<span class=o>=</span>info
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=kesimpulan>Kesimpulan</h2><p>OKD 4 memiliki installer yang tergolong mudah untuk diimplementasikan (pada AWS). Setiap node OKD 4 berjalan dengan sistem operasi FCOS (Fedora Core OS), namun jika kita menggunakan OpenShift maka yang digunakan adalah RHCOS (Red Hat Enterprise Linux CoreOS). OKD 4 menggunakan <a href=https://prometheus.io/ target=_blank rel="noopener noreffer">Prometheus</a> untuk mendapatkan <em>metric</em> yang berguna untuk monitoring. Container Runtime yang dipakai oleh OKD 4 adalah <a href=http://cri-o.io/ target=_blank rel="noopener noreffer">CRI-O</a>.</p><hr><h2 id=referensi>Referensi</h2><ul><li><a href=https://docs.okd.io/latest/architecture/architecture-installation.html target=_blank rel="noopener noreffer">docs.okd.io/latest/architecture/architecture-installation.html</a></li><li><a href=https://docs.okd.io/latest/installing/installing_aws/installing-aws-default.html target=_blank rel="noopener noreffer">docs.okd.io/latest/installing/installing_aws/installing-aws-default.html</a></li><li><a href=https://wiki.archlinux.org/index.php/OpenShift target=_blank rel="noopener noreffer">wiki.archlinux.org/index.php/OpenShift</a></li><li><a href=https://github.com/openshift/okd#getting-started target=_blank rel="noopener noreffer">github.com/openshift/okd#getting-started</a></li><li><a href=https://github.com/openshift/okd/blob/master/FAQ.md target=_blank rel="noopener noreffer">github.com/openshift/okd/blob/master/FAQ.md</a></li><li><a href=https://github.com/openshift/okd/releases target=_blank rel="noopener noreffer">github.com/openshift/okd/releases</a></li><li><a href=https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html target=_blank rel="noopener noreffer">docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html</a></li><li><a href=https://aws.amazon.com/ec2/instance-types/ target=_blank rel="noopener noreffer">aws.amazon.com/ec2/instance-types/</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2021-01-09</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/quick-install-okd-4-di-aws/index.md target=_blank>Read Markdown</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/openshift/>OpenShift</a>,&nbsp;<a href=/tags/okd/>OKD</a>,&nbsp;<a href=/tags/aws/>AWS</a>,&nbsp;<a href=/tags/paas/>PaaS</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/instalasi-lokal-minishift-okd/ class=prev rel=prev title="Instalasi Lokal Minishift OKD"><i class="fas fa-angle-left fa-fw"></i>Instalasi Lokal Minishift OKD</a>
+<a href=/integrasi-sysdig-monitor-di-openshift/ class=next rel=next title="Integrasi Sysdig Monitor di OpenShift">Integrasi Sysdig Monitor di OpenShift<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=disqus_thread class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
