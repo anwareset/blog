@@ -1,0 +1,479 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta http-equiv=x-ua-compatible content="IE=edge, chrome=1"><title>Setup Gitlab Server with Ansible - Anwar's Blog</title><meta name=Description content="Use Ansible Playbook to setup a Gitlab Server"><meta property="og:title" content="Setup Gitlab Server with Ansible"><meta property="og:description" content="Use Ansible Playbook to setup a Gitlab Server"><meta property="og:type" content="article"><meta property="og:url" content="https://init.web.id/setup-gitlab-server-with-ansible/"><meta property="og:image" content="https://init.web.id/setup-gitlab-server-with-ansible/cover.webp"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-04-10T21:02:23+07:00"><meta property="article:modified_time" content="2022-04-11T03:29:23+07:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://init.web.id/setup-gitlab-server-with-ansible/cover.webp"><meta name=twitter:title content="Setup Gitlab Server with Ansible"><meta name=twitter:description content="Use Ansible Playbook to setup a Gitlab Server"><meta name=application-name content="Anwar's Blog"><meta name=apple-mobile-web-app-title content="Anwar's Blog"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://init.web.id/setup-gitlab-server-with-ansible/><link rel=prev href=https://init.web.id/plug-and-play-usb-devices-dengan-udev-rules/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=stylesheet href=/lib/fontawesome-free/all.min.css><link rel=stylesheet href=/lib/animate/animate.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Setup Gitlab Server with Ansible","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/init.web.id\/setup-gitlab-server-with-ansible\/"},"image":[{"@type":"ImageObject","url":"https:\/\/init.web.id\/setup-gitlab-server-with-ansible\/cover.webp","width":2e3,"height":883}],"genre":"posts","keywords":"Gitlab, Asible, Automation, Playbook","wordcount":2104,"url":"https:\/\/init.web.id\/setup-gitlab-server-with-ansible\/","datePublished":"2022-04-10T21:02:23+07:00","dateModified":"2022-04-11T03:29:23+07:00","license":"\u003ca href=\"https://creativecommons.org/licenses/by-nc/4.0/\" target=\"_blank\" rel=\"noopener\"\u003eCC BY-NC 4.0\u003c/a\u003e","publisher":{"@type":"Organization","name":"anwareset","logo":"https:\/\/github.com\/anwareset.png"},"author":{"@type":"Person","name":"anwareset"},"description":"Use Ansible Playbook to setup a Gitlab Server"}</script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"dark"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"dark"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-1 class=typeit></span></a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/about/>About </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder="Search titles or contents..." id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Anwar's Blog"><span class=header-title-pre><i class="fas fa-hashtag"></i>&nbsp</span><span id=id-2 class=typeit></span></a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title>About</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animated flipInX">Setup Gitlab Server with Ansible</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://init.web.id/about title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw"></i>anwareset</a></span>&nbsp;<span class=post-category>included in <a href=/categories/tools/><i class="far fa-folder fa-fw"></i>Tools</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-04-10>2022-04-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2104 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;10 minutes&nbsp;</div></div><div class=featured-image><img class=lazyload src=/svg/loading.min.svg data-src=/setup-gitlab-server-with-ansible/cover.webp data-srcset="/setup-gitlab-server-with-ansible/cover.webp, /setup-gitlab-server-with-ansible/cover.webp 1.5x, /setup-gitlab-server-with-ansible/cover.webp 2x" data-sizes=auto alt=/setup-gitlab-server-with-ansible/cover.webp title="Use Ansible Playbook to setup a Gitlab Server"></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#outset>Outset</a><ul><li><a href=#arsitektur>Arsitektur</a></li><li><a href=#inventory>Inventory</a></li></ul></li><li><a href=#setup-postgresql-server>Setup PostgreSQL Server</a><ul><li><a href=#user-service>User Service</a></li><li><a href=#package-dependency>Package Dependency</a></li><li><a href=#install-packages>Install Packages</a></li><li><a href=#allow-remote-connection>Allow Remote Connection</a></li><li><a href=#enable-service>Enable Service</a></li><li><a href=#create-db-user>Create DB User</a></li><li><a href=#create-db-and-extensions>Create DB and Extensions</a></li></ul></li><li><a href=#setup-ldap-server>Setup LDAP Server</a><ul><li><a href=#host-file>Host File</a></li><li><a href=#install-packages-1>Install Packages</a></li><li><a href=#configure-freeipa>Configure FreeIPA</a></li><li><a href=#create-ldap-user>Create LDAP User</a></li></ul></li><li><a href=#setup-gitlab>Setup GitLab</a><ul><li><a href=#prepare-self-signed-certificate>Prepare Self-signed Certificate</a></li><li><a href=#playbook>Playbook</a></li><li><a href=#reset-root-password>Reset Root Password</a></li></ul></li><li><a href=#setup-gitlab-runner>Setup GitLab Runner</a></li><li><a href=#referensi>Referensi</a></li></ul></nav></div></div><div class=content id=content><p>Selain Gitlab <a href=https://glossary.cncf.io/software_as_a_service/ target=_blank rel="noopener noreffer">SaaS</a> yang biasa kita akses dari <a href=https://gitlab.com target=_blank rel="noopener noreffer">gitlab.com</a>, kita membangun sebuah server Gitlab secara manual ataupun otomatis, salah satunya adalah menggunakan Ansible Playbook. Gitlab dapat di-install dengan beberapa metode seperti Docker dengan Docker Compose, Helm charts jika ingin berjalan di atas Kubernetes, Operator jika berjalan di atas OpenShift, hingga instalasi dari sourcecode untuk dapat berjalan di atas berbagai platform yang tidak didukung. Pada artikel kali ini saya akan menggunakan package official untuk distro Linux, dan sebagian besar proses akan dilakukan secara otomatis menggunakan Ansible.</p><h2 id=outset>Outset</h2><p>Sekilas detail dari environment yang akan saya gunakan untuk instalasi Gitlab CE (Community Edition).</p><h3 id=arsitektur>Arsitektur</h3><p>Secara default Gitlab menyediakan semua komponen yang dibutuhkan dalam binary package nya, namun kita bisa juga menggunakan komponen eksternal jika dibutuhkan. Contohnya adalah database server dengan PostgreSQL, dan server LDAP yang akan diintegrasikan dengan server Gitlab. Dalam artikel ini, keseluruhan server yang saya punya adalah VM (Virtual Machine) dengan RHEL 7.7 Maipo.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>                                                    Managed Hosts
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>                                    +------------------------------------------+
+</span></span><span class=line><span class=cl>                                    |                                          |
+</span></span><span class=line><span class=cl>                                    |    +------------+                        |
+</span></span><span class=line><span class=cl>                                    |    |            |                        |
+</span></span><span class=line><span class=cl>                           +--------+----+   GitLab   | frontend.1238.internal |
+</span></span><span class=line><span class=cl>                           |        |    |   Server   |                        |
+</span></span><span class=line><span class=cl>                           |        |    |            |                        |
+</span></span><span class=line><span class=cl>                           |        |    +------------+                        |
+</span></span><span class=line><span class=cl>                           |        |                                          |
+</span></span><span class=line><span class=cl>                           |        |    +------------+                        |
+</span></span><span class=line><span class=cl>                           |        |    |            |                        |
+</span></span><span class=line><span class=cl>                           +--------+----+ PostgreSQL | appdb1.1238.internal   |
+</span></span><span class=line><span class=cl>     Controller Host       |        |    |   Server   |                        |
+</span></span><span class=line><span class=cl>                           |        |    |            |                        |
+</span></span><span class=line><span class=cl>      +------------+       |        |    +------------+                        |
+</span></span><span class=line><span class=cl>      |            |       |        |                                          |
+</span></span><span class=line><span class=cl>      |  Bastion   +-------+        |                                          |
+</span></span><span class=line><span class=cl>      |            |       |        |                                          |
+</span></span><span class=line><span class=cl>      +------------+       |        |    +------------+                        |
+</span></span><span class=line><span class=cl>                           |        |    |            |                        |
+</span></span><span class=line><span class=cl>   bastion.1238.internal   |        |    |    LDAP    | app1.1238.internal     |
+</span></span><span class=line><span class=cl>                           +--------+----+   Server   |                        |
+</span></span><span class=line><span class=cl>                           |        |    |            |                        |
+</span></span><span class=line><span class=cl>                           |        |    +------------+                        |
+</span></span><span class=line><span class=cl>                           |        |                                          |
+</span></span><span class=line><span class=cl>                           |        |    +------------+                        |
+</span></span><span class=line><span class=cl>                           |        |    |            |                        |
+</span></span><span class=line><span class=cl>                           +--------+----+   GitLab   | app2.1238.internal     |
+</span></span><span class=line><span class=cl>                                    |    |   Runner   |                        |
+</span></span><span class=line><span class=cl>                                    |    |            |                        |
+</span></span><span class=line><span class=cl>                                    |    +------------+                        |
+</span></span><span class=line><span class=cl>                                    |                                          |
+</span></span><span class=line><span class=cl>                                    +------------------------------------------+
+</span></span></code></pre></td></tr></table></div></div><h3 id=inventory>Inventory</h3><p>Berikut ini adalah list server yang saya masukan ke dalam inventory untuk Ansible.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ini data-lang=ini><span class=line><span class=cl><span class=k>[gitlab]</span>
+</span></span><span class=line><span class=cl><span class=na>frontend1.1238.internal</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>[ldap]</span>
+</span></span><span class=line><span class=cl><span class=na>app1.1238.internal</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>[runner]</span>
+</span></span><span class=line><span class=cl><span class=na>app2.1238.internal</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>[db]</span>
+</span></span><span class=line><span class=cl><span class=na>appdb1.1238.internal</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>[bastion]</span>
+</span></span><span class=line><span class=cl><span class=na>bastion.1238.internal</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>[allserver:children]</span>
+</span></span><span class=line><span class=cl><span class=na>gitlab</span>
+</span></span><span class=line><span class=cl><span class=na>ldap</span>
+</span></span><span class=line><span class=cl><span class=na>runner</span>
+</span></span><span class=line><span class=cl><span class=na>db</span>
+</span></span><span class=line><span class=cl><span class=na>bastion</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>[allserver:vars]</span>
+</span></span><span class=line><span class=cl><span class=na>timeout</span><span class=o>=</span><span class=s>60</span>
+</span></span><span class=line><span class=cl><span class=na>ansible_user</span><span class=o>=</span><span class=s>ec2-user</span>
+</span></span><span class=line><span class=cl><span class=na>ansible_ssh_private_key_file</span><span class=o>=</span><span class=s>&#34;~/.ssh/1238key.pem&#34;</span>
+</span></span><span class=line><span class=cl><span class=na>ansible_ssh_common_args</span><span class=o>=</span><span class=s>&#34;-o StrictHostKeyChecking=no&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>Pada umumnya kita semestinya sudah mempersiapkan sebuah dedicated user dengan kemampuan <code>sudoers</code> pada tiap server yang akan kita manage. Dalam kasus kali ini, saya menggunakan user bernama <code>ec2-user</code> dan dapat diakses melalui <code>ssh</code> secara passwordless. Untuk <code>sudo</code> juga sudah dikonfigurasi agar tidak perlu menginput password.</p><hr><h2 id=setup-postgresql-server>Setup PostgreSQL Server</h2><p>Untuk database yang akan digunakan oleh server Gitlab, harus dikonfigurasi sesuai dengan requirements yang telah ditentukan di <a href=https://docs.gitlab.com/ee/install/installation.html#6-database target=_blank rel="noopener noreffer">dokumentasi berikut</a>. Berikut ini adalah beberapa hal yang mungkin perlu dicatat.</p><h3 id=user-service>User Service</h3><p>Saya buat terlebih dahulu dedicated user untuk server <code>appdb1.1238.internal</code> yang akan kita gunakan khusus untuk mengakses service PostgreSQL.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo useradd -s /usr/sbin/nologin -c <span class=s1>&#39;GitLab&#39;</span> git
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s1>&#39;rahasiabanget&#39;</span> <span class=p>|</span> sudo passwd git --stdin
+</span></span></code></pre></td></tr></table></div></div><h3 id=package-dependency>Package Dependency</h3><p>Pada RHEL 7.7 atau CentOS 7.7 saya mendapati dependency dari package PostgreSQL yang tidak ada dalam official repository, yaitu <code>llvm-toolset-7-clang</code> di mana packge ini dapat kita dapatkan dari package SCLo RH repository bernama <code>centos-release-scl-rh</code> seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>curl -k -O http://mirror.centos.org/centos/7/extras/x86_64/Packages/centos-release-scl-rh-2-3.el7.centos.noarch.rpm
+</span></span><span class=line><span class=cl>sudo rpm -iv centos-release-scl-rh*.rpm
+</span></span></code></pre></td></tr></table></div></div><p>Dan nantinya dependency akan dapat dipasang.</p><h3 id=install-packages>Install Packages</h3><p>Kita akan langsung mengikuti panduan dari situs official PostgreSQL seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+</span></span><span class=line><span class=cl>sudo yum install -y postgresql12 postgresql12-contrib postgresql12-devel postgresql12-libs postgresql12-server
+</span></span></code></pre></td></tr></table></div></div><h3 id=allow-remote-connection>Allow Remote Connection</h3><p>Karena service PostgreSQL akan diakses dari luar server <code>appdb1.1238.internal</code> maka kita perlu ubah konfigurasi file <code>postgresql.conf</code> milik PostgreSQL.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo sed -i <span class=s2>&#34;s/#listen_addresses = &#39;localhost&#39;/listen_addresses = &#39;*&#39;/g&#34;</span> <span class=k>$(</span>sudo find / -name <span class=s2>&#34;postgresql.conf&#34;</span><span class=k>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>Ada satu file lagi bernama <code>pg_hba.conf</code> yang perlu kita ubah.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;host    all    all    0.0.0.0/0    md5&#34;</span> <span class=p>|</span> sudo tee -a <span class=k>$(</span>sudo find / -name <span class=s2>&#34;pg_hba.conf&#34;</span><span class=k>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=enable-service>Enable Service</h3><p>Sebelum menyalakan service kita perlu menginiasi terlebih dahulu.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo postgresql-12-setup initdb
+</span></span></code></pre></td></tr></table></div></div><p>Barulah kita bisa menyalakan servicenya.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo systemctl <span class=nb>enable</span> --now postgresql-12
+</span></span></code></pre></td></tr></table></div></div><h3 id=create-db-user>Create DB User</h3><p>Kita akan membuat user database yang akan digunakan oleh GitLab server.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo -u postgres psql -d template1 -c <span class=s2>&#34;CREATE USER git CREATEDB;&#34;</span>
+</span></span><span class=line><span class=cl>sudo -u postgres psql -U postgres
+</span></span></code></pre></td></tr></table></div></div><p>Lalu set password baru untuk user database yang baru kita buat.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>ALTER</span><span class=w> </span><span class=k>USER</span><span class=w> </span><span class=n>git</span><span class=w> </span><span class=k>with</span><span class=w> </span><span class=n>password</span><span class=w> </span><span class=s1>&#39;rahasiabanget&#39;</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=err>\</span><span class=n>q</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>Jangan lupa untuk restart service.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo systemctl restart postgresql-12
+</span></span></code></pre></td></tr></table></div></div><h3 id=create-db-and-extensions>Create DB and Extensions</h3><p>Ada beberapa extension yang perlu kita buat sesuai dengan <a href=https://docs.gitlab.com/ee/install/requirements.html#database target=_blank rel="noopener noreffer">requirement GitLab</a>.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo -u postgres psql -d template1 -c <span class=s2>&#34;CREATE EXTENSION IF NOT EXISTS pg_trgm;&#34;</span>
+</span></span><span class=line><span class=cl>sudo -u postgres psql -d template1 -c <span class=s2>&#34;CREATE EXTENSION IF NOT EXISTS btree_gist;&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>Lalu buat sebuah database baru.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo -u postgres psql -d template1 -c <span class=s2>&#34;CREATE DATABASE gitlabhq_production OWNER git;&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=setup-ldap-server>Setup LDAP Server</h2><p>Saya akan menggunakan <code>Free IPA</code> untuk server LDAP. Lalu karena saya tidak mempunyai DNS, maka cukup dengan menambahkan baris konfigurasi pada <code>/etc/hosts</code> di server <code>app1.1238.internal</code> seperti berikut.</p><h3 id=host-file>Host File</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;192.168.0.7    app1.1238.internal&#34;</span> <span class=p>|</span> sudo tee -a /etc/hosts
+</span></span></code></pre></td></tr></table></div></div><p>Pastikan juga hostname server sudah sesuai.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo hostnamectl set-hostname app1.1238.internal
+</span></span></code></pre></td></tr></table></div></div><h3 id=install-packages-1>Install Packages</h3><p>Kemudian install package yang dibutuhkan</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo yum install -y ipa-server
+</span></span></code></pre></td></tr></table></div></div><h3 id=configure-freeipa>Configure FreeIPA</h3><p>Pertama jalankan command berikut untuk menginisiasi service FreeIPA.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo ipa-server-install
+</span></span></code></pre></td></tr></table></div></div><p>Akan muncul beberapa pertanyaan, kurang lebih seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>[ec2-user@app1 ~]$ sudo ipa-server-install
+</span></span><span class=line><span class=cl>Do you want to configure integrated DNS (BIND)? [no]: no
+</span></span><span class=line><span class=cl>Server host name [app1.1238.internal]: app1.1238.internal
+</span></span><span class=line><span class=cl>Please confirm the domain name [1238.internal]: 1238.internal
+</span></span><span class=line><span class=cl>Please provide a realm name [1238.INTERNAL]: 1238.INTERNAL
+</span></span><span class=line><span class=cl>Directory Manager password: rahasiabanget
+</span></span><span class=line><span class=cl>Password (confirm): rahasiabanget
+</span></span><span class=line><span class=cl>IPA admin password: rahasiabanget
+</span></span><span class=line><span class=cl>Password (confirm): rahasiabanget
+</span></span><span class=line><span class=cl>Continue to configure the system with these values? [no]: yes
+</span></span><span class=line><span class=cl>Done.
+</span></span><span class=line><span class=cl>Client hostname: app1.1238.internal
+</span></span><span class=line><span class=cl>Realm: 1238.INTERNAL
+</span></span><span class=line><span class=cl>DNS Domain: 1238.internal
+</span></span><span class=line><span class=cl>IPA Server: app1.1238.internal
+</span></span><span class=line><span class=cl>BaseDN: dc=1238,dc=internal
+</span></span></code></pre></td></tr></table></div></div><p>Jika kita mempunyai service firewall yang berjalan pada server ini, maka ijinkan beberapa port terkait service LDAP. Dibawah ini jika kita menggunakan <code>firewalld</code> untuk mengelola firewall.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo firewall-cmd --permanent --add-service<span class=o>={</span>dns,freeipa-ldap,freeipa-ldaps<span class=o>}</span>
+</span></span><span class=line><span class=cl>sudo firewall-cmd --reload
+</span></span></code></pre></td></tr></table></div></div><p>Aktifkan juga modul <code>pam_oddjob_mkhomedir</code> agar home directory terbuat otomatis.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo authconfig --enablemkhomedir --update
+</span></span></code></pre></td></tr></table></div></div><h3 id=create-ldap-user>Create LDAP User</h3><p>Kita akan mencoba membuat sebuah user LDAP, namun pertama kita perlu mendapatkan ticket Kerberos untuk dapat mengoperasikan command <code>ipa</code> seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>kinit admin
+</span></span></code></pre></td></tr></table></div></div><p>Masukkan password yang sebelumnya telah kita setup, kemudian kita bisa membuat user baru.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ipa user-add trianwar --cn<span class=o>=</span>Trianwar --first<span class=o>=</span>Tri --last<span class=o>=</span>Anwar --email<span class=o>=</span>trianwar@protonmail.com --shell<span class=o>=</span>/usr/bin/bash --homedir<span class=o>=</span>/home/trianwar --password
+</span></span></code></pre></td></tr></table></div></div><p>Jika sudah, uji apakah user berhasil terbuat.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>[ec2-user@app1 ~]$ ssh trianwar@localhost
+</span></span><span class=line><span class=cl>The authenticity of host &#39;localhost (&lt;no hostip for proxy command&gt;)&#39; can&#39;t be established.
+</span></span><span class=line><span class=cl>ECDSA key fingerprint is SHA256:ky80bwa7by4uqlsVOIV08mVwhsCVcBYPuJpOyaxscNo.
+</span></span><span class=line><span class=cl>ECDSA key fingerprint is MD5:b6:d0:f1:22:ed:12:15:10:6d:63:65:d2:1f:c1:c5:88.
+</span></span><span class=line><span class=cl>Are you sure you want to continue connecting (yes/no)? yes
+</span></span><span class=line><span class=cl>Warning: Permanently added &#39;localhost&#39; (ECDSA) to the list of known hosts.
+</span></span><span class=line><span class=cl>Password: rahasiabanget
+</span></span><span class=line><span class=cl>Password expired. Change your password now.
+</span></span><span class=line><span class=cl>Current Password: rahasiabanget
+</span></span><span class=line><span class=cl>New password: rahasiabanget
+</span></span><span class=line><span class=cl>Retype new password: rahasiabanget
+</span></span><span class=line><span class=cl>Creating home directory for trianwar.
+</span></span><span class=line><span class=cl>[trianwar@app1 ~]$
+</span></span></code></pre></td></tr></table></div></div><p>Biasanya pada login pertama, kita akan dipaksa untuk mengganti password. Namun kita dapat memasukkan password lama agar tidak terganti.</p><hr><h2 id=setup-gitlab>Setup GitLab</h2><p>Akhirnya kita telah sampai pada bagian ini, pertama kita perlu mempersiapkan certificate untuk service GitLab server. Sebenarnya playbook Ansible bisa membuatnya secara otomatis saat dijalankan, namun kali ini saya ingin membuatnya secara mandiri. Perlu diperhatikan bahwa sekarang saya sedang berada pada server <code>frontend1.1238.internal</code> yang akan menjadi server GitLab.</p><h3 id=prepare-self-signed-certificate>Prepare Self-signed Certificate</h3><p>Saya menggunakan <code>easy-rsa</code> untuk membuat certificate.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo yum install -y easy-rsa
+</span></span><span class=line><span class=cl>mkdir -p ~/easy-rsa<span class=p>;</span> <span class=nb>cd</span> ~/easy-rsa
+</span></span><span class=line><span class=cl>ln -s /usr/share/easy-rsa/* ~/easy-rsa
+</span></span><span class=line><span class=cl>./easyrsa init-pki
+</span></span><span class=line><span class=cl>touch -f vars
+</span></span></code></pre></td></tr></table></div></div><p>Edit file vars sesuai kebutuhan kita, kurang lebih seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>set_var EASYRSA_REQ_COUNTRY    &#34;ID&#34;
+</span></span><span class=line><span class=cl>set_var EASYRSA_REQ_PROVINCE   &#34;Jakarta&#34;
+</span></span><span class=line><span class=cl>set_var EASYRSA_REQ_CITY       &#34;South Jakarta&#34;
+</span></span><span class=line><span class=cl>set_var EASYRSA_REQ_ORG        &#34;GitLab&#34;
+</span></span><span class=line><span class=cl>set_var EASYRSA_REQ_EMAIL      &#34;trianwar@protonmail.com&#34;
+</span></span><span class=line><span class=cl>set_var EASYRSA_REQ_OU         &#34;Community&#34;
+</span></span><span class=line><span class=cl>set_var EASYRSA_ALGO           &#34;rsa&#34;
+</span></span><span class=line><span class=cl>set_var EASYRSA_DIGEST         &#34;sha512&#34;
+</span></span></code></pre></td></tr></table></div></div><p>Kemudian kita lanjutkan dengan command berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>./easy-rsa build-ca nopass
+</span></span></code></pre></td></tr></table></div></div><p>Akan muncul beberapa tampilan berikut, masukkan saja informasi yang diperlukan seperti domain name yang akan dipakai untuk mengakses GitLab dan password untuk certificate.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>[ec2-user@frontend1 ~/easy-rsa]$ ./easyrsa build-ca
+</span></span><span class=line><span class=cl>Common Name (eg: your user, host, or server name) [Easy-RSA CA]: frontend1.1238.internal
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>CA creation complete and you may now import and sign cert requests.
+</span></span><span class=line><span class=cl>Your new CA certificate file for publishing is at:
+</span></span><span class=line><span class=cl>/home/ec2-user/easy-rsa/pki/ca.crt
+</span></span></code></pre></td></tr></table></div></div><p>Salin file yang berhasil di-generate untuk digunakan.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>cat ~/easy-rsa/pki/ca.crt <span class=p>|</span> sudo tee /etc/pki/ca-trust/source/anchors/frontend1.1238.internal.crt
+</span></span><span class=line><span class=cl>sudo update-ca-trust
+</span></span><span class=line><span class=cl>openssl req -new -key frontend1.1238.internal.key -out frontend1.1238.internal.req -subj /C<span class=o>=</span>ID/ST<span class=o>=</span>Jakarta/L<span class=o>=</span>South<span class=se>\ </span>Jakarta/O<span class=o>=</span>init.web.id/OU<span class=o>=</span>Community/CN<span class=o>=</span>frontend1.1238.internal/emailAddress<span class=o>=</span>trianwar@protonmail.com
+</span></span><span class=line><span class=cl>./easyrsa import-req frontend1.1238.internal.req.req frontend1.1238.internal
+</span></span><span class=line><span class=cl>./easyrsa sign-req server frontend1.1238.internal
+</span></span><span class=line><span class=cl>sudo mkdir -p /etc/gitlab/ssl
+</span></span><span class=line><span class=cl>cat frontend1.1238.internal.key <span class=p>|</span> sudo tee /etc/gitlab/ssl/frontend1.1238.internal.key
+</span></span><span class=line><span class=cl>cat pki/issued/frontend1.1238.internal.crt <span class=p>|</span> sudo tee /etc/gitlab/ssl/frontend1.1238.internal.crt
+</span></span></code></pre></td></tr></table></div></div><h3 id=playbook>Playbook</h3><p>Clone Playbook dari repository Git yang sudah saya siapkan.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>cd</span> ~
+</span></span><span class=line><span class=cl>git clone https://github.com/anwareset/ansible-gitlab-setup.git
+</span></span><span class=line><span class=cl><span class=nb>cd</span> ansible-gitlab-setup
+</span></span></code></pre></td></tr></table></div></div><p>Playbook ini sebenarnya adalah Roles yang awalnya dibuat oleh <a href=https://galaxy.ansible.com/geerlingguy/gitlab target=_blank rel="noopener noreffer"><code>geerlingguy</code></a>, kita dapat menggunakannya dalam bentuk Roles. Tapi saya memodifikasi sedikit sesuai kebutuhan saya. Kurang lebih struktur Playbook yang akan kita gunakan.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>.
+</span></span><span class=line><span class=cl>├── ansible.cfg            &lt;---- Ansible Configuration File
+</span></span><span class=line><span class=cl>├── gitlab-setup.yml       &lt;---- Playbook
+</span></span><span class=line><span class=cl>├── hosts                  &lt;---- Inventory
+</span></span><span class=line><span class=cl>├── LICENSE
+</span></span><span class=line><span class=cl>├── README.md
+</span></span><span class=line><span class=cl>├── templates
+</span></span><span class=line><span class=cl>│   ├── backup.sh.j2       &lt;---- Custom shell script for autobackup
+</span></span><span class=line><span class=cl>│   └── gitlab.rb.j2       &lt;---- Gitlab Configuration File
+</span></span><span class=line><span class=cl>└── vars
+</span></span><span class=line><span class=cl>    ├── Debian.yml
+</span></span><span class=line><span class=cl>    ├── main.yml           &lt;---- User Variables
+</span></span><span class=line><span class=cl>    └── RedHat.yml
+</span></span></code></pre></td></tr></table></div></div><p>Edit file <code>vars/main.yml</code> dan sesuaikan dengan beberapa server yang telah kita konfigurasi sebelumnya (LDAP dan PostgreSQL), jangan lupa untuk merubah opsi certificate. Kurang lebihnya seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=c># General Configuration</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_domain</span><span class=p>:</span><span class=w> </span><span class=l>frontend.1238.internal</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Database Configuration</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>postgresql_enable</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>postgresql_host</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;appdb1.1238.internal&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>postgresql_port</span><span class=p>:</span><span class=w> </span><span class=m>5432</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>postgresql_username</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;git&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>postgresql_password</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;rahasiabanget&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># LDAP Configuration</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_enabled</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_host</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;app1.1238.internal&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_port</span><span class=p>:</span><span class=w> </span><span class=m>389</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_uid</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;uid&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_encryption</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;plain&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_verify_certificates</span><span class=p>:</span><span class=w> </span><span class=kc>false</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_bind_dn</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;CN=admin,DC=1238,DC=internal&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_password</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;rahasiabanget&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_active_directory</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_base</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;DC=1238,DC=internal&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_user_filter</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_lowercase_username</span><span class=p>:</span><span class=w> </span><span class=kc>false</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ldap_allow_email</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># SSL Configuration</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_redirect_http_to_https</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ssl_certificate</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;/etc/gitlab/ssl/{{ gitlab_domain }}.crt&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ssl_certificate_key</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;/etc/gitlab/ssl/{{ gitlab_domain }}.key&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_ssl_protocols</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;TLSv1.1 TLSv1.2&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># SSL Self-signed Certificate Configuration</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_create_self_signed_cert</span><span class=p>:</span><span class=w> </span><span class=kc>false</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>Jika sudah dirasa cukup, kita lanjutkan untuk menjalankan Ansible Playbook dengan command berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ansible-playbook gitlab-setup.yml --syntax-check
+</span></span><span class=line><span class=cl>ansible-playbook gitlab-setup.yml -vv
+</span></span></code></pre></td></tr></table></div></div><p>Untuk durasi dari proses setup sangat variatif tergantung dari spesifikasi dan koneksi yang dimiliki oleh server. Jika berhasil, kita dapat melakukan pengecekan seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo gitlab-ctl status
+</span></span></code></pre></td></tr></table></div></div><p>Kurang lebih outputnya seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>run: alertmanager: (pid 16114) 440s; run: log: (pid 14417) 639s
+</span></span><span class=line><span class=cl>run: gitaly: (pid 16107) 440s; run: log: (pid 11898) 792s
+</span></span><span class=line><span class=cl>run: gitlab-exporter: (pid 18438) 266s; run: log: (pid 13953) 663s
+</span></span><span class=line><span class=cl>run: gitlab-kas: (pid 18292) 288s; run: log: (pid 12454) 772s
+</span></span><span class=line><span class=cl>run: gitlab-workhorse: (pid 15997) 445s; run: log: (pid 13566) 687s
+</span></span><span class=line><span class=cl>run: grafana: (pid 18440) 266s; run: log: (pid 15289) 495s
+</span></span><span class=line><span class=cl>run: logrotate: (pid 11610) 809s; run: log: (pid 11619) 805s
+</span></span><span class=line><span class=cl>run: nginx: (pid 19808) 64s; run: log: (pid 13696) 680s
+</span></span><span class=line><span class=cl>run: node-exporter: (pid 16025) 445s; run: log: (pid 13841) 669s
+</span></span><span class=line><span class=cl>run: postgres-exporter: (pid 16121) 440s; run: log: (pid 14568) 633s
+</span></span><span class=line><span class=cl>run: postgresql: (pid 12167) 779s; run: log: (pid 12254) 777s
+</span></span><span class=line><span class=cl>run: prometheus: (pid 16084) 443s; run: log: (pid 14249) 646s
+</span></span><span class=line><span class=cl>run: puma: (pid 18536) 262s; run: log: (pid 13345) 699s
+</span></span><span class=line><span class=cl>run: redis: (pid 11714) 802s; run: log: (pid 11777) 799s
+</span></span><span class=line><span class=cl>run: redis-exporter: (pid 16078) 444s; run: log: (pid 14084) 656s
+</span></span><span class=line><span class=cl>run: sidekiq: (pid 18196) 312s; run: log: (pid 13480) 693s
+</span></span></code></pre></td></tr></table></div></div><p>Coba buka domain yang kita gunakan untuk server Gitlab pada web browser. Jika berhasil maka kurang lebih akan seperti berikut. Coba untuk login menggunakan user LDAP yang telah kita buat sebelumnya.<figure><a class=lightgallery href=/setup-gitlab-server-with-ansible/gitlab-login.png title="Gitlab Login" data-thumbnail=/setup-gitlab-server-with-ansible/gitlab-login.png data-sub-html="<h2>Gitlab Login</h2><p>Gitlab Login</p>"><img class=lazyload src=/svg/loading.min.svg data-src=gitlab-login.png data-srcset="/setup-gitlab-server-with-ansible/gitlab-login.png, gitlab-login.png 1.5x, /setup-gitlab-server-with-ansible/gitlab-login.png 2x" data-sizes=auto alt=/setup-gitlab-server-with-ansible/gitlab-login.png></a><figcaption class=image-caption>Gitlab Login</figcaption></figure><figure><a class=lightgallery href=/setup-gitlab-server-with-ansible/gitlab-login-ldap.png title="Gitlab Login LDAP" data-thumbnail=/setup-gitlab-server-with-ansible/gitlab-login-ldap.png data-sub-html="<h2>Gitlab Login LDAP</h2><p>Gitlab Login LDAP</p>"><img class=lazyload src=/svg/loading.min.svg data-src=gitlab-login-ldap.png data-srcset="/setup-gitlab-server-with-ansible/gitlab-login-ldap.png, gitlab-login-ldap.png 1.5x, /setup-gitlab-server-with-ansible/gitlab-login-ldap.png 2x" data-sizes=auto alt=/setup-gitlab-server-with-ansible/gitlab-login-ldap.png></a><figcaption class=image-caption>Gitlab Login LDAP</figcaption></figure></p><h3 id=reset-root-password>Reset Root Password</h3><p>Sedangkan untuk password user <code>root</code> kita perlu melakukan reset terlebih dahulu menggunakan <code>Rake</code> task.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>sudo gitlab-rake <span class=s2>&#34;gitlab:password:reset&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=setup-gitlab-runner>Setup GitLab Runner</h2><p>Selanjutnya kita akan menggunakan Playbook lain untuk registrasi Gitlab Runner.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>cd</span> ~
+</span></span><span class=line><span class=cl>git clone https://github.com/anwareset/ansible-gitlab-runner-setup.git
+</span></span><span class=line><span class=cl><span class=nb>cd</span> ansible-gitlab-runner-setup
+</span></span></code></pre></td></tr></table></div></div><p>Dan karena server Gitlab tadi menggunakan self-signed certificate, maka kita perlu menyalinnya ke tempat yang bisa dijangkau oleh VM Gitlab Runner.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>cat ~/easy-rsa/pki/issued/frontend1.1238.internal.crt &gt; /tmp/frontend1.1238.internal.pem
+</span></span><span class=line><span class=cl>cat ~/easy-rsa/frontend1.1238.internal.key &gt; /tmp/frontend1.1238.internal.pem
+</span></span><span class=line><span class=cl>ansible -m file -a <span class=s2>&#34;path=/etc/ssl/private state=directory mode=&#39;0755&#39;&#34;</span> runner
+</span></span><span class=line><span class=cl>ansible -m copy -a <span class=s2>&#34;src=/tmp/frontend1.1238.internal.pem dest=/etc/ssl/private/frontend1.1238.internal.pem mode=&#39;0644&#39;&#34;</span> runner
+</span></span></code></pre></td></tr></table></div></div><p>Dapatkan <em>registration token</em> dari Gitlab server di web browser.<figure><a class=lightgallery href=/setup-gitlab-server-with-ansible/get-registration-token.png title="Get Registration Token" data-thumbnail=/setup-gitlab-server-with-ansible/get-registration-token.png data-sub-html="<h2>Get Registration Token</h2><p>Get Registration Token</p>"><img class=lazyload src=/svg/loading.min.svg data-src=get-registration-token.png data-srcset="/setup-gitlab-server-with-ansible/get-registration-token.png, get-registration-token.png 1.5x, /setup-gitlab-server-with-ansible/get-registration-token.png 2x" data-sizes=auto alt=/setup-gitlab-server-with-ansible/get-registration-token.png></a><figcaption class=image-caption>Get Registration Token</figcaption></figure></p><p>Edit file <code>vars/main.yml</code> sesuaikan beberapa variabel seperti domain server Gitlab dan registration token.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=c># GitLab coordinator URL</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_runner_coordinator_url</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;https://frontend1.1238.internal/&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># GitLab registration token</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_runner_registration_token</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;JhgmzZqths-gLPSH_kKx&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># A list of runners to register and configure</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>gitlab_runner_runners</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>state</span><span class=p>:</span><span class=w> </span><span class=l>present</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>executor</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;docker&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>tls_ca_file</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;/etc/ssl/private/frontend1.1238.internal.pem&#34;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>Jika sudah langsung saja kita run dengan command seperti berikut.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>ansible-playbook gitlab-runner.yml --syntax-check
+</span></span><span class=line><span class=cl>ansible-playbook gitlab-runner.yml -vv
+</span></span></code></pre></td></tr></table></div></div><p>Setelah berhasil, akan bisa kita cek di web browser dan hasilnya seperti seperti berikut.<figure><a class=lightgallery href=/setup-gitlab-server-with-ansible/registrated-runner.png title="Runner Registrated" data-thumbnail=/setup-gitlab-server-with-ansible/registrated-runner.png data-sub-html="<h2>Runner Registrated</h2><p>Runner Registrated</p>"><img class=lazyload src=/svg/loading.min.svg data-src=registrated-runner.png data-srcset="/setup-gitlab-server-with-ansible/registrated-runner.png, registrated-runner.png 1.5x, /setup-gitlab-server-with-ansible/registrated-runner.png 2x" data-sizes=auto alt=/setup-gitlab-server-with-ansible/registrated-runner.png></a><figcaption class=image-caption>Runner Registrated</figcaption></figure></p><hr><h2 id=referensi>Referensi</h2><ul><li><a href=https://docs.gitlab.com/ee/install/installation.html#6-database target=_blank rel="noopener noreffer">docs.gitlab.com/ee/install/installation.html#6-database</a></li><li><a href=https://www.digitalocean.com/community/tutorials/how-to-set-up-and-configure-a-certificate-authority-ca-on-ubuntu-20-04 target=_blank rel="noopener noreffer">www.digitalocean.com/community/tutorials/how-to-set-up-and-configure-a-certificate-authority-ca-on-ubuntu-20-04</a></li><li><a href=https://easy-rsa.readthedocs.io/en/latest/advanced/ target=_blank rel="noopener noreffer">easy-rsa.readthedocs.io/en/latest/advanced</a></li><li><a href=https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/identity_management_guide/users target=_blank rel="noopener noreffer">access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/identity_management_guide/users</a></li><li><a href=https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/linux_domain_identity_authentication_and_policy_guide/installing-ipa target=_blank rel="noopener noreffer">access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/linux_domain_identity_authentication_and_policy_guide/installing-ipa</a></li><li><a href=https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/linux_domain_identity_authentication_and_policy_guide/required-packages target=_blank rel="noopener noreffer">access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/linux_domain_identity_authentication_and_policy_guide/required-packages</a></li><li><a href=https://galaxy.ansible.com/geerlingguy/gitlab target=_blank rel="noopener noreffer">galaxy.ansible.com/geerlingguy/gitlab</a></li><li><a href=https://galaxy.ansible.com/riemers/gitlab-runner target=_blank rel="noopener noreffer">galaxy.ansible.com/riemers/gitlab-runner</a></li><li><a href=https://centos.pkgs.org/7/centos-extras-x86_64/centos-release-scl-rh-2-3.el7.centos.noarch.rpm.html target=_blank rel="noopener noreffer">centos.pkgs.org/7/centos-extras-x86_64/centos-release-scl-rh-2-3.el7.centos.noarch.rpm.html</a></li><li><a href=https://docs.gitlab.com/runner/install/ target=_blank rel="noopener noreffer">docs.gitlab.com/runner/install/</a></li><li><a href=https://stackoverflow.com/questions/18580066/how-to-allow-remote-access-to-postgresql-database target=_blank rel="noopener noreffer">stackoverflow.com/questions/18580066/how-to-allow-remote-access-to-postgresql-database</a></li><li><a href=https://docs.gitlab.com/ee/security/reset_user_password.html#use-a-rake-task target=_blank rel="noopener noreffer">docs.gitlab.com/ee/security/reset_user_password.html#use-a-rake-task</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2022-04-11</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/setup-gitlab-server-with-ansible/index.md target=_blank>Read Markdown</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/gitlab/>Gitlab</a>,&nbsp;<a href=/tags/asible/>Asible</a>,&nbsp;<a href=/tags/automation/>Automation</a>,&nbsp;<a href=/tags/playbook/>Playbook</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/plug-and-play-usb-devices-dengan-udev-rules/ class=prev rel=prev title="Plug and Play USB Devices dengan Udev Rules"><i class="fas fa-angle-left fa-fw"></i>Plug and Play USB Devices dengan Udev Rules</a></div></div><div id=comments><div id=disqus_thread class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://disqus.com/?ref_noscript>Disqus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2020 - 2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=http://github.com/anwareset target=_blank>anwareset</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><script type=text/javascript src=https://anwars-blog.disqus.com/embed.js defer></script><script type=text/javascript src=/lib/smooth-scroll/smooth-scroll.min.js></script><script type=text/javascript src=/lib/autocomplete/autocomplete.min.js></script><script type=text/javascript src=/lib/lunr/lunr.min.js></script><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/typeit/typeit.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:10},comment:{},data:{"id-1":"init\u0026nbsp","id-2":"init\u0026nbsp"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"},typeit:{cursorChar:"\u0026nbsp _",cursorSpeed:1e3,data:{"id-1":["id-1"],"id-2":["id-2"]},duration:-1,speed:75}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
