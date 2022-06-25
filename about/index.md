@@ -2,7 +2,7 @@
 
 <img alt="About" src="banner.png"/>
 
-**Bonjour!** Saya Anwar, seorang biasa pegiat GNU/Linux, serta jaringan komputer. Gemar mempelajari konfigurasi infrastruktur dan arsitektur yang berkaitan dengan komputasi, mendengar musik, menonton film, dan membaca.
+**Bonjour!** Saya Anwar, seorang biasa pegiat GNU/Linux, serta jaringan komputer. Gemar mempelajari konfigurasi infrastruktur dan arsitektur yang berkaitan dengan komputasi, mendengar musik, menonton film, dan membaca. Saya menemukan hasrat pada _code delivery_ serta pengelolaan infrastruktur yang stabil dan _capable_. Sebut saja SysAdmin, DevOps, atau SRE, sejujurnya saya tidak terlalu peduli dengan julukan.
 
 ---
 
@@ -14,7 +14,7 @@ Situs web yang sedang terbuka ini hanyalah _arsip pribadi_ yang berusaha ditulis
 Penulis sepenuhnya tidak bertanggung jawab atas segala kerugian atau kerusakan yang disebabkan oleh setiap konten dalam situs ini. Pembaca hendaknya lebih waspada dalam mempraktikan hal-hal dari internet. 
 {{< /admonition >}}
 
-Seluruh konten yang tersedia pada situs web ini akan sepenuhnya gratis dan bebas untuk dibaca, disalin, serta disebarluaskan, hingga dapat dikembangkan pada media lain. Setiap artikel memiliki _source code_ yang dapat diakses dari [repository](https://github.com/anwareset/blog). Jika memiliki pertanyaan, atau urusan lain silahkan hubungi penulis melalui beberapa kontak berikut ini :
+Seluruh konten tersedia gratis dan bebas untuk dibaca, disalin, serta disebarluaskan, hingga dapat dikembangkan pada media lain. Setiap artikel memiliki _source code_ yang dapat diakses dari [repository](https://github.com/anwareset/blog). Jika memiliki pertanyaan, atau urusan lain silahkan hubungi penulis melalui beberapa kontak berikut ini :
 
 ---
 
