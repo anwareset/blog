@@ -1,7 +1,7 @@
 # Setup Gitlab Server with Ansible
 
 
-Selain Gitlab [SaaS](https://glossary.cncf.io/software_as_a_service/) yang biasa kita akses dari [gitlab.com](https://gitlab.com), kita dapat membangun server Gitlab secara manual ataupun otomatis, salah satunya adalah menggunakan Ansible Playbook. Gitlab dapat di-install dengan beberapa metode seperti Docker dengan Docker Compose, Helm charts jika ingin berjalan di atas Kubernetes, Operator jika berjalan di atas OpenShift, hingga instalasi dari sourcecode untuk dapat berjalan di atas berbagai platform yang tidak didukung oleh official Gitlab. Pada artikel kali ini saya akan menggunakan package official untuk distro Linux, dan sebagian besar proses akan dilakukan secara otomatis menggunakan Ansible.
+Selain Gitlab [SaaS](https://glossary.cncf.io/software_as_a_service/) yang biasa kita akses dari [gitlab.com](https://gitlab.com), kita membangun sebuah server Gitlab secara manual ataupun otomatis, salah satunya adalah menggunakan Ansible Playbook. Gitlab dapat di-install dengan beberapa metode seperti Docker dengan Docker Compose, Helm charts jika ingin berjalan di atas Kubernetes, Operator jika berjalan di atas OpenShift, hingga instalasi dari sourcecode untuk dapat berjalan di atas berbagai platform yang tidak didukung. Pada artikel kali ini saya akan menggunakan package official untuk distro Linux, dan sebagian besar proses akan dilakukan secara otomatis menggunakan Ansible.
 
 <!--more-->
 
