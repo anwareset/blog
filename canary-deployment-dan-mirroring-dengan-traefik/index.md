@@ -12,7 +12,7 @@ Frasa Canary dalam deployment aplikasi berasal dari sejarah penambang batu bara 
 Fitur canary pada Kubernetes biasanya tersedia jika kita menggunakan solusi _service mesh_. Namun sebenarnya canary dapat diimplementasikan tanpanya. Sebagai contohnya adalah menggunakan [Ingress Nginx](https://kubernetes.github.io/ingress-nginx/), [HAProxy Ingress](https://haproxy-ingress.github.io/), hingga [Traefik](https://traefik.io). Jika tertarik, silahkan cari [Kubernetes Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/) lainnya yang mendukung fitur canary pada tabel [berikut](https://docs.google.com/spreadsheets/d/191WWNpjJ2za6-nbG4ZoUMXMpUK8KlCIosvQB0f-oq3k/edit?fbclid=IwAR2vaSsGgTKZWw4RaA-meycB8tnfcWf1vp1pC29TEsUm-EYad1r5oAI-HDM#gid=907731238).
 
 ## Traefik
-Traefik adalah ~~Cloud Native Edge Router~~ salah satu _reverse proxy_ dan _load balancer_. Terlepas dari gimmick **cloud-native**, yang menjadikan Traefik berbeda dari Nginx, HAproxy, dan yang lain adalah tersedianya _configurability_ secara otomatis dan dinamis. Bagian paling menonjol darinya mungkin adalah kemampuan _automatic service discovery_. Jika kita menggunakan Traffic di atas Docker, Kubernetes, atau bahkan cara lama seperti sekedar VM dan _bare-metal_ untuk menjajakan service yang berjalan di dalamnya. Layaknya sulap, Traefik akan me-_expose_ service tersebut ke dunia luar. Tentu jika kita mengikuti dokumentasi dengan benar.
+Traefik adalah ~~Cloud Native Edge Router~~ salah satu _reverse proxy_ dan _load balancer_. Terlepas dari gimmick **cloud-native**, yang menjadikan Traefik berbeda dari Nginx, HAproxy, dan yang lain adalah tersedianya _configurability_ secara otomatis dan dinamis. Bagian paling menonjol darinya mungkin adalah kemampuan _automatic service discovery_. Jika kita menggunakan Traefik di atas Docker, Kubernetes, atau bahkan cara lama seperti sekedar VM dan _bare-metal_ untuk menjajakan service yang berjalan di dalamnya. Layaknya sulap, Traefik akan me-_expose_ service tersebut ke dunia luar. Tentu jika kita mengikuti dokumentasi dengan benar.
 
 ![Traefik High Level Architecture](traefik-v2-high-level-arch.png "Traefik V2")
 
@@ -56,14 +56,14 @@ spec:
       port: 8080
 ```
 
-Simpan misalnya dengan nama ingressroute-app.yaml dan terapkan konfigurasi di atas
+Simpan misalnya dengan nama `ingressroute-app.yaml` dan terapkan konfigurasi di atas
 ```shell
 kubectl create -f ingressroute-app.yam -n default
 ```
 
 Jika dilakukan request dengan `curl` maka akan menjawab seperti berikut.
 ![Pengujian Tanpa Canary](without-canary.png "Trafik diarahkan ke versi aplikasi pertama")
-Dari sini mari kita berasumsi bahwa aplikasi kita telah menerima aliran trafik sepenuhnya. Lalu suatu ketika saya melakukan ingin merilis versi aplikasi kedua.
+Dari sini mari kita berasumsi bahwa aplikasi kita telah menerima aliran trafik sepenuhnya. Lalu suatu ketika saya ingen melakukan merilis versi aplikasi kedua.
 ```shell
 kubectl set image deployment/deployment-app-current hello-app=trianwar/hello-app:2.0
 kubectl rollout restart deployment/deployment-app-current
@@ -249,6 +249,7 @@ for i in {1..10}; do curl -s app.minikube1.local | grep Version; done; kcmini lo
 
 Akan terlihat bahwa rilis versi pertama menerima 8 request, sedangkan sisanya sebanyak 2 request ditangani oleh rilis versi kedua. Sementara itu, traffic sebanyak 10% atau dalam kasus ini setara 1 request dibuat bayangannya dan dialirkan ke rilis mirror.
 ![Membuktikan teori Traffic Mirroring pada Traefik](mirror-traffic-result.png "Hasil Mirroring")
+Dengan mirroring service akan menerima bayangan request dari user, aplikasi akan melayaninya. Namun user tidak akan menerima balikan dari service mirror karena traffic yang mengalir hanyalah sebuah request bayangan.
 
 ---
 
