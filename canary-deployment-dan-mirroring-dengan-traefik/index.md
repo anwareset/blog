@@ -63,7 +63,7 @@ kubectl create -f ingressroute-app.yam -n default
 
 Jika dilakukan request dengan `curl` maka akan menjawab seperti berikut.
 ![Pengujian Tanpa Canary](without-canary.png "Trafik diarahkan ke versi aplikasi pertama")
-Dari sini mari kita berasumsi bahwa aplikasi kita telah menerima aliran trafik sepenuhnya. Lalu suatu ketika saya ingen melakukan merilis versi aplikasi kedua.
+Dari sini mari kita berasumsi bahwa aplikasi kita telah menerima aliran trafik sepenuhnya. Lalu suatu ketika saya ingin melakukan merilis versi aplikasi kedua.
 ```shell
 kubectl set image deployment/deployment-app-current hello-app=trianwar/hello-app:2.0
 kubectl rollout restart deployment/deployment-app-current
