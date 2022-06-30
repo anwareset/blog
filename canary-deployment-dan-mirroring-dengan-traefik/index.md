@@ -65,8 +65,8 @@ Jika dilakukan request dengan `curl` maka akan menjawab seperti berikut.
 ![Pengujian Tanpa Canary](without-canary.png "Trafik diarahkan ke versi aplikasi pertama")
 Dari sini mari kita berasumsi bahwa aplikasi kita telah menerima aliran trafik sepenuhnya. Lalu suatu ketika saya ingin melakukan merilis versi aplikasi kedua.
 ```shell
-kubectl set image deployment/deployment-app-current hello-app=trianwar/hello-app:2.0
-kubectl rollout restart deployment/deployment-app-current
+kubectl set image deployment/deployment-app-current hello-app=trianwar/hello-app:2.0 -n default
+kubectl rollout restart deployment/deployment-app-current -n default
 ```
 Kita dapat melakukan rolling release ke versi terbaru tanpa canary, yang hasilnya tentu saja trafik akan sepenuhnya dialirkan ke satu-satunya rilis yang tersedia yaitu misalkan versi `2.0.0` seperti berikut.
 ![Deployment Tanpa Canary](without-canary-result.png "Trafik diarahkan ke versi aplikasi kedua")
@@ -135,7 +135,6 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: middleware-app-canary
-  namespace: webapp
 spec:
   headers:
     customRequestHeaders:
@@ -168,7 +167,7 @@ spec:
 
 Terapkan konfigurasi di atas pada Kubernetes.
 ```shell
-kubectl apply -f middleware-app-canary.yaml -f ingressroute-app.yaml
+kubectl apply -f middleware-app-canary.yaml -f ingressroute-app.yaml -n default
 ```
 
 Sekarang mari kita lakukan pengujian dengan melakukan 10 request tanpa header, dan 10 request lagi dengan menggunakan header.
@@ -240,7 +239,7 @@ spec:
 ```
 Simpan saja misalnya dengan nama `traefikservice-app.yaml` kemudian terapkan ke kubernetes.
 ```shell
-kubectl apply -f ingressroute-app.yaml -f traefikservice-app.yaml
+kubectl apply -f ingressroute-app.yaml -f traefikservice-app.yaml -n default
 ```
 Lalu kita uji dengan melakukan 10 kali request.
 ```shell
