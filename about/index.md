@@ -2,7 +2,7 @@
 
 <img alt="About" src="banner.png"/>
 
-**Bonjour!** Saya Anwar, seorang biasa pegiat GNU/Linux, serta jaringan komputer. Gemar mempelajari konfigurasi infrastruktur dan arsitektur yang berkaitan dengan komputasi, mendengar musik, menonton film, dan membaca. Saya menemukan hasrat pada _code delivery_ serta pengelolaan infrastruktur yang stabil dan _capable_. Sebut saja SysAdmin, DevOps, atau SRE, meskipun sejujurnya saya tidak terlalu peduli dengan julukan. Saat ini saya bekerja untuk [**SIRCLO Group**](https://www.google.co.id/search?q=sirclo&source=lnms&tbm=nws)) sebagai Cloud Ops Engineer.
+**Bonjour!** Saya Anwar, seorang biasa pegiat GNU/Linux, serta jaringan komputer. Gemar mempelajari konfigurasi infrastruktur dan arsitektur yang berkaitan dengan komputasi, mendengar musik, menonton film, dan membaca. Saya menemukan hasrat pada _code delivery_ serta pengelolaan infrastruktur yang stabil dan _capable_. Sebut saja SysAdmin, DevOps, atau SRE, meskipun sejujurnya saya tidak terlalu peduli dengan julukan. Saat ini saya bekerja untuk [**SIRCLO Group**](https://www.google.co.id/search?q=sirclo&source=lnms&tbm=nws) sebagai Cloud Ops Engineer.
 
 ---
 
