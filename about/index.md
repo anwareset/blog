@@ -20,7 +20,6 @@ Seluruh konten tersedia gratis dan bebas untuk dibaca, disalin, serta disebarlua
 
 #### Contact
 
-* :(fab fa-twitter-square fa-fw): **[Twitter](https://twitter.com/mtrianwar)**
 * :(fas fa-envelope fa-fw): **[Email](mailto:trianwar@protonmail.com)**
 
 
