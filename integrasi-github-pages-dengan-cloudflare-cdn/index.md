@@ -118,7 +118,7 @@ Untuk menerapkan semua konfigurasi yang telah dibuat, saya menghapus semua cache
 ## Pengujian
 Untuk melakukan pengujian saya menggunakan perintah `dig` dan hasilnya sebagai berikut.
 ```bash
-$ dig init.web.id
+$ dig deployer.dpdns.org
 ```
 
 Jika registrar domain telah menggunakan nameserver Cloudflare maka akan muncul tampilan seperti berikut.

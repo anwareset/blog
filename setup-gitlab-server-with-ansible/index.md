@@ -278,7 +278,7 @@ Salin file yang berhasil di-generate untuk digunakan.
 ```shell
 cat ~/easy-rsa/pki/ca.crt | sudo tee /etc/pki/ca-trust/source/anchors/frontend1.1238.internal.crt
 sudo update-ca-trust
-openssl req -new -key frontend1.1238.internal.key -out frontend1.1238.internal.req -subj /C=ID/ST=Jakarta/L=South\ Jakarta/O=init.web.id/OU=Community/CN=frontend1.1238.internal/emailAddress=trianwar@protonmail.com
+openssl req -new -key frontend1.1238.internal.key -out frontend1.1238.internal.req -subj /C=ID/ST=Jakarta/L=South\ Jakarta/O=deployer.dpdns.org/OU=Community/CN=frontend1.1238.internal/emailAddress=trianwar@protonmail.com
 ./easyrsa import-req frontend1.1238.internal.req.req frontend1.1238.internal
 ./easyrsa sign-req server frontend1.1238.internal
 sudo mkdir -p /etc/gitlab/ssl

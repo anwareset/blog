@@ -9,5 +9,5 @@
 ---
 
 <p align="center">
-	<a name="top" href="https://init.web.id"><img src="https://github.com/anwareset/blog/raw/master/preview.png"></a>
+	<a name="top" href="https://deployer.dpdns.org"><img src="https://github.com/anwareset/blog/raw/master/preview.png"></a>
 </p>
